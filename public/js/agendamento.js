@@ -1,0 +1,52 @@
+"use strict";
+
+import axios from "axios";
+import Swal from "sweetalert2";
+
+export const agendar = async (
+  nome,
+  telefone,
+  email,
+  cpf,
+  agendamentos,
+  funcionario,
+  csrfToken
+) => {
+  try {
+    const response = await axios({
+      method: "POST",
+      url: "http://localhost:3000/agenda/agendamentos",
+      headers: {
+        "CSRF-Token": csrfToken,
+      },
+      data: {
+        nome,
+        telefone,
+        email,
+        cpf,
+        agendamentos, // Array de objetos { data, hora }
+        funcionario,
+      },
+    });
+
+    if (response.status === 200) {
+      Swal.fire({
+        title: "Verifique seu email.",
+        text: `Um email de confirmação foi enviado para ${email}.`,
+        width: 600,
+        padding: "3em",
+        color: "#716add",
+        background: "#fff url(/images/trees.png)",
+        backdrop: `
+          rgba(0,0,123,0.4)
+          url("/images/nyan-cat.gif")
+          left top
+          no-repeat
+        `,
+      });
+    }
+  } catch (err) {
+    console.error(err.response);
+    alert("Erro ao agendar, tente novamente!");
+  }
+};

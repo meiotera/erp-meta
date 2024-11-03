@@ -1,0 +1,1188 @@
+/* Variáveis de Cores e Gradientes */
+:root {
+  --cor-azul: #3450a1;
+  --cor-roxo: #6a4b8b;
+  --cor-laranja: #f28b3f;
+  --cor-amarelo: #fbc233;
+  --cor-rosa: #f17d9e;
+  --cor-branco: #ffffff;
+  --cor-sinza: #333;
+  --cor-sinza-claro: #ccc;
+  --cor-background: #faf7f5;
+  --gradient: linear-gradient(135deg, #3d3ab8, #e54a86);
+  --brn-salvar: #01ae3d;
+}
+
+/* Definir tamanho de fonte padrão */
+html {
+  font-size: 16px; /* Tamanho de fonte padrão */
+  font-family: "Exo 2", sans-serif; /* Fonte padrão */
+  font-optical-sizing: auto;
+  text-align: justify;
+}
+
+/* Reset e Fontes Globais */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  /* font-family: "Asap", sans-serif; */
+  font-optical-sizing: auto;
+  text-align: justify;
+}
+
+html,
+body {
+  height: 100%;
+  margin: 0 auto;
+}
+
+a {
+  cursor: pointer;
+}
+
+body {
+  max-width: 1440px;
+  display: flex;
+  flex-direction: column;
+  /* text-align: justify; */
+  line-height: 1.6;
+  min-height: 100vh;
+  background-color: var(--cor-background);
+}
+
+/* Estilização Geral */
+.hidden {
+  display: none;
+}
+
+ul,
+ol {
+  list-style: none;
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Cabeçalho */
+.header {
+  background: var(--gradient);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 1rem;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.header__logo {
+  max-width: 100%;
+  display: flex;
+  align-items: center;
+}
+
+.header__logo img {
+  max-width: 100%;
+}
+
+h2 {
+  font-size: 1rem;
+}
+
+/* Menu Superior */
+.nav--menu .btn-accordion,
+.nav--menu button {
+  background-color: transparent;
+  color: var(--cor-branco);
+  width: 100%;
+  text-align: center;
+  border: none;
+  outline: none;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+}
+
+.nav--menu .accordion:after {
+  content: "";
+}
+
+.hero a {
+  margin-top: 25px;
+}
+
+.top--menu li {
+  text-align: center;
+  color: var(--cor-branco);
+  margin-top: 1rem;
+  padding: 5px;
+}
+
+.top--menu li a {
+  border-bottom: 1px solid var (--cor-branco);
+  border-radius: 15px;
+  transition: background 0.3s;
+  padding: 0.5rem 0.8rem;
+}
+
+.top--menu li a:hover {
+  background-color: rgba(255, 255, 255, 0.2);
+}
+
+/* Seções e Cards */
+section {
+  margin: 20px;
+  text-align: justify;
+  background: var(--cor-branco);
+  padding: 20px;
+  border-radius: 15px;
+  max-width: 100%;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.title-section {
+  color: #3d3ab8;
+  /* font-size: 1.5em; */
+  margin-bottom: 10px;
+  border-bottom: 3px solid #f89c45;
+  text-align: center;
+  padding-bottom: 10px;
+}
+
+.card-title {
+  text-transform: capitalize;
+  font-size: 1rem;
+  color: var(--cor-azul);
+  text-align: center;
+}
+
+.card-subtitle {
+  font-size: 0.9rem;
+  color: var(--cor-rosa);
+  text-align: center;
+  text-transform: capitalize;
+}
+
+.card-funcionario {
+  color: var(--cor-sinza);
+  max-width: 230px;
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 1rem;
+  text-align: center;
+  border: 1px solid var(--cor-branco);
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  background-color: var(--cor-background);
+}
+
+.card-funcionario img {
+  height: 150px;
+  max-width: 100%;
+  border: 1px solid var(--cor-branco);
+}
+
+/* Accordion */
+.accordion {
+  background-color: var(--cor-branco);
+  color: var(--cor-sinza);
+  cursor: pointer;
+  padding: 0.5rem;
+  width: 100%;
+  text-align: left;
+  border: none;
+  outline: none;
+  transition: 0.4s;
+}
+
+.active {
+  border: 5px solid var(--cor-azul);
+  /* box-shadow: inset 0 10px 10px rgba(0, 0, 0, 0.1); */
+}
+
+.panel {
+  padding: 0 18px;
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.2s ease-out;
+  font-family: Arial, sans-serif;
+  text-align: left;
+}
+
+.accordion:after {
+  content: "\25BC";
+  font-size: 13px;
+  color: #777;
+  float: right;
+  margin-left: 5px;
+}
+
+/* Seção Sobre */
+.sobre {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+  background-image: url(images/svg/wave.svg);
+  background-repeat: no-repeat;
+  background-size: cover;
+  color: var(--cor-sinza);
+  padding: 40px 20px;
+  text-align: center;
+}
+
+.section-equipe .container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+
+.sobre .container {
+  max-width: 100%;
+  height: 100%;
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.sobre .container ul {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  padding-left: 20px;
+}
+
+.sobre .container ul li {
+  list-style: outside;
+  margin-left: 10px;
+}
+
+/* Mapa */
+address {
+  display: flex;
+  justify-content: space-between;
+  font-weight: bold;
+  background-image: var(--gradient);
+  padding: 1rem;
+  color: var(--cor-branco);
+}
+
+/* Redes Sociais */
+/* footer {
+  background: var(--gradient);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 0;
+}
+
+.container-footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1.5rem;
+} */
+/*FOOTER*/
+footer {
+  background: var(--gradient);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 4rem 0;
+  color: #fff;
+}
+
+.container-footer {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  padding: 1.5rem;
+  text-align: center;
+}
+/* 
+.header__logo img {
+  max-width: 150px;
+  margin-bottom: 1rem;
+} */
+
+.title-container {
+  margin-bottom: 2rem;
+}
+
+.title-container h5 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.social--media {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 1rem;
+}
+
+.social--media a {
+  color: #fff;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  transition: color 0.3s ease;
+}
+
+.social--media a:hover {
+  color: var(--primary-color);
+}
+
+.contact-info {
+  margin-top: 2rem;
+}
+
+.contact-info h5 {
+  font-size: 1.5rem;
+  margin-bottom: 1rem;
+}
+
+.contact-info p {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin: 0.5rem 0;
+}
+
+.contact-info i {
+  font-size: 1.2rem;
+}
+
+.container-footer p {
+  margin: 0.5rem 0;
+}
+
+.container-footer p:last-child {
+  margin-top: 1rem;
+  font-size: 0.9rem;
+  color: #ccc;
+}
+
+.social--media {
+  display: flex;
+  flex-direction: row;
+  align-content: space-around;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 1rem;
+  color: var(--cor-branco);
+  font-weight: bold;
+  font-size: 1.2rem;
+}
+
+.social--media a {
+  transition: color 0.2s;
+}
+
+.social--media a:hover {
+  color: var(--cor-rosa);
+}
+
+/* Formulário de Agendamento */
+
+.section_form form .form-group {
+  display: flex;
+  flex-direction: column;
+  margin: 1rem;
+}
+
+.section_form form .form-group input {
+  padding: 0.8rem;
+  font-size: 1.2rem;
+}
+
+.btn--agendar {
+  background-color: var(--cor-azul);
+  color: var(--cor-branco);
+  margin: 0 auto;
+  text-align: center;
+  border-radius: 10px;
+  width: 100px;
+  padding: 0.8rem;
+  font-size: 1rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Tabela de Agendamentos */
+table {
+  width: 100%;
+}
+
+.nome-paciente {
+  text-transform: capitalize;
+  color: var(--cor-azul);
+  font-weight: bold;
+  transition: color 0.4s;
+}
+
+.nome-paciente:hover {
+  color: var(--cor-laranja);
+}
+
+.table-responsive {
+  width: 100%;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch; /* Para uma rolagem suave em dispositivos móveis */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+th,
+td {
+  text-align: left;
+  text-align: center;
+  padding: 0.5rem;
+}
+tr {
+  line-height: 2.5rem;
+}
+
+table tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.btn-iniciar {
+  background-color: var(--cor-azul);
+  color: var(--cor-branco);
+  font-size: 0.5rem;
+  border-radius: 5px;
+  padding: 0.4rem 0.8rem;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.btn-iniciar:hover {
+  background-color: var(--cor-roxo);
+}
+
+/* Inputs de Data e Hora */
+input[type="date"],
+input[type="time"] {
+  border-radius: 5px;
+  padding: 5px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s;
+}
+
+input[type="date"]:focus {
+  border-color: var(--cor-roxo);
+  box-shadow: 0 0 5px rgba(106, 75, 139, 0.5);
+}
+
+input[type="time"]:focus {
+  border-color: var(--cor-amarelo);
+  box-shadow: 0 0 5px rgba(251, 194, 51, 0.5);
+}
+
+/* Botões Adicionar e Remover */
+.btn-add-horarios {
+  background-color: var(--cor-roxo);
+  color: var(--cor-branco);
+  margin-left: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.btn-add-horarios:hover {
+  background-color: var(--cor-azul);
+}
+
+.btn-delete {
+  background-color: var(--cor-laranja);
+  color: var(--cor-branco);
+  margin: 0 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.btn-delete:hover {
+  background-color: var(--cor-laranja);
+}
+
+/* Botão Salvar */
+#btn-salvar {
+  background: var(--brn-salvar);
+  color: var(--cor-branco);
+  margin-left: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 5px 10px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+/* Agenda Card */
+.dias-agenda {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+
+.dia {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  width: 250px;
+}
+
+.dia:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+}
+
+.dia .data {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.dia p {
+  font-size: 1rem;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+.horarios {
+  list-style-type: none;
+  padding: 0;
+}
+
+.horarios li {
+  background-color: #f1f1f1;
+  border-radius: 5px;
+  padding: 5px 10px;
+  margin-bottom: 5px;
+  font-size: 0.9rem;
+  color: #333;
+}
+
+#nova-agenda-form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+}
+
+.header-section {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-around;
+  align-items: center;
+}
+
+#searchForm {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem;
+}
+
+#searchForm input {
+  padding: 5px;
+  /* width: 100%; */
+  font-size: 1rem;
+}
+
+.btn {
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.btn:hover {
+  background-color: var(--cor-roxo);
+}
+
+.btn-delete {
+  background-color: var(--cor-laranja);
+  color: var(--cor-branco);
+  margin-left: 10px;
+  font-size: 1rem;
+  border-radius: 5px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.4s;
+}
+
+.btn-delete:hover {
+  background-color: var(--cor-amarelo);
+}
+
+/*LOGIN*/
+/* Container do Formulário */
+.section_form form {
+  /* display: flex; */
+  margin: 0 auto;
+  max-width: 500px;
+}
+
+form#login-form {
+  background-color: var(--cor-background);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+}
+
+/* Estilizar os Inputs */
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+.form-group input {
+  font-size: 1.2rem;
+  border-radius: 5px;
+  padding: 5px;
+}
+
+/* 
+label {
+  display: block;
+  margin-bottom: 0.5rem;
+  font-weight: bold;
+  color: var(--cor-sinza);
+} */
+
+input.form__input {
+  min-width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--cor-sinza-claro);
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input.form__input:focus {
+  border-color: var(--cor-azul);
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 80, 161, 0.5);
+}
+
+/* Estilizar o Botão de Login */
+button.btn.btn--green#btn--login {
+  background-color: var(--cor-azul);
+  color: var(--cor-branco);
+  padding: 0.6rem 0.8rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button.btn.btn--green#btn--login:hover {
+  background-color: var(--brn-salvar);
+}
+/* Estilos Globais para Formulários */
+.form-container {
+  background-color: var(--cor-background);
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;
+  margin: 0 auto;
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+}
+
+label {
+  display: block;
+  font-size: 1em;
+  color: #333;
+  margin-bottom: 5px;
+}
+
+input.form__input,
+select.form__input {
+  width: 100%;
+  padding: 0.8rem;
+  border: 1px solid var(--cor-sinza-claro);
+  border-radius: 5px;
+  font-size: 1rem;
+  transition: border-color 0.3s;
+}
+
+input.form__input:focus,
+select.form__input:focus {
+  border-color: var(--cor-azul);
+  outline: none;
+  box-shadow: 0 0 5px rgba(52, 80, 161, 0.5);
+}
+
+button.btn {
+  background-color: var(--cor-azul);
+  font-weight: bold;
+  color: var(--cor-branco);
+  padding: 0.6rem 1rem;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+button.btn:hover {
+  background-color: var(--brn-salvar);
+}
+
+/*FICHA PACIENTE - MODAL*/
+
+.nav-tabs {
+  margin: 10px;
+  padding: 0.5rem;
+  display: flex;
+  justify-content: space-around;
+}
+
+.tab-content {
+  display: none;
+  padding: 20px;
+  border: 1px solid #ddd;
+  border-top: none;
+}
+
+/* Estilos para .tab1 e .tab2 */
+/* .tab1,
+.tab2 {
+  display: none;
+} */
+
+/* Estilos para .tab1.active e .tab2.active */
+.tab-content.active,
+.tab-content.active {
+  display: block;
+}
+
+.nav-tabs li {
+  padding: 1rem;
+}
+
+.nav-tabs li a {
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 1.2rem;
+  /* background-color: var(--cor-roxo); */
+  color: var(--cor-sinza);
+  font-weight: bold;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+/* Estilo do Overlay do Modal */
+.modal-overlay {
+  position: fixed; /* Fixa o overlay na tela */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000; /* Garante que o overlay fique acima de outros elementos */
+}
+
+/* Estilo do Modal */
+.modal-dialog {
+  margin-top: 0;
+  overflow: auto;
+  background-color: var(--cor-branco); /* Cor de fundo do modal */
+  height: 80%;
+  padding: 20px; /* Espaçamento interno */
+  border-radius: 10px; /* Bordas arredondadas */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  width: 100%; /* Largura do modal */
+  max-width: 800px; /* Largura máxima do modal */
+}
+
+/* Estilo do Textarea */
+textarea {
+  width: 100%;
+  height: 8rem;
+  padding: 10px;
+  font-size: large;
+  /*Nao pode aumentar o textarea*/
+  resize: none;
+  border: 1px solid var(--brn-salvar);
+  border-radius: 10px;
+}
+
+textarea:focus,
+.consultaForm input:focus {
+  border: 2px solid var(--cor-laranja);
+  outline: none;
+}
+
+.consultaForm input {
+  width: 100%;
+  padding: 10px;
+  font-size: 1.2rem;
+  border-radius: 10px;
+}
+
+/* .consultaForm {
+  margin: auto;
+  max-width: max-content;
+} */
+
+/* Estilo dos Botões */
+.btns {
+  display: flex;
+  justify-content: space-around;
+  margin-top: 20px;
+}
+
+button.close-modal {
+  background-color: #f44336; /* Cor de fundo do botão de cancelar */
+  color: #fff; /* Cor do texto */
+  padding: 10px 20px; /* Espaçamento interno */
+  border: none; /* Remove a borda padrão */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Muda o cursor ao passar o mouse */
+  transition: background-color 0.3s ease; /* Transição suave */
+}
+
+button.close-modal:hover {
+  background-color: #d32f2f; /* Cor de fundo ao passar o mouse */
+}
+
+button.btn#btn-salvar--atendimento {
+  background-color: var(--brn-salvar); /* Cor de fundo do botão de salvar */
+  color: #fff; /* Cor do texto */
+  padding: 10px 20px; /* Espaçamento interno */
+  border: none; /* Remove a borda padrão */
+  border-radius: 5px; /* Bordas arredondadas */
+  cursor: pointer; /* Muda o cursor ao passar o mouse */
+  transition: background-color 0.3s ease; /* Transição suave */
+}
+
+button.btn#btn-salvar--atendimento:hover {
+  background-color: #019c34; /* Cor de fundo ao passar o mouse */
+}
+
+/*CARD HISTORICO*/
+.atendimento-anterior section .card-header {
+  display: flex;
+  justify-content: space-around;
+  font-size: 1.2rem;
+  border-bottom: 5px solid var(--brn-salvar);
+  padding: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.atendimento-anterior section {
+  margin: 0;
+}
+
+.atendimento-anterior {
+  margin: 1rem;
+  border: 1px solid var(--cor-sinza-claro);
+  border-radius: 10px;
+}
+
+.atendimento-anterior section .card-body {
+  font-size: 1.2rem;
+}
+
+.atendimento-anterior section .card-body p {
+  margin-bottom: 1rem;
+}
+
+/*FINANCEIRO*/
+.num-consultas {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  margin: 20px auto;
+  padding: 20px;
+  max-width: 800px;
+}
+
+/* Estilos para os cartões de consulta */
+.consultas-card {
+  background-color: #fff;
+  border-radius: 15px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  text-align: center;
+  width: 45%;
+  transition: transform 0.3s ease;
+}
+
+.consultas-card:hover {
+  transform: translateY(-10px);
+}
+
+.consultas-info {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.consultas-numero {
+  font-size: 3em;
+  color: #3d3ab8;
+  margin: 0;
+}
+
+.consultas-titulo {
+  font-size: 1.2em;
+  color: #555;
+  margin-top: 10px;
+  border-top: 2px solid #f89c45;
+  padding-top: 10px;
+}
+
+/* Estilos para a seção de consultas-por-especialista */
+.consultas-por-especialista h2 {
+  font-size: 1.5em;
+  color: #3d3ab8;
+  margin-bottom: 20px;
+}
+
+.consultas-por-especialista form {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.consultas-por-especialista .form-group {
+  flex: 1 1 45%;
+  margin-bottom: 10px;
+}
+
+#consulta-por-especialista #btn-consultar {
+  margin: 0;
+}
+
+#consulta-por-especialista .form-group {
+  padding: 15px;
+}
+
+#consulta-por-especialista .btn-container {
+  width: 100%;
+  display: flex;
+  justify-content: end;
+  padding: 0 18px;
+}
+
+.consultas-por-especialista input[type="date"] {
+  width: 100%;
+  padding: 10px;
+  font-size: 1em;
+  border: 1px solid #ddd;
+  border-radius: 5px;
+}
+
+.consultas-por-especialista .btn-buscar {
+  padding: 10px 20px;
+  font-size: 1em;
+  color: #fff;
+  background-color: #3d3ab8;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.consultas-por-especialista .btn-buscar:hover {
+  background-color: #2c2a8a;
+}
+
+.consultas-por-especialista .consultas-lista p {
+  font-size: 1.2em;
+  color: #555;
+  margin: 5px 0;
+}
+
+#cadastro-conta {
+  display: flex;
+  flex-direction: column;
+}
+
+#cadastro-conta button {
+  margin: 0 auto;
+}
+
+#cadastro-conta div {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+#cadastro-conta div .form-group {
+  display: block;
+  /* width: 100%; */
+  color: #3d3ab8;
+}
+
+#cadastro-conta input,
+#cadastro-conta input[type="date"] {
+  border: 1px solid var(--cor-rosa);
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 1em;
+  width: 100%;
+}
+
+#cadastro-conta select {
+  padding: 0.5rem;
+  border-radius: 5px;
+  font-size: 1em;
+}
+
+#cadastro-conta .btn-cadastrar-conta {
+  font-size: 1em;
+  color: var(--cor-branco);
+  background-color: var(--cor-laranja);
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.pagination {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  margin: 20px 0;
+}
+
+.qtd-agendamentos {
+  /* font-size: 1rem; */
+  margin: 0 2rem;
+  color: var(--cor-rosa);
+}
+
+/*AGENDAMENTO PERSONALIZADO*/
+#agendamento-personalizado {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+#agendamento-personalizado .btn {
+  margin: 0 auto;
+}
+
+.dias-disponiveis {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+  padding: 20px;
+  background-color: #f9f9f9;
+  border-radius: 10px;
+}
+.forms {
+  display: flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
+}
+/* Estilos Responsivos */
+@media (min-width: 425px) {
+  #cadastro-conta div {
+    margin: 10px 20px;
+  }
+
+  #searchForm {
+    display: block;
+  }
+}
+
+@media (min-width: 540px) {
+  .header {
+    justify-content: space-evenly;
+    align-items: center;
+    padding: 2rem;
+  }
+
+  .top--menu ul {
+    display: flex;
+  }
+
+  .panel {
+    max-height: none;
+    overflow: visible;
+  }
+
+  .panel ul li {
+    color: var(--cor-branco);
+    margin: 0 0.5rem;
+  }
+
+  .btn-accordion {
+    display: none;
+  }
+
+  .header__logo img {
+    width: 450px;
+  }
+
+  .header h2 {
+    font-size: 1.5rem;
+  }
+}
+
+@media (min-width: 720px) {
+  #cadastro-conta div {
+    flex-wrap: nowrap;
+    margin-bottom: 20px;
+  }
+
+  #cadastro-conta .form-group {
+    margin: 0 10px;
+    /* width: 90%; */
+    /* margin: 0 5rem; */
+  }
+}
+
+@media (min-width: 768px) {
+  .sobre {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+
+@media (min-width: 1025px) {
+  /* Adicione estilos específicos para telas maiores, se necessário */
+}

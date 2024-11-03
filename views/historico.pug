@@ -1,0 +1,30 @@
+extends base
+
+block content
+    
+    h2.title-section Historico de Atendimentos
+    .historico
+        each atendimento in meus_atendimentos
+            .card
+                .card-header
+                    h3 Nome: #{atendimento.cliente.nome} (#{new Date(atendimento.create_at).toLocaleDateString('pt-BR')})
+                .card-body
+                    p
+                        strong Objetivo: 
+                        | #{atendimento.objetivo}
+                    p
+                        strong Recursos: 
+                        | #{atendimento.recursos}
+                    p
+                        strong Observação: 
+                        | #{atendimento.observacao}
+                    p
+                        strong Encaminhamento: 
+                        | #{atendimento.encaminhamento}
+                    p
+                        strong Medicação: 
+                        | #{atendimento.medicacao}
+                .card-footer
+                    p
+                        strong Data do Atendimento: 
+                        | #{new Date(atendimento.create_at).toLocaleDateString('pt-BR')}

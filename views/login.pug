@@ -1,0 +1,16 @@
+extends base
+
+block content 
+    
+    section.section-equipe 
+        h1.title-section Informe suas credenciais para acessar o sistema
+        .section_form
+            form#login-form
+                div.form-group
+                    label(for='email') E-mail
+                    input#email.form__input(type='email' placeholder='you@example.com', required)
+                div.form-group
+                    label(for='password') Senha
+                    input#password.form__input(type='password' placeholder='••••••••', required, minlength='8')
+                div.form-group
+                    button.btn.btn--green#btn--login Login

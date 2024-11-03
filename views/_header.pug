@@ -1,0 +1,36 @@
+header.header 
+    .container
+        .header__logo
+            a(href='/')
+                img(src='/images/logo-oficial-sem-fundo.png' alt='Logo')
+
+    nav.nav.nav--menu
+        button.accordion.btn-accordion Menu
+        .panel.top--menu
+            if funcionario
+                ul                    
+                    li
+                        a(href="/agenda?page=1&limit=5" id="link_agenda") Agenda
+                    li
+                        a(href="/meus-pacientes") Pacientes 
+                    if (funcionario.role === 'admin') 
+                        li 
+                            a(href="/cadastrar-especialista" target="_blank") Novo Especialista 
+                    li
+                        a(href="/financeiro") Financeiro                 
+                    li 
+                        a(href="/meu-perfil" ) Perfil
+                    li
+                        a#logout Sair
+            else
+                ul 
+                    li
+                        a(href="/") Início
+                    //- li
+                    //-     a(href="/sobre") Sobre
+                    //- li
+                    //-     a(href="/contato") Contato
+                    //- li
+                    //-     a(href="/equipe") Equipe
+                    li
+                        a(href="/agendamento") Agende

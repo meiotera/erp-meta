@@ -1,0 +1,30 @@
+extends base
+
+block content
+    h2.title-section Cadastrar cliente
+    .container-cadastro-cliente         
+        .modal-body.section_form
+            form.consultaForm.cadastro-cliente
+                //- enviar o id do paciente e funcionário
+                input#id_agendamento(type="hidden" name="id_agendamento")
+                input#id_funcionario(type="hidden" name="id_funcionario" value=funcionario.id) 
+                .form-group
+                    label(for="nome") Nome
+                    input#nome.form-control(type="text" name="nome" placeholder="Nome do paciente" maxlength="50")
+                .form-group
+                    label(for="cpf") CPF
+                    input#cpf.form-control(type="text" name="cpf" maxlength="11")
+                .form-group
+                    label(for="data_nascimento") Data de Nascimento
+                    input#data_nascimento.form-control(type="date" name="data_nascimento" )
+                .form-group
+                    label(for="telefone") Telefone
+                    input#telefone.form-control(type="text" name="telefone" maxlength="11" placeholder="84999999999")
+                .form-group
+                    label(for="email") Email
+                    input#email.form-control(type="text" name="email" placeholder="email@email.com")
+                .form-group
+                    label(for="responsavel") Responsável
+                    input#responsavel.form-control(type="text" name="responsavel" maxlength="50" placeholder="Nome do responsável")
+                .btns 
+                    button.btn#btn-salvar--atendimento Cadastrar

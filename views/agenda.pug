@@ -1,0 +1,48 @@
+extends base
+
+block content
+
+    // Seção de Agendamentos Marcados
+    section.consultas-especialisatas       
+        
+        h2.title-section Pacientes agendados 
+            span.qtd-agendamentos Total de agendamentos = #{totalAgendamentos}
+        .table-responsive
+            table.table
+                thead 
+                    tr
+                        th Nome
+                        th Data
+                        th Horarios 
+                        th Telefone
+                        th Ações
+                tbody#table-body        
+                    include _meus_agendamentos.pug
+        .pagination
+            //- if page > 1
+            button(type="button" class="btn btn-primary" id="prev-page") Anterior
+            
+            button(type="button" class="btn btn-primary" id="next-page") Próximo
+
+  
+    if agenda
+        section.agenda-cadastrada
+            h3.title-section Agenda Disponível
+            div.dias-agenda
+                each item in agenda
+                    div.dia
+                        p.data Data: #{item.data}
+                        p Horários Disponíveis:
+                        ul.horarios
+                            each horario in item.horariosDisponiveis
+                                li #{horario.hora}
+        // Seção de Nova Agenda
+        include _form_nova_agenda
+    else 
+        include _form_nova_agenda
+
+    include _form_agendamento_personalizado.pug
+
+    // Modal para Detalhes do Agendamento
+    section.modal.fade#detalhesModal.hidden(tabindex="-1" role="dialog")
+        include _modal_ficha

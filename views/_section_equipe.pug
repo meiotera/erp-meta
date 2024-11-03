@@ -1,0 +1,13 @@
+section.section-equipe 
+    h2.title-section Nossa equipe 
+    .container
+        each funcionario in funcionarios
+            .card-funcionario
+                 
+                img(src=`/images/fotos_perfil/user-${funcionario.nome}.jpeg` alt="imagem da equipe")
+                .card-body 
+                    h5.card-title #{funcionario.nome}
+                    p.card-subtitle #{funcionario.profissao}
+                    button.accordion.btn-accordion Saiba mais
+                    .panel 
+                        p #{funcionario.descricao || 'Sem descrição'}           

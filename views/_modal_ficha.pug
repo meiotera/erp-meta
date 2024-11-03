@@ -1,0 +1,45 @@
+.modal-overlay
+    .modal-dialog.modal-dialog-centered(role="document")
+        .modal-content            
+            .modal-body   
+                h5.title-section Consulta iniciada com 
+                    span.nome 
+                ul.nav.nav-tabs 
+                    li.nav-item 
+                        //- a.nav-link.active(href="#" onclick="openTab(event, 'tab1')") Historico   
+                        a.nav-link.btn-historico(href="#" data-tab='tab1') Historico               
+                    li.nav-item 
+                        //- a.nav-link(href="#" onclick="openTab(event, 'tab2')") Nova Consulta  
+                        a.nav-link.active(href="#" data-tab='tab2') Nova Consulta
+                #tab1.tab-content
+                    .atendimento-anterior 
+       
+                #tab2.tab-content.active                        
+                    form.consultaForm#fichaPaciente
+                        //- enviar o id do paciente e funcionário
+                        //- input#id_paciente(type="hidden" name="id_paciente") 
+                        input#id_funcionario(type="hidden" name="id_funcionario" value=funcionario.id) 
+                        .form-group
+                            label(for="objetivo") Objetivos da sessão
+                            textarea#objetivo.form-control(name="objetivo" placeholder="Descreva os objetivos da sessão")
+                        .form-group
+                            label(for="recursos") Materiais, Testes, Recursos ou exercícios realizados.
+                            textarea#recursos.form-control(name="recursos" placeholder="Descreva os materiais, testes, recursos ou exercícios realizados")
+                        .form-group
+                            label(for="observacao") Observações
+                            textarea#observacao.form-control(name="observacao" placeholder="Descreva as observações ao paciente")
+                        .form-group
+                            label(for="encaminhamento") Ecaminhamentos
+                            textarea#encaminhamento.form-control(name="encaminhamento" placeholder="Informe os encaminhamentos do paciente")
+                        .form-group
+                            label(for="medicacao") Medicamento
+                            textarea#medicacao.form-control(name="medicacao" placeholder="Informe a medicação prescrita")
+                        .form-group 
+                            label(for="valor") Valor da consulta
+                            input#valor.form-control(name="valor" type="number" placeholder="Informe o valor da consulta")
+                        .btns    
+                            button.btn.close-modal(type='button') Cancelar
+                            button.btn#btn-salvar--atendimento Salvar
+
+
+    //- script(src="/js/tabs.js") 

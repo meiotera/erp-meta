@@ -1,0 +1,83 @@
+extends base
+
+block content
+    section.consultas-por-especialista
+        h2.title-section Consultas por especialistas
+
+        form#consulta-por-especialista
+            .form-group 
+                label.data(for="data-inicial") Data Inicial
+                input(type="date" name="data-inicial" id="data-inicial" class="form-control" required)
+            .form-group 
+                label.data(for="data-final") Data Final
+                input(type="date" name="data-final" id="data-final" class="form-control" required)
+            .btn-container
+                button.btn#btn-consultar Consultar
+        
+        .consultas-especialisatas 
+            table.table.table-striped.table-hover#table-financeiro
+                thead
+                    tr
+                        th Especialista
+                        th Consultas
+                        th Valor Total
+                tbody
+      
+    
+
+    if funcionario.role === 'admin'
+        section.cadastro-contas 
+            h2.title-section Cadastro de contas
+            form#cadastro-conta
+                div 
+                    .form-group 
+                        label(for="data-vencimento") Data de Vencimento
+                        input(type="date" name="data-vencimento" id="data-vencimento" class="form-control" required)
+                    .form-group 
+                        label(for="descricao") Descrição
+                        input(type="text" name="descricao" id="descricao" class="form-control" required)
+                    .form-group 
+                        label(for="valor") Valor
+                        input(type="number" name="valor" id="valor" class="form-control" required)
+                    .form-group 
+                        label(for="status") Status
+                        select#status.form-control(name="status")
+                            option(value="Pendente") Pendente
+                            option(value="Pago") Pago
+                button.btn.btn-cadastrar-conta Cadastrar
+
+            h2 Em fase de construção...
+            
+            //- table.table-contas 
+            //-     thead 
+            //-         tr
+            //-             th Data de Vencimento
+            //-             th Descrição
+            //-             th Valor
+            //-             th Status
+            //-             th Ações
+            //-     tbody
+            //-         tr
+            //-             td 10/10/2020
+            //-             td Conta de Luz
+            //-             td R$ 100,00
+            //-             td Pendente
+            //-             td 
+            //-                 button.btn.btn-pagar Pagar
+            //-                 button.btn.btn-excluir Excluir
+            //-         tr
+            //-             td 10/10/2020
+            //-             td Conta de Água
+            //-             td R$ 50,00
+            //-             td Pago
+            //-             td 
+            //-                 button.btn.btn-pagar Pagar
+            //-                 button.btn.btn-excluir Excluir
+            //-         tr
+            //-             td 10/10/2020
+            //-             td Conta de Telefone
+            //-             td R$ 30,00
+            //-             td Pendente
+            //-             td 
+            //-                 button.btn.btn-pagar Pagar
+            //-                 button.btn.btn-excluir Excluir

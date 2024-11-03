@@ -1,0 +1,33 @@
+if !funcionario
+    footer.footer 
+        .container.header__logo
+            a(href='/')
+                img(src='/images/logo-oficial-sem-fundo.png' alt='Logo')
+        .container
+            .title-container
+                h5 Siga-nos nas redes sociais 
+                .social--media
+                    
+                    if funcionarios && funcionarios.length
+                        each funcionario in funcionarios
+                            if funcionario.instagram
+                                a(href=`https://www.instagram.com/${funcionario.instagram}` target='_blank')
+                                    i.bi.bi-instagram
+                                    span @#{funcionario.instagram}                       
+
+        .container
+            .contact-info
+                h5 Contato
+                p
+                    i.bi.bi-telephone
+                    span (84) 99999-9999
+                p
+                    i.bi.bi-envelope
+                    span contato@metasaudeintegrada.com
+                p
+                    i.bi.bi-geo-alt
+                    span Rua Exemplo, 123, Bairro, Cidade, Estado, CEP
+
+.container-footer
+p © 2024 todos os direitos reservados. Meta Saúde Integrada
+p Sistema desenvolvido por Renan Ferreira da Costa

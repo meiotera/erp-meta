@@ -1,0 +1,30 @@
+extends base
+
+block content
+    section.section-pacientes 
+        div.tabela
+            .header-section.title-section 
+                h2 Meus Pacientes
+                form#searchForm
+                    label(for='input-query')
+                    input.text#input-query(placeholder="Pesquisar paciente")
+                    button.btn Buscar
+            
+            table.pacientes-table                
+                thead 
+                    th Nome
+                    th Telefone
+                    th CPF
+                    th Ações
+                
+                each paciente in pacientes
+                    tr(id=`row-${paciente.id}`)
+                        td
+                            a.btn-historico(data-cliente-id=paciente.id).nome-paciente= paciente.nome
+                        td= paciente.telefone                                             
+                        td= paciente.cpf                       
+                        td
+                            a.btn(href=`/historico-cliente/${paciente.id}/editar`) Editar
+                            a.btn-delete#btn-delete-cliente(data-id=`${paciente.id}`) Excluir
+
+    .atendimento-anterior 
