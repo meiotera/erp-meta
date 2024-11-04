@@ -26,8 +26,8 @@ router.patch(
 
 router.post(
   "/cadastrar-especialista",
-  protect,
-  restrictTo("admin"),
+  // protect,
+  // restrictTo("admin"),
   func.cadastro_especialista
 );
 router.get(

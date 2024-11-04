@@ -37,8 +37,8 @@ router.get("/meu-perfil", protect, viewsController.getMeuPerfil); // Meu perfil
 // Rotas Restritas a Administradores
 router.get(
   "/cadastrar-especialista",
-  protect,
-  restrictTo("admin"),
+  // protect,
+  // restrictTo("admin"),
   viewsController.getCadastrarEspecialista
 ); // Cadastro de especialista
 
