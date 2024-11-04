@@ -36,14 +36,14 @@ app.use(
   })
 );
 
-app.use(
-  rateLimit({
-    windowMs: 15 * 60 * 1000,
-    max: 100,
-    message:
-      "Muitas requisições criadas a partir deste IP, por favor tente novamente após 15 minutos",
-  })
-);
+// app.use(
+//   rateLimit({
+//     windowMs: 15 * 60 * 1000,
+//     max: 100,
+//     message:
+//       "Muitas requisições criadas a partir deste IP, por favor tente novamente após 15 minutos",
+//   })
+// );
 app.use(cookieParser());
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
