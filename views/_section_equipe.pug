@@ -4,7 +4,7 @@ section.section-equipe
         each funcionario in funcionarios
             .card-funcionario
                  
-                img(src=`/images/fotos_perfil/user-${funcionario.nome}.jpeg` alt="imagem da equipe")
+                img(src=`/images/fotos_perfil/user-${funcionario.nome}.jpeg` alt=funcionario.nome)
                 .card-body 
                     h5.card-title #{funcionario.nome}
                     p.card-subtitle #{funcionario.profissao}
