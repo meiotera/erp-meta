@@ -8,10 +8,10 @@ WORKDIR /app
 COPY package*.json ./
 
 # Copie o script de espera
-# COPY wait-for-mongo.sh /wait-for-mongo.sh
+COPY wait-for-mongo.sh /wait-for-mongo.sh
 
 # Permita que o script seja executável
-# RUN chmod +x /wait-for-mongo.sh
+RUN chmod +x /wait-for-mongo.sh
 
 # Instale as dependências do projeto
 RUN npm install
