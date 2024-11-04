@@ -24,7 +24,7 @@ const PORT = process.env.PORT || 3000;
 // );
 
 // Usar a variável de ambiente MONGO_URI para a conexão com o MongoDB
-const DB = process.env.MONGO_URI;
+const DB = process.env.DATABASE;
 
 mongoose
   .connect(DB) // Corrigido: removido os parênteses extras e passado as opções corretamente
