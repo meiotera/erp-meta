@@ -1,9 +1,11 @@
-# Crie o arquivo wait-for-mongo.sh no diretório raiz
-# Conteúdo do wait-for-mongo.sh
 #!/bin/sh
-until nc -z mongo 27017; do
+
+# Esperar até que o MongoDB esteja disponível
+until nc -z -v -w30 mongo 27017
+do
   echo "Aguardando o MongoDB iniciar..."
-  sleep 2
+  sleep 1
 done
-echo "MongoDB está ativo! Iniciando o app."
+
+echo "MongoDB está disponível. Iniciando a aplicação..."
 exec "$@"

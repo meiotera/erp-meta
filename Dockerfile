@@ -6,7 +6,6 @@ WORKDIR /app
 
 # Copie o package.json e o package-lock.json para o diretório de trabalho
 COPY package*.json ./
-COPY wait-for-mongo.sh /wait-for-mongo.sh
 
 # Instale as dependências do projeto
 RUN npm install
@@ -21,4 +20,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Comando para iniciar o aplicativo
-CMD ["/wait-for-mongo.sh", "&&", "npm", "run", "start"]
+CMD ["sh", "/wait-for-mongo.sh", "&&", "npm", "run", "start"]
