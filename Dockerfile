@@ -20,4 +20,4 @@ RUN npm run build
 EXPOSE 3000
 
 # Comando para iniciar o aplicativo
-CMD ["sh", "/wait-for-mongo.sh", "&&", "npm", "run", "start"]
+CMD ["npm", "run", "start"]
