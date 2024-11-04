@@ -18,10 +18,13 @@ const app = require("./app");
 
 const PORT = process.env.PORT || 3000;
 
-const DB = process.env.DATABASE.replace(
-  "<PASSWORD>",
-  process.env.DATABASE_PASSWORD
-);
+// const DB = process.env.DATABASE.replace(
+//   "<PASSWORD>",
+//   process.env.DATABASE_PASSWORD
+// );
+
+// Usar a variável de ambiente MONGO_URI para a conexão com o MongoDB
+const DB = process.env.MONGO_URI;
 
 mongoose
   .connect(DB) // Corrigido: removido os parênteses extras e passado as opções corretamente
