@@ -7,26 +7,12 @@ services:
       - "3000:3000"
     environment:
       - NODE_ENV=production
-      - DATABASE=mongodb://mongo:27017/erp_meta
+      - DATABASE=DATABASE
     volumes:
       - .:/app
       - /app/node_modules
-    depends_on:
-      - mongo
     networks:
       - erp_network
-
-  mongo:
-    image: mongo:latest
-    ports:
-      - "27017:27017"
-    volumes:
-      - mongo-data:/data/db
-    networks:
-      - erp_network
-
-volumes:
-  mongo-data:
 
 networks:
   erp_network:
