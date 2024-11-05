@@ -3,18 +3,19 @@
 import Swal from "sweetalert2";
 import { renderizarTabela } from "./criarElemento.js";
 
-export const buscarPaciente = async (query) => {
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
+export const buscarPaciente = async (query, csrfToken) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/clientes/buscar-cliente`,
-      {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ query }),
-      }
-    );
+    const response = await fetch(`${baseURL}/clientes/buscar-cliente`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "CSRF-Token": csrfToken,
+      },
+      body: JSON.stringify({ query }),
+    });
 
     if (!response.ok) {
       throw new Error("Erro ao buscar histórico");

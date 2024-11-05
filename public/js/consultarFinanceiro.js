@@ -1,12 +1,15 @@
 import Swal from "sweetalert2";
 
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
 export const consultarFinanceiro = async (
   dataInicial,
   dataFinal,
   csrfToken
 ) => {
   try {
-    const response = await fetch("http://localhost:3000/financeiro", {
+    const response = await fetch(`${baseURL}/financeiro`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

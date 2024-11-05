@@ -2,12 +2,15 @@
 
 import Swal from "sweetalert2";
 
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
 export const login = async (email, password) => {
   try {
     const csrfToken = document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
-    const response = await fetch("/funcionarios/login", {
+    const response = await fetch(`${baseURL}/funcionarios/login`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

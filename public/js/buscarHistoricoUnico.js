@@ -2,17 +2,17 @@
 
 import Swal from "sweetalert2";
 
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
 export const buscarHistoricoUnico = async (id_cliente) => {
   try {
-    const response = await fetch(
-      `http://localhost:3000/historico-cliente/${id_cliente}`,
-      {
-        method: "GET",
-        headers: {
-          "Content-Type": "application/json",
-        },
-      }
-    );
+    const response = await fetch(`${baseURL}/historico-cliente/${id_cliente}`, {
+      method: "GET",
+      headers: {
+        "Content-Type": "application/json",
+      },
+    });
 
     if (!response.ok) {
       throw new Error("Erro ao buscar histórico");

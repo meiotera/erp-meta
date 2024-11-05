@@ -1,6 +1,9 @@
 import Swal from "sweetalert2";
 import { renderizarTabela } from "./criarElemento.js";
 
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
 export const deleteCliente = async (id, csrfToken) => {
   try {
     Swal.fire({
@@ -14,7 +17,7 @@ export const deleteCliente = async (id, csrfToken) => {
       cancelButtonText: "cancelar!",
     }).then((result) => {
       if (result.isConfirmed) {
-        const response = fetch(`http://localhost:3000/clientes/delete/${id}`, {
+        const response = fetch(`${baseURL}/clientes/delete/${id}`, {
           method: "DELETE",
           headers: {
             "Content-Type": "application/json",

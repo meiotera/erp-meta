@@ -3,6 +3,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
 export const formAtendimentoPost = async (
   cliente,
   funcionario,
@@ -18,7 +21,7 @@ export const formAtendimentoPost = async (
   try {
     const response = await axios({
       method: "POST",
-      url: "http://localhost:3000/atendimento",
+      url: `${baseURL}/atendimento`,
       headers: {
         "Content-Type": "application/json",
         "CSRF-Token": csrfToken,

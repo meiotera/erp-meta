@@ -2,6 +2,9 @@
 
 import Swal from "sweetalert2";
 
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
 export const cadastroEspecialista = async (
   nome,
   email,
@@ -14,7 +17,7 @@ export const cadastroEspecialista = async (
 ) => {
   try {
     const response = await fetch(
-      "http://localhost:3000/funcionarios/cadastrar-especialista",
+      `${baseURL}/funcionarios/cadastrar-especialista`,
       {
         method: "POST",
         headers: {

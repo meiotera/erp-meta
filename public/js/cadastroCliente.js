@@ -2,6 +2,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
 export const cadastrarCliente = async (
   nome,
   cpf,
@@ -16,7 +19,7 @@ export const cadastrarCliente = async (
   try {
     const response = await axios({
       method: "POST",
-      url: "http://localhost:3000/clientes/cadastrar-cliente",
+      url: `${baseURL}/clientes/cadastrar-cliente`,
       headers: {
         "Content-Type": "application/json",
         "CSRF-Token": csrfToken,

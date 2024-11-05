@@ -628,7 +628,7 @@ if (searchForm) {
       return;
     }
 
-    await buscarPaciente(query);
+    await buscarPaciente(query, csrfToken);
   });
 }
 // });

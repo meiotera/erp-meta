@@ -3,6 +3,9 @@
 import axios from "axios";
 import Swal from "sweetalert2";
 
+const baseURL =
+  process.env.NODE_ENV === "production" ? "" : "http://localhost:3000";
+
 export const agendar = async (
   nome,
   telefone,
@@ -15,7 +18,7 @@ export const agendar = async (
   try {
     const response = await axios({
       method: "POST",
-      url: "http://localhost:3000/agenda/agendamentos",
+      url: `${baseURL}/agenda/agendamentos`,
       headers: {
         "CSRF-Token": csrfToken,
       },
