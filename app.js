@@ -28,8 +28,20 @@ app.use(
   helmet.contentSecurityPolicy({
     directives: {
       defaultSrc: ["'self'"],
-      scriptSrc: ["'self'", "'unsafe-eval'", "'https://maps.googleapis.com'"], // Adicione 'unsafe-eval' se necessário (não recomendado)
+      scriptSrc: ["'self'", "'unsafe-inline'", "https://maps.googleapis.com"],
+      styleSrc: [
+        "'self'",
+        "'unsafe-inline'",
+        "https://fonts.googleapis.com",
+        "https://cdn.jsdelivr.net",
+      ],
+      fontSrc: [
+        "'self'",
+        "https://fonts.gstatic.com",
+        "https://cdn.jsdelivr.net",
+      ],
       frameSrc: ["'self'", "https://www.google.com"],
+      connectSrc: ["'self'", "http://157.230.5.89:3000"], // Ajuste conforme necessário
       objectSrc: ["'none'"],
       upgradeInsecureRequests: [],
     },
