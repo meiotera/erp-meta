@@ -7,7 +7,7 @@ export const login = async (email, password) => {
     const csrfToken = document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
-    const response = await fetch("http://localhost:3000/funcionarios/login", {
+    const response = await fetch("/funcionarios/login", {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
