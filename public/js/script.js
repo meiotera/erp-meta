@@ -468,43 +468,86 @@ document.addEventListener("DOMContentLoaded", function () {
     formCadastroCliente.addEventListener("submit", async function (e) {
       e.preventDefault();
 
-      const nome = document.getElementById("nome").value;
-      const cpfInput = document.getElementById("cpf").value;
-      const agendamentoInput = document.getElementById("id_agendamento").value;
-      const dataNascimento = document.getElementById("data_nascimento").value;
-      const telefone = document.getElementById("telefone").value;
-      const email = document.getElementById("email").value;
-      const responsavel = document.getElementById("responsavel").value;
-      const funcionario = document.getElementById("id_funcionario").value;
+      const nomeInput = document.getElementById("nome");
+      const cpfInput = document.getElementById("cpf");
+      const agendamentoInput = document.getElementById("id_agendamento");
+      const dataNascimentoInput = document.getElementById("data_nascimento");
+      const telefoneInput = document.getElementById("telefone");
+      const emailInput = document.getElementById("email");
+      const responsavelInput = document.getElementById("responsavel");
+      const funcionarioInput = document.getElementById("id_funcionario");
 
-      // Corrigir a verificação dos campos
       if (
-        !nome ||
-        !cpfInput ||
-        !dataNascimento ||
-        !telefone ||
-        !email ||
-        !responsavel ||
-        !agendamentoInput
+        nomeInput &&
+        cpfInput &&
+        agendamentoInput &&
+        dataNascimentoInput &&
+        telefoneInput &&
+        emailInput &&
+        responsavelInput &&
+        funcionarioInput
       ) {
-        alert("Preencha todos os campos");
-        return;
-      }
+        const nome = nomeInput.value;
+        const cpf = cpfInput.value;
+        const agendamento = agendamentoInput.value;
+        const dataNascimento = dataNascimentoInput.value;
+        const telefone = telefoneInput.value;
+        const email = emailInput.value;
+        const responsavel = responsavelInput.value;
+        const funcionario = funcionarioInput.value;
 
-      try {
-        await cadastrarCliente(
-          nome,
-          cpfInput,
-          dataNascimento,
-          telefone,
-          email,
-          responsavel,
-          funcionario,
-          agendamentoInput,
-          csrfToken
-        );
-      } catch (error) {
-        console.error("Erro ao cadastrar cliente:", error);
+        // Corrigir a verificação dos campos
+        if (
+          !nome ||
+          !cpf ||
+          !dataNascimento ||
+          !telefone ||
+          !email ||
+          !responsavel ||
+          !agendamento
+        ) {
+          alert("Preencha todos os campos");
+          return;
+        }
+
+        // const nome = document.getElementById("nome").value;
+        // const cpfInput = document.getElementById("cpf").value;
+        // const agendamentoInput = document.getElementById("id_agendamento").value;
+        // const dataNascimento = document.getElementById("data_nascimento").value;
+        // const telefone = document.getElementById("telefone").value;
+        // const email = document.getElementById("email").value;
+        // const responsavel = document.getElementById("responsavel").value;
+        // const funcionario = document.getElementById("id_funcionario").value;
+
+        // // Corrigir a verificação dos campos
+        // if (
+        //   !nome ||
+        //   !cpfInput ||
+        //   !dataNascimento ||
+        //   !telefone ||
+        //   !email ||
+        //   !responsavel ||
+        //   !agendamentoInput
+        // ) {
+        //   alert("Preencha todos os campos");
+        //   return;
+        // }
+
+        try {
+          await cadastrarCliente(
+            nome,
+            cpfInput,
+            dataNascimento,
+            telefone,
+            email,
+            responsavel,
+            funcionario,
+            agendamentoInput,
+            csrfToken
+          );
+        } catch (error) {
+          console.error("Erro ao cadastrar cliente:", error);
+        }
       }
     });
   }
