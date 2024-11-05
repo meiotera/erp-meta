@@ -11,6 +11,7 @@
   --cor-background: #faf7f5;
   --gradient: linear-gradient(135deg, #3d3ab8, #e54a86);
   --brn-salvar: #01ae3d;
+  --icones-valores: #de31de;
 }
 
 /* Definir tamanho de fonte padrão */
@@ -29,6 +30,7 @@ html {
   /* font-family: "Asap", sans-serif; */
   font-optical-sizing: auto;
   text-align: justify;
+  list-style: none;
 }
 
 html,
@@ -220,15 +222,48 @@ section {
 
 /* Seção Sobre */
 .sobre {
-  display: grid;
+  /* display: grid;
   grid-template-columns: 1fr;
-  gap: 20px;
+  gap: 20px; */
+
   background-image: url(images/svg/wave.svg);
   background-repeat: no-repeat;
   background-size: cover;
   color: var(--cor-sinza);
   padding: 40px 20px;
   text-align: center;
+}
+
+.sobre .sobre-conteudo {
+  display: grid;
+  grid-template-columns: 1fr;
+}
+
+.sobre-conteudo img {
+  filter: brightness(0.9) contrast(1.1) saturate(1.2);
+  width: 100%;
+  height: 400px;
+}
+
+.valores {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  flex-direction: column;
+}
+
+.valores ul {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.valores ul li {
+  /* justify-content: space-around; */
+  font-size: 2rem;
+  color: var(--icones-valores);
+  padding: 1rem;
 }
 
 .section-equipe .container {
@@ -262,6 +297,7 @@ section {
 /* Mapa */
 address {
   display: flex;
+  flex-direction: column;
   justify-content: space-between;
   font-weight: bold;
   background-image: var(--gradient);
@@ -269,21 +305,6 @@ address {
   color: var(--cor-branco);
 }
 
-/* Redes Sociais */
-/* footer {
-  background: var(--gradient);
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  padding: 4rem 0;
-}
-
-.container-footer {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 1.5rem;
-} */
 /*FOOTER*/
 footer {
   background: var(--gradient);
@@ -291,7 +312,7 @@ footer {
   flex-direction: column;
   align-items: center;
   padding: 4rem 0;
-  color: #fff;
+  color: var(--cor-branco);
 }
 
 .container-footer {
@@ -300,6 +321,11 @@ footer {
   flex-direction: column;
   padding: 1.5rem;
   text-align: center;
+  color: var(--cor-sinza);
+}
+
+.container-footer a {
+  color: var(--icones-valores);
 }
 /* 
 .header__logo img {
@@ -355,17 +381,6 @@ footer {
 .contact-info i {
   font-size: 1.2rem;
 }
-
-.container-footer p {
-  margin: 0.5rem 0;
-}
-
-.container-footer p:last-child {
-  margin-top: 1rem;
-  font-size: 0.9rem;
-  color: #ccc;
-}
-
 .social--media {
   display: flex;
   flex-direction: row;
@@ -1119,6 +1134,33 @@ button.btn#btn-salvar--atendimento:hover {
   justify-content: space-between;
   flex-wrap: wrap;
 }
+.link-agendar {
+  background-color: var(--cor-rosa);
+  color: var(--cor-branco);
+  font-weight: bold;
+  font-size: 0.9rem;
+}
+
+.divlink {
+  margin-top: 1.5rem;
+  display: flex;
+  justify-content: center;
+}
+
+.divlink a {
+  color: var(--cor-branco);
+  font-size: 1.3rem;
+  text-decoration: none;
+  background-color: var(--brn-salvar);
+  border-radius: 1rem;
+  padding: 1rem;
+  margin: 0 10px;
+  transition: all 0.3s;
+}
+
+.divlink a:hover {
+  background-color: #10c550;
+}
 /* Estilos Responsivos */
 @media (min-width: 425px) {
   #cadastro-conta div {
@@ -1178,8 +1220,12 @@ button.btn#btn-salvar--atendimento:hover {
 }
 
 @media (min-width: 768px) {
-  .sobre {
-    grid-template-columns: 1fr 1fr;
+  .link-agendar {
+    font-size: 1.2rem;
+  }
+  .sobre .sobre-conteudo {
+    grid-template-columns: 0.6fr 1fr;
+    gap: 20px;
   }
 }
 
