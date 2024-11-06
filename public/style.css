@@ -44,7 +44,7 @@ a {
 }
 
 body {
-  max-width: 1440px;
+  max-width: 1200px;
   display: flex;
   flex-direction: column;
   /* text-align: justify; */
@@ -233,33 +233,55 @@ section {
   padding: 40px 20px;
   text-align: center;
 }
-
+/* 
 .sobre .sobre-conteudo {
   display: grid;
   grid-template-columns: 1fr;
+} */
+.sobre .sobre-conteudo {
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+}
+
+.sobre .sobre-conteudo div {
+  margin-top: 1.2rem;
 }
 
 .sobre-conteudo img {
   filter: brightness(0.9) contrast(1.1) saturate(1.2);
-  width: 100%;
+  max-width: 480px;
   height: 400px;
+  border: solid 5px var(--cor-laranja);
+  border-radius: 5px;
+  /*centralizar imagem*/
 }
 
 .valores {
-  margin-top: 1rem;
-  display: flex;
-  justify-content: space-around;
-  align-items: center;
-  flex-direction: column;
-}
-
-.valores ul {
   display: flex;
   flex-wrap: wrap;
-  justify-content: center;
+  justify-content: space-between;
+  align-items: center;
 }
 
-.valores ul li {
+.valores p {
+  font-weight: bold;
+  color: var(--cor-sinza);
+}
+
+.valores div {
+  display: flex;
+  min-width: 100px;
+  margin-top: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-left: solid 2px var(--cor-rosa);
+  border-right: solid 2px var(--cor-rosa);
+}
+
+.valores i {
   /* justify-content: space-around; */
   font-size: 2rem;
   color: var(--icones-valores);
@@ -1224,11 +1246,25 @@ button.btn#btn-salvar--atendimento:hover {
     font-size: 1.2rem;
   }
   .sobre .sobre-conteudo {
-    grid-template-columns: 0.6fr 1fr;
-    gap: 20px;
+    flex-direction: row;
+    gap: 1rem;
+  }
+
+  .valores div {
+    min-width: 120px;
   }
 }
 
-@media (min-width: 1025px) {
+@media (min-width: 825px) {
+  .valores div {
+    min-width: 150px;
+  }
+  /* Adicione estilos específicos para telas maiores, se necessário */
+}
+
+@media (min-width: 925px) {
+  .valores div {
+    min-width: 180px;
+  }
   /* Adicione estilos específicos para telas maiores, se necessário */
 }

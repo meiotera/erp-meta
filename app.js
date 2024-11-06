@@ -2,6 +2,7 @@ const path = require("path");
 const express = require("express");
 const cookieParser = require("cookie-parser");
 const sanitize = require("./middlewares/sanitize_inputs");
+const compression = require("compression");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const { criarRespostaErro } = require("./utilities/utils");
@@ -10,6 +11,9 @@ const csurf = require("csurf");
 require("dotenv").config();
 
 const app = express();
+
+// Use o middleware compression
+app.use(compression());
 
 // Middleware para desativar cache
 app.use((req, res, next) => {

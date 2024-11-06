@@ -3,8 +3,8 @@ section.section-equipe
     .container
         each funcionario in funcionarios
             .card-funcionario
-                 
-                img(src=`/images/fotos_perfil/user-${funcionario.nome}.jpeg` alt=funcionario.nome)
+
+                img(src=`/images/fotos_perfil/user-${funcionario.nome}.jpeg` alt=funcionario.nome loading="lazy")
                 .card-body 
                     h5.card-title #{funcionario.nome}
                     p.card-subtitle #{funcionario.profissao}
@@ -14,7 +14,7 @@ section.section-equipe
 
 
 section.link-agendar
-    
+
     p A Meta Saúde Integrada é dedicada ao cuidado integral, oferecendo serviços de fisioterapia, psicologia, psicopedagogia e psicanálise em Mossoró.
     //- p Cada consulta é pensada para oferecer um atendimento humanizado e personalizado, focado nas necessidades individuais de nossos pacientes. Agende sua consulta e experimente um cuidado que vai além do tratamento: cuidamos de você e de quem você ama.     
     //- p agende já sua consulta com um de nossos especialisatas 

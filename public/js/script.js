@@ -427,9 +427,10 @@ function adicionarEventoCadastrarCliente() {
       btn.addEventListener("click", function (event) {
         const cpf = event.currentTarget.getAttribute("data-cpf");
         const agendamento = event.currentTarget.getAttribute("data-id");
-        location.assign(
-          `/cadastrar-cliente?cpf=${cpf}&agendamento=${agendamento}`
-        );
+        const nome = event.currentTarget.getAttribute("data-nome");
+        const url = `/cadastrar-cliente?cpf=${cpf}&agendamento=${agendamento}&nome=${nome}`;
+
+        location.assign(url);
       });
     });
   }
@@ -445,17 +446,22 @@ document.addEventListener("DOMContentLoaded", function () {
     const urlParams = new URLSearchParams(window.location.search);
     const cpf = urlParams.get("cpf");
     const agendamento = urlParams.get("agendamento");
+    const nome = urlParams.get("nome");
     return {
       cpf,
       agendamento,
+      nome,
     };
   }
 
   // inserir o valor do 'cpf' no campo de entrada
   function insertDataInput() {
-    const { cpf, agendamento } = getDataUrl();
+    const { cpf, agendamento, nome } = getDataUrl();
     if (cpf) {
       document.getElementById("cpf").value = cpf;
+    }
+    if (nome) {
+      document.getElementById("nome").value = nome;
     }
     if (agendamento) {
       document.getElementById("id_agendamento").value = agendamento;
