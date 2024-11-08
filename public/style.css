@@ -16,8 +16,8 @@
 
 /* Definir tamanho de fonte padrão */
 html {
-  font-size: 16px; /* Tamanho de fonte padrão */
-  font-family: "Exo 2", sans-serif; /* Fonte padrão */
+  font-size: 16px;
+  font-family: Arial, Helvetica, sans-serif;
   font-optical-sizing: auto;
   text-align: justify;
 }
@@ -27,7 +27,6 @@ html {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  /* font-family: "Asap", sans-serif; */
   font-optical-sizing: auto;
   text-align: justify;
   list-style: none;
@@ -47,7 +46,6 @@ body {
   max-width: 1200px;
   display: flex;
   flex-direction: column;
-  /* text-align: justify; */
   line-height: 1.6;
   min-height: 100vh;
   background-color: var(--cor-background);
@@ -146,7 +144,6 @@ section {
 
 .title-section {
   color: #3d3ab8;
-  /* font-size: 1.5em; */
   margin-bottom: 10px;
   border-bottom: 3px solid #f89c45;
   text-align: center;
@@ -200,7 +197,6 @@ section {
 
 .active {
   border: 5px solid var(--cor-azul);
-  /* box-shadow: inset 0 10px 10px rgba(0, 0, 0, 0.1); */
 }
 
 .panel {
@@ -222,10 +218,6 @@ section {
 
 /* Seção Sobre */
 .sobre {
-  /* display: grid;
-  grid-template-columns: 1fr;
-  gap: 20px; */
-
   background-image: url(images/svg/wave.svg);
   background-repeat: no-repeat;
   background-size: cover;
@@ -233,11 +225,7 @@ section {
   padding: 40px 20px;
   text-align: center;
 }
-/* 
-.sobre .sobre-conteudo {
-  display: grid;
-  grid-template-columns: 1fr;
-} */
+
 .sobre .sobre-conteudo {
   display: flex;
   justify-content: center;
@@ -255,11 +243,12 @@ section {
   height: 400px;
   border: solid 5px var(--cor-laranja);
   border-radius: 5px;
-  /*centralizar imagem*/
 }
 
 .valores {
   display: flex;
+  max-width: 650px;
+  margin: 0 auto;
   flex-wrap: wrap;
   justify-content: space-between;
   align-items: center;
@@ -333,90 +322,30 @@ footer {
   display: flex;
   flex-direction: column;
   align-items: center;
-  padding: 4rem 0;
+  padding: 4rem 1rem;
   color: var(--cor-branco);
 }
 
-.container-footer {
-  display: flex;
-  align-items: center;
-  flex-direction: column;
-  padding: 1.5rem;
-  text-align: center;
-  color: var(--cor-sinza);
+footer .title-container h5 {
+  font-size: 1.2rem;
+  color: var(--cor-laranja);
+  margin-bottom: 1.5rem;
 }
 
-.container-footer a {
-  color: var(--icones-valores);
+.container-footer {
+  max-width: 550px;
+  margin: 0 auto;
+  padding: 1.5rem;
+  color: var(--cor-sinza);
 }
-/* 
-.header__logo img {
-  max-width: 150px;
-  margin-bottom: 1rem;
-} */
 
 .title-container {
   margin-bottom: 2rem;
 }
 
-.title-container h5 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.social--media {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: center;
-  gap: 1rem;
-}
-
-.social--media a {
-  color: #fff;
-  text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  transition: color 0.3s ease;
-}
-
-.social--media a:hover {
-  color: var(--primary-color);
-}
-
-.contact-info {
-  margin-top: 2rem;
-}
-
-.contact-info h5 {
-  font-size: 1.5rem;
-  margin-bottom: 1rem;
-}
-
-.contact-info p {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  margin: 0.5rem 0;
-}
-
-.contact-info i {
-  font-size: 1.2rem;
-}
-.social--media {
-  display: flex;
-  flex-direction: row;
-  align-content: space-around;
-  justify-content: space-between;
-  flex-wrap: wrap;
-  gap: 1rem;
-  color: var(--cor-branco);
-  font-weight: bold;
-  font-size: 1.2rem;
-}
-
 .social--media a {
   transition: color 0.2s;
+  display: block;
 }
 
 .social--media a:hover {
@@ -424,7 +353,6 @@ footer {
 }
 
 /* Formulário de Agendamento */
-
 .section_form form .form-group {
   display: flex;
   flex-direction: column;
@@ -469,7 +397,7 @@ table {
 .table-responsive {
   width: 100%;
   overflow-x: auto;
-  -webkit-overflow-scrolling: touch; /* Para uma rolagem suave em dispositivos móveis */
+  -webkit-overflow-scrolling: touch;
 }
 
 table {
@@ -650,7 +578,6 @@ input[type="time"]:focus {
 
 #searchForm input {
   padding: 5px;
-  /* width: 100%; */
   font-size: 1rem;
 }
 
@@ -682,9 +609,7 @@ input[type="time"]:focus {
 }
 
 /*LOGIN*/
-/* Container do Formulário */
 .section_form form {
-  /* display: flex; */
   margin: 0 auto;
   max-width: 500px;
 }
@@ -708,14 +633,6 @@ form#login-form {
   border-radius: 5px;
   padding: 5px;
 }
-
-/* 
-label {
-  display: block;
-  margin-bottom: 0.5rem;
-  font-weight: bold;
-  color: var(--cor-sinza);
-} */
 
 input.form__input {
   min-width: 100%;
@@ -818,12 +735,6 @@ button.btn:hover {
   border-top: none;
 }
 
-/* Estilos para .tab1 e .tab2 */
-/* .tab1,
-.tab2 {
-  display: none;
-} */
-
 /* Estilos para .tab1.active e .tab2.active */
 .tab-content.active,
 .tab-content.active {
@@ -838,7 +749,6 @@ button.btn:hover {
   padding: 0.5rem;
   border-radius: 5px;
   font-size: 1.2rem;
-  /* background-color: var(--cor-roxo); */
   color: var(--cor-sinza);
   font-weight: bold;
   cursor: pointer;
@@ -847,29 +757,29 @@ button.btn:hover {
 
 /* Estilo do Overlay do Modal */
 .modal-overlay {
-  position: fixed; /* Fixa o overlay na tela */
+  position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0, 0, 0, 0.5); /* Fundo semitransparente */
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
   justify-content: center;
   align-items: center;
-  z-index: 1000; /* Garante que o overlay fique acima de outros elementos */
+  z-index: 1000;
 }
 
 /* Estilo do Modal */
 .modal-dialog {
   margin-top: 0;
   overflow: auto;
-  background-color: var(--cor-branco); /* Cor de fundo do modal */
+  background-color: var(--cor-branco);
   height: 80%;
-  padding: 20px; /* Espaçamento interno */
-  border-radius: 10px; /* Bordas arredondadas */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Sombra suave */
-  width: 100%; /* Largura do modal */
-  max-width: 800px; /* Largura máxima do modal */
+  padding: 20px;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 800px;
 }
 
 /* Estilo do Textarea */
@@ -878,7 +788,7 @@ textarea {
   height: 8rem;
   padding: 10px;
   font-size: large;
-  /*Nao pode aumentar o textarea*/
+
   resize: none;
   border: 1px solid var(--brn-salvar);
   border-radius: 10px;
@@ -897,11 +807,6 @@ textarea:focus,
   border-radius: 10px;
 }
 
-/* .consultaForm {
-  margin: auto;
-  max-width: max-content;
-} */
-
 /* Estilo dos Botões */
 .btns {
   display: flex;
@@ -910,31 +815,31 @@ textarea:focus,
 }
 
 button.close-modal {
-  background-color: #f44336; /* Cor de fundo do botão de cancelar */
-  color: #fff; /* Cor do texto */
-  padding: 10px 20px; /* Espaçamento interno */
-  border: none; /* Remove a borda padrão */
-  border-radius: 5px; /* Bordas arredondadas */
-  cursor: pointer; /* Muda o cursor ao passar o mouse */
-  transition: background-color 0.3s ease; /* Transição suave */
+  background-color: #f44336;
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button.close-modal:hover {
-  background-color: #d32f2f; /* Cor de fundo ao passar o mouse */
+  background-color: #d32f2f;
 }
 
 button.btn#btn-salvar--atendimento {
-  background-color: var(--brn-salvar); /* Cor de fundo do botão de salvar */
-  color: #fff; /* Cor do texto */
-  padding: 10px 20px; /* Espaçamento interno */
-  border: none; /* Remove a borda padrão */
-  border-radius: 5px; /* Bordas arredondadas */
-  cursor: pointer; /* Muda o cursor ao passar o mouse */
-  transition: background-color 0.3s ease; /* Transição suave */
+  background-color: var(--brn-salvar);
+  color: #fff;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
 }
 
 button.btn#btn-salvar--atendimento:hover {
-  background-color: #019c34; /* Cor de fundo ao passar o mouse */
+  background-color: #019c34;
 }
 
 /*CARD HISTORICO*/
@@ -1090,7 +995,7 @@ button.btn#btn-salvar--atendimento:hover {
 
 #cadastro-conta div .form-group {
   display: block;
-  /* width: 100%; */
+
   color: #3d3ab8;
 }
 
@@ -1126,7 +1031,6 @@ button.btn#btn-salvar--atendimento:hover {
 }
 
 .qtd-agendamentos {
-  /* font-size: 1rem; */
   margin: 0 2rem;
   color: var(--cor-rosa);
 }
@@ -1236,8 +1140,6 @@ button.btn#btn-salvar--atendimento:hover {
 
   #cadastro-conta .form-group {
     margin: 0 10px;
-    /* width: 90%; */
-    /* margin: 0 5rem; */
   }
 }
 
@@ -1259,12 +1161,10 @@ button.btn#btn-salvar--atendimento:hover {
   .valores div {
     min-width: 150px;
   }
-  /* Adicione estilos específicos para telas maiores, se necessário */
 }
 
 @media (min-width: 925px) {
   .valores div {
     min-width: 180px;
   }
-  /* Adicione estilos específicos para telas maiores, se necessário */
 }

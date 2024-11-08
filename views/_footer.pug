@@ -3,13 +3,18 @@ if !funcionario
         .container
             .title-container
                 h5 Siga-nos nas redes sociais 
+                    span.insta-logo
+                        i.bi.bi-instagram
                 .social--media
-                    
+                    a(href='https://www.instagram.com/metasaudeintegradamossoro' target='_blank')
+
+                        span @Meta Saúde Integrada
+
                     if funcionarios && funcionarios.length
                         each funcionario in funcionarios
                             if funcionario.instagram
                                 a(href=`https://www.instagram.com/${funcionario.instagram}` target='_blank')
-                                    i.bi.bi-instagram
+
                                     span @#{funcionario.instagram}                       
 
 
@@ -17,4 +22,4 @@ if !funcionario
 .container-footer
     p © 2024 todos os direitos reservados. Meta Saúde Integrada
     p Sistema desenvolvido por 
-        a(href="https://github.com/meiotera", target="_blank", rel="noopener noreferrer") Renan Ferreira da Costa
+        a(href="https://github.com/meiotera" target="_blank" rel="noopener noreferrer") Renan Ferreira da Costa
