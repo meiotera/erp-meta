@@ -8,22 +8,25 @@ block content
                 form#cadastro-especialista.consultaForm.cadastro-cliente
                     div.form-group
                         label(for='nome') Nome:
-                        input#nome.form__input(type='text', placeholder="Nome do Especialista" required)
+                        input#nome.form__input(type='text' placeholder="Nome do Especialista" required)
                     div.form-group
                         label(for='email') E-mail:
-                        input#email.form__input(type='email', placeholder="Informe o E-mail" required)
+                        input#email.form__input(type='email' placeholder="Informe o E-mail" required)
                     div.form-group
                         label(for='telefone') Telefone:
-                        input#telefone.form__input(type='tel', placeholder="Telefone" required)
+                        input#telefone.form__input(type='tel' placeholder="Telefone" required)
                     div.form-group
                         label(for='profissao') Especialidade:
-                        input#profissao.form__input(type='text', placeholder="Especialidade..." required)
+                        input#profissao.form__input(type='text' placeholder="Especialidade..." required)
+                    div.form-group 
+                        label(for="descricao") Descrição:
+                        textarea#descricao.form__input(name='descricao', required, placeholder='Uma breve descrição do seu tipo de atendimento, no máximo 200 caracteres.' maxlength="200")
                     div.form-group
                         label(for='password') Senha:
-                        input#password.form__input(type='password', placeholder="Senha para acesso" required, minlength='8')
+                        input#password.form__input(type='password' placeholder="Senha para acesso" required, minlength='8')
                     div.form-group
                         label(for='confirm_password') Confirme a senha:
-                        input#confirm_password.form__input(type='password', placeholder="Confirme a senha" required, minlength='8')
+                        input#confirm_password.form__input(type='password' placeholder="Confirme a senha" required, minlength='8')
                     div.form-group
                         label(for='role') Função:
                         select#role.form__input
