@@ -48,7 +48,7 @@ export const logout = async () => {
     const csrfToken = document
       .querySelector('meta[name="csrf-token"]')
       .getAttribute("content");
-    const res = await fetch("http://localhost:3000/funcionarios/logout", {
+    const res = await fetch(`${baseURL}/funcionarios/logout`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",
