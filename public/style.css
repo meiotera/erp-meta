@@ -1157,7 +1157,7 @@ button.btn#btn-salvar--atendimento:hover {
   flex-wrap: wrap;
 }
 .link-agendar {
-  background-color: var(--cor-rosa);
+  background-image: var(--gradient);
   color: var(--cor-branco);
   font-weight: bold;
   font-size: 0.9rem;

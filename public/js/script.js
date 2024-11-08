@@ -698,6 +698,7 @@ document.addEventListener("DOMContentLoaded", function () {
       const password = document.getElementById("password").value;
       const confirm_password =
         document.getElementById("confirm_password").value;
+      const descricao = document.getElementById("descricao").value;
       const role = document.getElementById("role").value;
 
       if (
@@ -707,7 +708,8 @@ document.addEventListener("DOMContentLoaded", function () {
         !profissao ||
         !password ||
         !role ||
-        !confirm_password
+        !confirm_password ||
+        !descricao
       ) {
         Swal.fire({
           icon: "error",
@@ -726,7 +728,8 @@ document.addEventListener("DOMContentLoaded", function () {
           password,
           confirm_password,
           role,
-          csrfToken
+          csrfToken,
+          descricao
         );
       } catch (error) {
         console.error("Erro ao cadastrar especialista:", error);

@@ -34,6 +34,7 @@ exports.cadastro_especialista = async (req, res, next) => {
       password: req.body.password,
       confirm_password: req.body.confirm_password,
       role: req.body.role,
+      descricao: req.body.descricao,
     });
 
     await newFuncionario.save();

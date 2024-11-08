@@ -13,7 +13,8 @@ export const cadastroEspecialista = async (
   password,
   confirm_password,
   role,
-  csrfToken
+  csrfToken,
+  descricao
 ) => {
   try {
     const response = await fetch(
@@ -32,6 +33,7 @@ export const cadastroEspecialista = async (
           password,
           confirm_password,
           role,
+          descricao,
           // csrfToken,
         }),
       }
