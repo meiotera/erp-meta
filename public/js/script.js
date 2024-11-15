@@ -516,29 +516,6 @@ document.addEventListener("DOMContentLoaded", function () {
           return;
         }
 
-        // const nome = document.getElementById("nome").value;
-        // const cpfInput = document.getElementById("cpf").value;
-        // const agendamentoInput = document.getElementById("id_agendamento").value;
-        // const dataNascimento = document.getElementById("data_nascimento").value;
-        // const telefone = document.getElementById("telefone").value;
-        // const email = document.getElementById("email").value;
-        // const responsavel = document.getElementById("responsavel").value;
-        // const funcionario = document.getElementById("id_funcionario").value;
-
-        // // Corrigir a verificação dos campos
-        // if (
-        //   !nome ||
-        //   !cpfInput ||
-        //   !dataNascimento ||
-        //   !telefone ||
-        //   !email ||
-        //   !responsavel ||
-        //   !agendamentoInput
-        // ) {
-        //   alert("Preencha todos os campos");
-        //   return;
-        // }
-
         try {
           await cadastrarCliente(
             nome,

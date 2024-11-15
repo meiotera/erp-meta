@@ -101,6 +101,11 @@ app.use("/agenda", agendamentos);
 app.use("/criar-agenda", criarAgenda);
 app.use("/atendimento", atendimentos);
 
+app.all("*", (req, res, next) => {
+  //criarRespostaErro(res, 404, "Página não encontrada");
+  res.status(404).render("404");
+});
+
 // Middleware de tratamento de erros
 app.use((err, req, res, next) => {
   console.error(err.stack);

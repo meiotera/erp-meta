@@ -1087,6 +1087,55 @@ button.btn#btn-salvar--atendimento:hover {
 .divlink a:hover {
   background-color: #10c550;
 }
+
+/*ERRO*/
+.error-container {
+  background-color: #ffffff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 40px;
+}
+
+.error-container h1 {
+  color: #721c24;
+  text-align: center;
+  font-size: 48px;
+  margin-bottom: 10px;
+}
+
+.error-container p {
+  text-align: center;
+  font-size: 18px;
+  margin-bottom: 20px;
+}
+
+.error-container a {
+  padding: 10px 20px;
+  background-color: #f5c6cb;
+  color: #721c24;
+  text-decoration: none;
+  border-radius: 4px;
+  transition: background-color 0.3s;
+}
+
+.error-container a:hover {
+  background-color: #f1b0b7;
+}
+
+.error-container .link {
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  max-width: 500px;
+  align-items: center;
+}
+
+.error-container .link i {
+  font-size: 78px;
+  color: #721c24;
+}
+
 /* Estilos Responsivos */
 @media (min-width: 425px) {
   #cadastro-conta div {

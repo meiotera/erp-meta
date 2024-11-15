@@ -18,7 +18,10 @@ exports.protect = async function (req, res, next) {
 
     // Se não houver token, retorna erro de não autorizado
     if (!token) {
-      return res.status(401).send({
+      // return res.status(401).send({
+      //   message: "Você não está logado! Por favor, faça o login para acessar.",
+      // });
+      return res.status(401).render("404", {
         message: "Você não está logado! Por favor, faça o login para acessar.",
       });
     }
