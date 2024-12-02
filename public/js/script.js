@@ -519,13 +519,13 @@ document.addEventListener("DOMContentLoaded", function () {
         try {
           await cadastrarCliente(
             nome,
-            cpfInput,
+            cpf,
             dataNascimento,
             telefone,
             email,
             responsavel,
             funcionario,
-            agendamentoInput,
+            agendamento,
             csrfToken
           );
         } catch (error) {
