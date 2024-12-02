@@ -8,9 +8,16 @@ section.section-equipe
                 .card-body 
                     h5.card-title #{funcionario.nome}
                     p.card-subtitle #{funcionario.profissao}
-                    button.accordion.btn-accordion Saiba mais
-                    .panel 
-                        p #{funcionario.descricao || 'Sem descrição'}      
+                    //- button.accordion.btn-saibamais Saiba mais
+                    div.dropdown
+                        button.dropbtn Saiba mais
+                        div.dropdown-content
+                            p #{funcionario.descricao || 'Sem descrição'}   
+
+
+                    //- .panel
+                    //- .painel 
+                    //-     p #{funcionario.descricao || 'Sem descrição'}      
 
 
 section.link-agendar
