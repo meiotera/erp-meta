@@ -74,7 +74,7 @@ exports.criar_agenda = async (req, res, next) => {
       } catch (saveError) {
         res.status(500).send({
           status: "error",
-          message: "Erro ao salvar a agenda atualizada.",
+          message: "Erro ao salvar a agenda verifique os dados informados.",
           error: saveError.message,
         });
       }
