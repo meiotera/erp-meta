@@ -3,6 +3,7 @@ const Agendamento = require("../models/Agendamento");
 const Agenda_Especialista = require("../models/Agenda_Especialista");
 const disponibilidadeAgenda = require("../utilities/disponibilidade_agenda");
 const sendTransactionalEmail = require("../utilities/emailConfig");
+const enviarMensagemWhatsApp = require("../utilities/sendConfirmationMessage");
 const {
   validarCPF,
   buscarFuncionarioECliente,
@@ -115,6 +116,7 @@ exports.agendar_atendimento = async (req, res, next) => {
       // const subject = "Confirmação de Agendamento";
       // const text = `Olá ${nome},\n\nSeu agendamento para ${data} às ${hora} foi confirmado.\n\nObrigado!`;
       // await sendEmail(email, subject, text);
+      await enviarMensagemWhatsApp(telefoneFormatado, nome, data, hora);
       await sendTransactionalEmail(email, nome, data, hora);
     }
 

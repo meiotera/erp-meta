@@ -20,31 +20,31 @@ block content
                   p R$ #{funcionario.valor}
 
   section.section_form(style='display: none')
-    h6.title-section Agendamento para: 
+    h3.title-section Agendamento para: 
       span#funcionario_nome 
 
     form#agendamento-form
       input(type='hidden' name='funcionario_id' id='funcionario_id')
       div.form-group
         label(for='nome') Nome
-        input#nome.form-control(type='text' name='nome' required)
+        input#nome.form-control.form__input(type='text' name='nome' required)
       div.form-group 
         label(for='cpf') CPF
-        input#cpf.form-control(type='text' name='cpf' required)         
+        input#cpf.form-control.form__input(type='text' name='cpf' required)         
       div.form-group
         label(for='telefone') Telefone
-        input#telefone.form-control(type='text' name='telefone' required)
+        input#telefone.form-control.form__input(type='text' name='telefone' required)
       .form-group 
         label(for='email') Email
-        input#email.form-control(type='email' name='email' required)
+        input#email.form-control.form__input(type='email' name='email' required)
       div.form-group
         label(for='data') Data
-        select(name="data" id="data" class="form-control" required)
+        select.form__input(name="data" id="data" class="form-control" required)
           option(value='') Selecione uma data
 
       div.form-group
         label(for='horarios') Horários Disponíveis
-        select(name="horarios" id="horarios" class="form-control" required)
+        select.form__input(name="horarios" id="horarios" class="form-control" required)
           option(value='') Selecione um horário
 
       div.form-group
