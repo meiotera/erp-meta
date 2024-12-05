@@ -39,6 +39,7 @@ export const agendar = async (
         width: 600,
         padding: "3em",
         color: "#716add",
+        confirmButtonColor: "#3085d6",
         background: "#fff url(/images/trees.png)",
         backdrop: `
           rgba(0,0,123,0.4)
@@ -46,8 +47,14 @@ export const agendar = async (
           left top
           no-repeat
         `,
+      }).then((result) => {
+        if (result.isConfirmed) {
+          window.location.reload();
+        }
       });
     }
+
+    // recarregar pagina
   } catch (err) {
     console.error(err.response);
     alert("Erro ao agendar, tente novamente!");
