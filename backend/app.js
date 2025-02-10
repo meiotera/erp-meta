@@ -6,11 +6,12 @@ const compression = require("compression");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const { criarRespostaErro } = require("./utilities/utils");
-// const helmet = require("helmet");
 const csurf = require("csurf");
 require("dotenv").config();
 
 const app = express();
+
+console.log("Iniciando o servidor..."); // Corrigido: "console" em vez de "conosle"
 
 // Use o middleware compression
 app.use(compression());
@@ -74,12 +75,14 @@ app.use((req, res, next) => {
   next();
 });
 
-// Configuração do view engine
-app.set("view engine", "pug");
-app.set("views", path.join(__dirname, "views"));
+// Remover a configuração do view engine
+// app.set("view engine", "pug");
+// app.set("views", path.join(__dirname, "views"));
 
 // Arquivos estáticos
-app.use(express.static(path.join(__dirname, "public")));
+app.use(express.static(path.join(__dirname, "../frontend/build")));
+
+console.log("Arquivos estáticos configurados.");
 
 // Importação de rotas
 const viewRouter = require("./routes/views_routes");
@@ -91,6 +94,8 @@ const agendamentos = require("./routes/agendamento_routes");
 const criarAgenda = require("./routes/agenda_especialista_routes");
 const atendimentos = require("./routes/atendimento_routes");
 
+console.log("Rotas importadas.");
+
 // Uso das rotas
 app.use("/", viewRouter);
 // app.use("/auth", auth);
@@ -101,9 +106,11 @@ app.use("/agenda", agendamentos);
 app.use("/criar-agenda", criarAgenda);
 app.use("/atendimento", atendimentos);
 
+console.log("Rotas configuradas.");
+
+// Ajustar a rota de erro 404
 app.all("*", (req, res, next) => {
-  //criarRespostaErro(res, 404, "Página não encontrada");
-  res.status(404).render("404");
+  res.status(404).send("Página não encontrada");
 });
 
 // Middleware de tratamento de erros
@@ -116,4 +123,5 @@ app.use((err, req, res, next) => {
   );
 });
 
+console.log("Servidor configurado corretamente.");
 module.exports = app;

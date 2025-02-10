@@ -2,10 +2,12 @@ const mongoose = require("mongoose");
 const dotenv = require("dotenv");
 
 process.on("uncaughtException", (err) => {
-  // console.error('Exception! Desligando...');
-  // console.log(err.name, err.message);
+  console.error('Uncaught Exception! Desligando...');
+  console.error(err.name, err.message);
   process.exit(1);
 });
+
+
 
 // Configuração inicial do dotenv
 if (process.env.NODE_ENV === "production") {
@@ -13,6 +15,8 @@ if (process.env.NODE_ENV === "production") {
 } else {
   dotenv.config({ path: "./config.dev.env" });
 }
+
+
 
 const app = require("./app");
 
@@ -22,6 +26,8 @@ const DB = process.env.DATABASE.replace(
   "<PASSWORD>",
   process.env.DATABASE_PASSWORD
 );
+
+
 
 // Usar a variável de ambiente MONGO_URI para a conexão com o MongoDB
 // const DB = process.env.DATABASE;
@@ -35,12 +41,12 @@ mongoose
     });
   })
   .catch((err) => {
-    console.log(err);
+    console.error('Erro ao conectar ao banco de dados:', err);
   });
 
 process.on("unhandledRejection", (err) => {
-  console.error("Rejection! Desligando...");
-  console.log(err, err.message);
+  console.error("Unhandled Rejection! Desligando...");
+  console.error(err.name, err.message);
   server.close(() => {
     // 0 representa sucesso, 1 representa uma exceção não detectada
     process.exit(1);

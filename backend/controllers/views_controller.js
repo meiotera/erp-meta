@@ -18,21 +18,7 @@ const { meus_agendamentos } = require("../controllers/agendamento_controller");
 exports.getHome = async (req, res, next) => {
   try {
     const funcionarios = await Funcionarios.find();
-
-    if (req.xhr) {
-      res.render("home", { layout: false, funcionarios });
-    } else {
-      res.status(200).render("home", { funcionarios });
-    }
-  } catch (error) {
-    next(error);
-  }
-};
-
-exports.renderFooter = async (req, res, next) => {
-  try {
-    const funcionarios = await Funcionarios.find();
-    res.render("_footer", { funcionarios });
+    res.status(200).json({ funcionarios });
   } catch (error) {
     next(error);
   }
@@ -66,11 +52,7 @@ exports.getAgendamento = async (req, res, next) => {
       };
     });
 
-    if (req.xhr) {
-      res.render("agendamento", { layout: false, agenda });
-    } else {
-      res.status(200).render("agendamento", { agenda });
-    }
+    res.status(200).json({ agenda });
   } catch (error) {
     next(error);
   }
@@ -98,11 +80,7 @@ exports.getHorariosDatas = async (req, res, next) => {
 };
 
 exports.getLogin = async (req, res, next) => {
-  if (req.xhr) {
-    res.render("login", { layout: false });
-  } else {
-    res.status(200).render("login");
-  }
+  res.status(200).json({ message: "Login page" });
 };
 
 exports.getAgenda = async (req, res, next) => {
@@ -151,13 +129,6 @@ exports.getAgenda = async (req, res, next) => {
         };
       });
 
-    if (req.xhr) {
-      return res.status(200).render("_meus_agendamentos.pug", {
-        agendamentos: agendamentosFormatados,
-        layout: false, // evitar renderizar o layout completo
-      });
-    }
-
     const agenda = await Agenda_Especialista.findOne({
       funcionario: funcionario,
       "agenda.horariosDisponiveis": { $elemMatch: { disponivel: true } },
@@ -168,7 +139,7 @@ exports.getAgenda = async (req, res, next) => {
         "Agenda do especialista não encontrada para o funcionarioId: ",
         funcionario
       );
-      return res.status(200).render("agenda", {
+      return res.status(200).json({
         status: "success",
         agendamentos: agendamentosFormatados,
         agenda: [], // Passar um array vazio se não houver agenda
@@ -192,7 +163,7 @@ exports.getAgenda = async (req, res, next) => {
       })
       .filter(({ horariosDisponiveis }) => horariosDisponiveis.length > 0);
 
-    res.status(200).render("agenda", {
+    res.status(200).json({
       status: "success",
       agendamentos: agendamentosFormatados,
       agenda: agendaFormatada,
@@ -208,18 +179,10 @@ exports.getAgenda = async (req, res, next) => {
 exports.meusPacientes = async (req, res, next) => {
   try {
     const meusPacientes = await listar_meus_pacientes(req, res, next);
-    if (req.xhr) {
-      res.render("meus_pacientes", {
-        layout: false,
-        status: "success",
-        pacientes: meusPacientes,
-      });
-    } else {
-      res.status(200).render("meus_pacientes", {
-        status: "success",
-        pacientes: meusPacientes,
-      });
-    }
+    res.status(200).json({
+      status: "success",
+      pacientes: meusPacientes,
+    });
   } catch (error) {
     next(error);
   }
@@ -235,31 +198,18 @@ exports.meusAtendimentosRealizados = async (req, res, next) => {
       .populate("cliente")
       .populate("agendamento");
 
-    if (req.xhr) {
-      res.render("historico", {
-        layout: false,
-        status: 200,
-        message: "Atendimentos realizados",
-        meus_atendimentos,
-      });
-    } else {
-      res.status(200).render("historico", {
-        status: 200,
-        message: "Atendimentos realizados",
-        meus_atendimentos,
-      });
-    }
+    res.status(200).json({
+      status: 200,
+      message: "Atendimentos realizados",
+      meus_atendimentos,
+    });
   } catch (error) {
     return criarRespostaErro(res, 500, "Erro ao buscar atendimentos");
   }
 };
 
 exports.getCadastroCliente = async (req, res, next) => {
-  if (req.xhr) {
-    res.render("cadastro_cliente", { layout: false });
-  } else {
-    res.status(200).render("cadastro_cliente");
-  }
+  res.status(200).json({ message: "Cadastro de cliente" });
 };
 
 exports.renderHistoricoCliente = async (req, res, next) => {
@@ -279,28 +229,18 @@ exports.renderHistoricoCliente = async (req, res, next) => {
 
 exports.getCadastrarEspecialista = async (req, res, next) => {
   try {
-    if (req.xhr) {
-      res.render("cadastrar_especialista", { layout: false });
-    } else {
-      res.status(200).render("cadastrar_especialista");
-    }
+    res.status(200).json({ message: "Cadastrar especialista" });
   } catch (error) {
     next(error);
   }
 };
 
 exports.getMeuPerfil = async (req, res, next) => {
-  if (req.xhr) {
-    res.render("meu_perfil", { layout: false });
-  } else {
-    res.status(200).render("meu_perfil");
-  }
+  res.status(200).json({ message: "Meu perfil" });
 };
 
 exports.getFinanceiro = async (req, res, next) => {
-  if (req.xhr) {
-    res.render("financeiro", { layout: false });
-  } else {
-    res.status(200).render("financeiro");
-  }
-};
+  res.status(200).json({ message: "Financeiro" });
+};  
+
+

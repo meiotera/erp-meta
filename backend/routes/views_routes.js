@@ -1,5 +1,5 @@
 const express = require("express");
-const viewsController = require("../controllers/views_controller");
+const viewsController = require("../controllers/views_controller"); // Corrigido: caminho correto
 const clientesController = require("../controllers/cliente_controller");
 const { protect, restrictTo } = require("../middlewares/protect");
 
