@@ -1,0 +1,10 @@
+.bi {
+    font-size: 2rem;
+    color: #7716e7;
+}
+
+.cardPersonal {
+    width: 15em;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+}

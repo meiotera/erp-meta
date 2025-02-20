@@ -8,10 +8,12 @@ const rateLimit = require("express-rate-limit");
 const { criarRespostaErro } = require("./utilities/utils");
 const csurf = require("csurf");
 require("dotenv").config();
+const cors = require("cors"); // Adicione esta linha
 
 const app = express();
 
 console.log("Iniciando o servidor..."); // Corrigido: "console" em vez de "conosle"
+app.use(cors())
 
 // Use o middleware compression
 app.use(compression());

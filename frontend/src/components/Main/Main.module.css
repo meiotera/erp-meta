@@ -1,0 +1,14 @@
+.img {
+    max-width: 280px;
+    object-fit: cover;
+    border-radius: 10px;
+}
+
+.paragraphContainer {
+    width: 80%;
+    max-width: 700px;
+    min-width: 350px;
+    /* Define uma largura máxima para a div */
+    margin: 0 auto;
+    /* Centraliza a div horizontalmente */
+}
