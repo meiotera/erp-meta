@@ -1,5 +1,5 @@
 #root {
-  max-width: 1500px;
+  width: 1440px;
   margin: 0 auto;
   padding: 0;
   text-align: center;
@@ -25,6 +25,30 @@
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.modal-content {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  /* border: none; */
+  border-radius: 10px !important;
+  background-color: white !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: max-content;
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);
@@ -47,4 +71,10 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.active {
+  color: #e54a86;
+  font-weight: bold;
+  border-bottom: 3px solid #e54a86;
 }

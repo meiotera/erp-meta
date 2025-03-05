@@ -5,11 +5,12 @@ import './App.css'
 import Home from "./pages/Home"
 import Agendamento from './pages/Agendamento';
 import Header from './components/Header/Header';
+import Footer from './components/Footer/Footer';
+import { UsersProvider } from './Contexts/UsersContext';
 
 function App() {
-
   return (
-    <React.Fragment>
+    <UsersProvider>
       <BrowserRouter>
         <Header />
         <Routes>
@@ -17,7 +18,9 @@ function App() {
           <Route path='/agendamento' element={<Agendamento />} />
         </Routes>
       </BrowserRouter>
-    </React.Fragment>
+      <Footer />
+    </UsersProvider>
+
   )
 }
 

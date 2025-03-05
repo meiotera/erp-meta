@@ -1,5 +1,4 @@
 import Equipe from "../Equipe/Equipe";
-import HeadingH2 from "../HeadingH2/HeadingH2";
 import Paragraph from "../Paragraph/Paragraph";
 import Section from "../Section/Section";
 import Map from "../Map/Map";
@@ -12,19 +11,19 @@ import SectionMain from "../SectionMain/SectionMain";
 function Main() {
   return (
     <SectionMain>
-      <Section>
-        <HeadingH2>Meta Saúde Integrada</HeadingH2>
+      <Section headingH2={"Meta Saúde Integrada"}>
+        {/* <HeadingH2>Meta Saúde Integrada</HeadingH2> */}
         <Paragraph>
           A Meta Saúde Integrada é uma clínica de saúde que oferece atendimento em diversas especialidades. Aqui você encontra profissionais qualificados para cuidar da sua saúde. Agende sua consulta conosco e venha conhecer nossa equipe.
         </Paragraph>
       </Section>
-      <Section className="d-flex flex-wrap justify-content-around" headingH2="Especialidades">
+      <Section classUser="d-flex flex-wrap justify-content-around" headingH2="Especialidades">
         <Specialties especialidade={'Fisioterapia'} icon={'bi-person-arms-up'} />
         <Specialties especialidade={'Psicologia'} icon={'bi-chat-square-heart'} />
         <Specialties especialidade={'Psicopedagogia'} icon={'bi-chat-right-heart-fill'} />
         <Specialties especialidade={'Psicanálise'} icon={'bi-chat-right-text'} />
       </Section>
-      <Section className="d-flex justify-content-center flex-md-nowrap flex-wrap" headingH2="Quem somos">
+      <Section classUser="d-flex justify-content-center flex-md-nowrap flex-wrap" headingH2="Quem somos">
         <img className={`img border border-3 border-warning p-2 flex-fill ${styles.img}`} src={liders} alt="Viviane & Augusto" />
         <div className={`p-2 flex-fill ${styles.paragraphContainer}`}>
           <Paragraph className='fs-6'>
@@ -40,11 +39,10 @@ function Main() {
           </div>
         </div>
       </Section>
-      <Section className='d-flex justify-content-around' headingH2="Nossa equipe">
-        <Equipe />
+      <Section classUser='d-flex justify-content-around' headingH2="Nossa equipe">
+        <Equipe onClickEnabled={false} />
       </Section>
-      <Section>
-        <HeadingH2>Faça-nos uma visita</HeadingH2>
+      <Section headingH2={"Faça-nos uma visita"}>
         <Map />
       </Section>
     </SectionMain>

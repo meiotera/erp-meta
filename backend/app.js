@@ -6,14 +6,20 @@ const compression = require("compression");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
 const { criarRespostaErro } = require("./utilities/utils");
-const csurf = require("csurf");
+// const csurf = require("csurf");
 require("dotenv").config();
-const cors = require("cors"); // Adicione esta linha
+const cors = require("cors");
 
 const app = express();
 
-console.log("Iniciando o servidor..."); // Corrigido: "console" em vez de "conosle"
-app.use(cors())
+console.log("Iniciando o servidor...");
+
+// Configurar o CORS para permitir requisições do frontend
+const corsOptions = {
+  origin: 'http://127.0.0.1:5173', // Substitua pelo URL do seu frontend
+  credentials: true,
+};
+app.use(cors(corsOptions));
 
 // Use o middleware compression
 app.use(compression());
@@ -31,55 +37,21 @@ app.use((req, res, next) => {
 });
 
 // Middlewares de segurança
-// app.use(
-//   helmet.contentSecurityPolicy({
-//     directives: {
-//       defaultSrc: ["'self'"],
-//       scriptSrc: ["'self'", "'unsafe-inline'", "https://maps.googleapis.com"],
-//       styleSrc: [
-//         "'self'",
-//         "'unsafe-inline'",
-//         "https://fonts.googleapis.com",
-//         "https://cdn.jsdelivr.net",
-//       ],
-//       fontSrc: [
-//         "'self'",
-//         "https://fonts.gstatic.com",
-//         "https://cdn.jsdelivr.net",
-//       ],
-//       frameSrc: ["'self'", "https://www.google.com"],
-//       connectSrc: ["'self'", "http://157.230.5.89:3000"], // Ajuste conforme necessário
-//       objectSrc: ["'none'"],
-//       upgradeInsecureRequests: [],
-//     },
-//   })
-// );
+app.use(helmet());
 
-// app.use(
-//   rateLimit({
-//     windowMs: 15 * 60 * 1000,
-//     max: 100,
-//     message:
-//       "Muitas requisições criadas a partir deste IP, por favor tente novamente após 15 minutos",
-//   })
-// );
+app.use(
+  rateLimit({
+    windowMs: 15 * 60 * 1000,
+    max: 100,
+    message:
+      "Muitas requisições criadas a partir deste IP, por favor tente novamente após 15 minutos",
+  })
+);
+
 app.use(cookieParser());
 app.use(express.json({ limit: "10kb" }));
 app.use(express.urlencoded({ extended: true, limit: "10kb" }));
 app.use(sanitize.sanitizeInput);
-
-// Configuração do middleware CSRF
-app.use(csurf({ cookie: true }));
-
-// Middleware para adicionar o token CSRF às respostas
-app.use((req, res, next) => {
-  res.locals.csrfToken = req.csrfToken();
-  next();
-});
-
-// Remover a configuração do view engine
-// app.set("view engine", "pug");
-// app.set("views", path.join(__dirname, "views"));
 
 // Arquivos estáticos
 app.use(express.static(path.join(__dirname, "../frontend/build")));
@@ -88,7 +60,6 @@ console.log("Arquivos estáticos configurados.");
 
 // Importação de rotas
 const viewRouter = require("./routes/views_routes");
-// const auth = require("./routes/auth_routes");
 const financeiro = require("./routes/financeiro_routes");
 const clientes = require("./routes/clientes_routes");
 const funcionarios = require("./routes/funcionarios_routes");
@@ -100,7 +71,6 @@ console.log("Rotas importadas.");
 
 // Uso das rotas
 app.use("/", viewRouter);
-// app.use("/auth", auth);
 app.use("/financeiro", financeiro);
 app.use("/clientes", clientes);
 app.use("/funcionarios", funcionarios);

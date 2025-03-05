@@ -12,8 +12,7 @@ const {
 const moment = require("moment-timezone");
 
 function converterStringParaData(dataString) {
-  const [dia, mes, ano] = dataString.split("/");
-  return new Date(`${ano}-${mes}-${dia}`);
+  return new Date(dataString);
 }
 
 exports.agendar_atendimento = async (req, res, next) => {
@@ -44,6 +43,7 @@ exports.agendar_atendimento = async (req, res, next) => {
     );
 
     for (const agendamento of agendamentos) {
+      console.log('chegou aqui')
       const { data, hora } = agendamento;
       const { funcionario: funcionarioEncontrado, cliente } =
         await buscarFuncionarioECliente(funcionario, cpf_validado.cpf);
@@ -113,11 +113,6 @@ exports.agendar_atendimento = async (req, res, next) => {
 
       agendamentosCriados.push(novoAgendamento[0]);
 
-      // const subject = "Confirmação de Agendamento";
-      // const text = `Olá ${nome},\n\nSeu agendamento para ${data} às ${hora} foi confirmado.\n\nObrigado!`;
-      // await sendEmail(email, subject, text);
-      await enviarMensagemWhatsApp(telefoneFormatado, nome, data, hora);
-      await sendTransactionalEmail(email, nome, data, hora);
     }
 
     await session.commitTransaction();

@@ -7,7 +7,7 @@
 .paragraphContainer {
     width: 80%;
     max-width: 700px;
-    min-width: 350px;
+    /* min-width: 350px; */
     /* Define uma largura máxima para a div */
     margin: 0 auto;
     /* Centraliza a div horizontalmente */

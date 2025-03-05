@@ -1,0 +1,22 @@
+.navbar {
+    background-color: #33333359;
+    padding: 1rem;
+}
+
+.navbarNav {
+    list-style: none;
+    display: flex;
+    justify-content: space-around;
+    margin: 0;
+    padding: 0;
+}
+
+.navItem {
+    margin: 0 1rem;
+}
+
+.navLink {
+    color: #fff;
+    text-decoration: none;
+    font-size: 1.2rem;
+}

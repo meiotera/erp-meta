@@ -1,8 +1,10 @@
 import style from './Map.module.css';
 
+import Section from '../Section/Section';
+
 function Map() {
   return (
-    <>
+    <Section>
       <address className='d-flex flex-column flex-md-row justify-content-around'>
         <h6>Endereço:</h6>
         <p>Rua: Francisco Eudes, 26</p>
@@ -20,7 +22,7 @@ function Map() {
           referrerPolicy="no-referrer-when-downgrade"
         ></iframe>
       </div>
-    </>
+    </Section>
   );
 }
 

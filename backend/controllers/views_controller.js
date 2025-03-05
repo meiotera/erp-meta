@@ -63,17 +63,44 @@ exports.getHorariosDatas = async (req, res, next) => {
     const { id } = req.params;
     const agenda = await Agenda_Especialista.findOne({ funcionario: id });
 
-    if (!agenda) {
-      return res.status(404).json({ message: "Agenda não encontrada" });
+    if (!agenda || agenda.agenda.length === 0) {
+      return res.status(200).json({
+        status: "error",
+        message: "Agenda não disponível"
+      });
     }
 
     const dias = agenda.agenda.map((dia) => formatarData(dia.data));
-    const horarios = agenda.agenda.map((dia) => {
-      // Filtrar apenas os horários disponíveis
-      return dia.horariosDisponiveis.filter((horario) => horario.disponivel);
+    const horarios = agenda.agenda.map(async (dia) => {
+      // Filtrar apenas os horários disponíveis e apagar horários indisponíveis do BD
+      for (const horario of dia.horariosDisponiveis) {
+      if (!horario.disponivel) {
+        await Agenda_Especialista.updateOne(
+        { "agenda._id": dia._id },
+        { $pull: { "agenda.$.horariosDisponiveis": { _id: horario._id } } }
+        );
+      }
+      }
+
+      const horariosDisponiveis = dia.horariosDisponiveis.filter((horario) => horario.disponivel);
+
+      // Apagar o dia se não tiver horários disponíveis
+      if (horariosDisponiveis.length === 0) {
+      await Agenda_Especialista.updateOne(
+        { "agenda._id": dia._id },
+        { $pull: { agenda: { _id: dia._id } } }
+      );
+      }
+
+      return horariosDisponiveis;
     });
 
-    res.status(200).json({ dias, horarios });
+    await Promise.all(horarios);
+ 
+    res.status(200).json({
+      status: "success",
+      agenda: agenda.agenda
+    });
   } catch (error) {
     next(error);
   }
@@ -102,7 +129,7 @@ exports.getAgenda = async (req, res, next) => {
           return (
             atendimento.agendamento &&
             atendimento.agendamento._id.toString() ===
-              agendamento._id.toString()
+            agendamento._id.toString()
           );
         }
       );
@@ -241,6 +268,6 @@ exports.getMeuPerfil = async (req, res, next) => {
 
 exports.getFinanceiro = async (req, res, next) => {
   res.status(200).json({ message: "Financeiro" });
-};  
+};
 
 

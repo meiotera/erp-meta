@@ -1,24 +1,18 @@
-// import { listarFuncionarios } from '../../api/funcionario';
-// import { useEffect, useState } from 'react';
-import { useContext } from 'react';
-import { UsersContext } from "../../pages/Home";
-
+import React, { useContext } from 'react';
+import { UsersContext } from "../../Contexts/UsersContext";
 import Card from '../Card/Card';
 import Loading from '../Loading/Loading';
 
-function Equipe() {
-
-  const { funcionarios, loading } = useContext(UsersContext);
+function Equipe({ onClickEnabled }) {
+  const { funcionarios } = useContext(UsersContext);
 
   return (
     <div className="container mt-4">
-      {loading ? <Loading /> :
-        <div className="card-group d-flex justify-content-around flex-wrap">
-          {funcionarios.map((funcionario) => (
-            <Card key={funcionario.id} funcionario={funcionario} />
-          ))}
-        </div>
-      }
+      <div className="card-group d-flex justify-content-around flex-wrap">
+        {funcionarios.map((funcionario) => (
+          <Card key={funcionario.id} funcionario={funcionario} onClickEnabled={onClickEnabled} />
+        ))}
+      </div>
     </div>
   );
 }
