@@ -2,8 +2,7 @@ const mongoose = require("mongoose");
 const Agendamento = require("../models/Agendamento");
 const Agenda_Especialista = require("../models/Agenda_Especialista");
 const disponibilidadeAgenda = require("../utilities/disponibilidade_agenda");
-const sendTransactionalEmail = require("../utilities/emailConfig");
-const enviarMensagemWhatsApp = require("../utilities/sendConfirmationMessage");
+
 const {
   validarCPF,
   buscarFuncionarioECliente,
@@ -155,5 +154,27 @@ exports.meus_agendamentos = async (req, res, next, skip, limit) => {
     return agendamentos;
   } catch (error) {
     return next(new Error("Erro ao listar agendamentos: " + error.message));
+  }
+};
+
+// buscar agendamento por id
+exports.buscar_agendamento = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+
+    const agendamento = await Agendamento.findById(id).populate("cliente");
+
+    if (!agendamento) {
+      return criarRespostaErro(res, 404, "Agendamento não encontrado.");
+    }
+
+    console.log(agendamento);
+
+    res.status(200).json({
+      status: 200,
+      agendamento,
+    });
+  } catch (error) {
+    return criarRespostaErro(res, 500, "Erro ao buscar agendamento.");
   }
 };

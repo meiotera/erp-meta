@@ -1,34 +1,36 @@
 const Atendimento = require("../models/Atendimento");
-const Agendamento = require("../models/Agendamento");
 const mongoose = require("mongoose");
 const validator = require("validator");
 const { ObjectId } = mongoose.Types;
 const { criarRespostaErro } = require("../utilities/utils");
-// const Funcionario = require('../models/Funcionarios');
 
 exports.atendimento = async (req, res, next) => {
   try {
     const {
+      objetivo,
       recursos,
       observacao,
       encaminhamento,
       medicacao,
-      objetivo,
-      cliente,
       funcionario,
-      valor,
       agendamento,
+      cliente,
+      valor,
     } = req.body;
 
     // Validação dos campos cliente e funcionario
     if (!ObjectId.isValid(cliente)) {
-      return res.status(400).json(criarRespostaErro("ID do cliente inválido"));
+      return res.status(400).json({
+        status: 400,
+        message: "ID do cliente inválido",
+      });
     }
 
     if (!ObjectId.isValid(funcionario)) {
-      return res
-        .status(400)
-        .json(criarRespostaErro("ID do funcionário inválido"));
+      return res.status(400).json({
+        status: 400,
+        message: "ID do funcionário inválido",
+      });
     }
 
     // Sanitização dos dados de entrada
@@ -39,7 +41,7 @@ exports.atendimento = async (req, res, next) => {
     const sanitizedObjetivo = validator.escape(objetivo.trim());
     const sanitizedValor = validator.escape(valor.trim());
 
-    const atendimento = await Atendimento.create({
+    const atendimento = new Atendimento({
       recursos: sanitizedRecursos,
       observacao: sanitizedObservacao,
       encaminhamento: sanitizedEncaminhamento,
@@ -52,43 +54,26 @@ exports.atendimento = async (req, res, next) => {
       realizado: true,
     });
 
+    await atendimento.save();
+
     res.status(200).json({
       status: 200,
       message: "Atendimento criado com sucesso.",
       atendimento,
     });
   } catch (error) {
-    return criarRespostaErro(res, 500, "Erro ao criar atendimento");
-  }
-};
-
-// Buscar histórico de atendimentos de um cliente
-exports.getHistoricoCliente = async (req, res, next) => {
-  try {
-    const { id_cliente } = req.params;
-
-    if (!ObjectId.isValid(id_cliente)) {
-      return res.status(400).json(criarRespostaErro("ID do cliente inválido"));
+    console.log(error.name === 'ValidationError');
+    if (error.name === 'ValidationError') {
+      const errors = Object.values(error.errors).map(err => err.message);
+      return res.status(400).json({
+        status: 400,
+        message: "Erro de validação",
+        errors,
+      });
     }
-
-    const historico = await Atendimento.find({
-      cliente: id_cliente,
-    }).populate("agendamento");
-
-    const dadosFiltrados = historico.map((atendimento) => {
-      return {
-        recursos: atendimento.recursos,
-        observacao: atendimento.observacao,
-        encaminhamento: atendimento.encaminhamento,
-        medicacao: atendimento.medicacao,
-        objetivo: atendimento.objetivo,
-        agendamento: atendimento.agendamento,
-        data: atendimento.create_at,
-      };
+    return res.status(500).json({
+      status: 500,
+      message: "Erro ao criar atendimento.",
     });
-
-    return dadosFiltrados;
-  } catch (error) {
-    return criarRespostaErro(res, 500, "Erro ao buscar histórico do cliente");
   }
 };

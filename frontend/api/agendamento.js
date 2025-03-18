@@ -1,6 +1,4 @@
 export const agendarAtendimento = async (data) => {
-    console.log(data);
-
     try {
         const response = await fetch('http://localhost:3000/agenda/agendamentos', {
             method: 'POST',
@@ -9,9 +7,7 @@ export const agendarAtendimento = async (data) => {
                 'Content-Type': 'application/json',
             },
             body: JSON.stringify(data),
-        });
-
-        console.log(response);
+        });   
 
         if (!response.ok) {
             throw new Error('Erro ao agendar atendimento');

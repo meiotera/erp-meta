@@ -3,6 +3,7 @@ const { promisify } = require("util");
 const Funcionarios = require("../models/Funcionarios");
 
 exports.protect = async function (req, res, next) {
+
   try {
     let token;
 
@@ -18,13 +19,11 @@ exports.protect = async function (req, res, next) {
 
     // Se não houver token, retorna erro de não autorizado
     if (!token) {
-      // return res.status(401).send({
-      //   message: "Você não está logado! Por favor, faça o login para acessar.",
-      // });
-      return res.status(401).render("404", {
+      return res.status(401).json({
         message: "Você não está logado! Por favor, faça o login para acessar.",
       });
     }
+    
 
     // Verifica o token
     const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET);

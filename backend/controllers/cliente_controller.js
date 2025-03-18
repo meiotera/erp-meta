@@ -36,6 +36,7 @@ exports.cadastrar_cliente = async (req, res, next) => {
     if (id_agendamento && mongoose.Types.ObjectId.isValid(id_agendamento)) {
       await Agendamento.findByIdAndUpdate(id_agendamento, {
         cliente: newCliente._id,
+        isCadastrado: true
       });
     } else if (id_agendamento) {
       return criarRespostaErro(res, 400, "ID de agendamento inválido.");

@@ -18,6 +18,14 @@ const signToken = (id) => {
 const createSendToken = (funcionario, statusCode, req, res) => {
   const token = signToken(funcionario._id);
 
+
+  // const cookieOptions = {
+  //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 dias
+  //   httpOnly: false, // Permite acesso via JavaScript no frontend (apenas para testes)
+  //   secure: false, // Permite salvar no localhost (mude para `true` em produção!)
+  //   sameSite: "lax", // Evita bloqueios de cookies em algumas situações
+  // };
+
   const cookieOptions = {
     expires: new Date(
       Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
@@ -36,6 +44,7 @@ const createSendToken = (funcionario, statusCode, req, res) => {
 
   return res.status(statusCode).json({
     status: statusCode,
+    message: "Login realizado com sucesso.",
     token,
     data: {
       funcionario,
@@ -80,7 +89,11 @@ exports.login = async (req, res, next) => {
     );
 
     if (!funcionario) {
-      return criarRespostaErro(res, 404, "Email ou senha incorretos!.");
+      // return criarRespostaErro(res, 404, "Email ou senha incorretos!.");    
+      return res.status(400).json({
+          status: 400,
+          message: "Email ou senha incorretos!.",  
+       });
     }
 
     // Verificar se o usuário está bloqueado
@@ -104,6 +117,7 @@ exports.login = async (req, res, next) => {
 
     createSendToken(funcionario, 200, req, res);
   } catch (error) {
+    console.log(error)
     next(error);
   }
 };

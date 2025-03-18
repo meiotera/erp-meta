@@ -17,7 +17,9 @@ const { meus_agendamentos } = require("../controllers/agendamento_controller");
 
 exports.getHome = async (req, res, next) => {
   try {
-    const funcionarios = await Funcionarios.find();
+    const funcionarios = await Funcionarios.find().select(
+      "id nome descricao foto instagram profissao telefone valor_consulta"
+    );;
     res.status(200).json({ funcionarios });
   } catch (error) {
     next(error);
@@ -112,11 +114,7 @@ exports.getLogin = async (req, res, next) => {
 
 exports.getAgenda = async (req, res, next) => {
   try {
-    const page = parseInt(req.query.page) || 1;
-    const limit = parseInt(req.query.limit) || 5;
-    const skip = (page - 1) * limit;
-
-    const agendamentos = await meus_agendamentos(req, res, next, skip, limit);
+    const agendamentos = await meus_agendamentos(req, res, next);
     const funcionario = req.funcionario.id;
 
     const atendimentosRealizados = await Atendimento.find({
@@ -141,9 +139,7 @@ exports.getAgenda = async (req, res, next) => {
       funcionario,
     });
 
-    const agendamentosFormatados = agendamentosFiltrados
-      .slice(0, limit)
-      .map((agendamento) => {
+    const agendamentosFormatados = agendamentosFiltrados.map((agendamento) => {
         return {
           nome: agendamento.nome,
           cpf: agendamento.cpf,
@@ -170,8 +166,8 @@ exports.getAgenda = async (req, res, next) => {
         status: "success",
         agendamentos: agendamentosFormatados,
         agenda: [], // Passar um array vazio se não houver agenda
-        page,
-        limit,
+       
+        
         totalAgendamentos,
       });
     }
@@ -194,8 +190,8 @@ exports.getAgenda = async (req, res, next) => {
       status: "success",
       agendamentos: agendamentosFormatados,
       agenda: agendaFormatada,
-      page,
-      limit,
+     
+    
       totalAgendamentos,
     });
   } catch (error) {

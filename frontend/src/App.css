@@ -3,13 +3,33 @@
   margin: 0 auto;
   padding: 0;
   text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
+header {
+  flex-shrink: 0;
+}
+
+footer {
+  flex-shrink: 0;
+  /* ir para o fundo da página */
+  margin-top: auto;
+}
+main {
+  margin-bottom: 2rem;
+}
 .logo {
   height: 8em;
   padding: 1.5em;
   will-change: filter;
   transition: filter 300ms;
+}
+
+.container-table {
+  max-height: 320px;
+  overflow: auto;
 }
 
 .backgroundGlobal {
@@ -36,6 +56,10 @@
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.erroForm {
+  display: block;
 }
 
 .modal-content {

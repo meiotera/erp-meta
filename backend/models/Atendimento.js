@@ -7,7 +7,7 @@ const AtendimentoSchema = new mongoose.Schema({
   objetivo: {
     type: String,
     trim: true,
-    minlength: [5, "Número mínimo de caracteres 10 não atingido."],
+    minlength: [5, "Objetivo deve ter no mínimo 5 caracteres."],
     maxlength: [2000, "Número máximo de caracteres 2000 excedido."],
     set: (value) => validator.escape(value),
   },
@@ -15,7 +15,7 @@ const AtendimentoSchema = new mongoose.Schema({
   recursos: {
     type: String,
     trim: true,
-    minlength: [5, "Número mínimo de caracteres 10 não atingido."],
+    minlength: [5, "Recurso deve ter no mínimo 5 caracteres."],
     maxlength: [2000, "Número máximo de caracteres 2000 excedido."],
     set: (value) => validator.escape(value),
   },
@@ -23,7 +23,7 @@ const AtendimentoSchema = new mongoose.Schema({
   observacao: {
     type: String,
     trim: true,
-    minlength: [5, "Número mínimo de caracteres 10 não atingido."],
+    minlength: [5, "Observação deve ter no mínimo 5 caracteres."],
     maxlength: [2000, "Número máximo de caracteres 2000 excedido."],
     set: (value) => validator.escape(value),
   },
@@ -31,7 +31,7 @@ const AtendimentoSchema = new mongoose.Schema({
   encaminhamento: {
     type: String,
     trim: true,
-    minlength: [5, "Número mínimo de caracteres 10 não atingido."],
+    minlength: [5, "Encaminhamento deve ter no mínimo 5 caracteres."],
     maxlength: [2000, "A reclamação não pode exceder 2000 caracteres"],
     set: (value) => validator.escape(value),
   },
@@ -39,7 +39,7 @@ const AtendimentoSchema = new mongoose.Schema({
   medicacao: {
     type: String,
     trim: true,
-    minlength: [5, "Número mínimo de caracteres 10 não atingido."],
+    minlength: [5, "Medicação deve ter no mínimo 5 caracteres."],
     maxlength: [2000, "A reclamação não pode exceder 2000 caracteres"],
     set: (value) => validator.escape(value),
   },

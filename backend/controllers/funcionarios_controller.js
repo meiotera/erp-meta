@@ -17,7 +17,8 @@ const filterObj = (obj, ...camposPermitidos) => {
 
 exports.listar_funcionarios = async (req, res, next) => {
   try {
-    const funcionarios = await Funcionarios.find();
+    const funcionarios = await Funcionarios.find()
+    
     res.status(200).send(funcionarios);
   } catch (error) {
     next(error);

@@ -4,9 +4,22 @@ export const listarFuncionarios = async () => {
         if (!response.ok) {
             throw new Error('Erro ao buscar funcionários');
         }
-        const data = await response.json();
+        const data = await response.json();       
 
-        return data;
+        const funcionarios = data.funcionarios.map((funcionario) => {
+            return {
+                id: funcionario.id,
+                nome: funcionario.nome,
+                descricao: funcionario.descricao,
+                foto: funcionario.foto,
+                instagram: funcionario.instagram,
+                profissao: funcionario.profissao,
+                telefone: funcionario.telefone,
+                valor_consulta: funcionario.valor_consulta,
+            }
+        })
+
+        return funcionarios;
     } catch (error) {
         console.error('Erro ao buscar funcionários:', error);
         throw error;

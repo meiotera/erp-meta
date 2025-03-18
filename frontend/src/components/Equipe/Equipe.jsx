@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { UsersContext } from "../../Contexts/UsersContext";
+import { UsersContext } from '../../Contexts/UsersContext';
 import Card from '../Card/Card';
 import Loading from '../Loading/Loading';
 
@@ -10,7 +10,11 @@ function Equipe({ onClickEnabled }) {
     <div className="container mt-4">
       <div className="card-group d-flex justify-content-around flex-wrap">
         {funcionarios.map((funcionario) => (
-          <Card key={funcionario.id} funcionario={funcionario} onClickEnabled={onClickEnabled} />
+          <Card
+            key={funcionario.id}
+            funcionario={funcionario}
+            onClickEnabled={onClickEnabled}
+          />
         ))}
       </div>
     </div>
