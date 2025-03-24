@@ -1,22 +1,92 @@
+/* Navbar.module.css */
+
+/* Navbar principal */
 .navbar {
-    background-color: #33333359;
-    padding: 1rem;
+  background-color: #ffffff;
+  padding: 15px 20px;
+  /* border-bottom: 3px solid #4a90e2; */
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  position: relative;
 }
 
+/* Container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Lista de navegação */
 .navbarNav {
-    list-style: none;
-    display: flex;
-    justify-content: space-around;
-    margin: 0;
-    padding: 0;
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  padding: 0;
+  margin: 0;
 }
 
+/* Itens da navegação */
 .navItem {
-    margin: 0 1rem;
+  position: relative;
 }
 
+/* Estilo dos links */
 .navLink {
-    color: #fff;
-    text-decoration: none;
-    font-size: 1.2rem;
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #4a90e2;
+  padding: 12px 18px;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+}
+
+.navLink:hover {
+  background-color: #e3efff;
+  color: #2c6db2;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de Logout */
+.logoutButton {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  color: #d9534f;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.logoutButton:hover {
+  background-color: #f8d7da;
+  color: #a94442;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+}
+
+/* Botão de Login */
+.loginButton {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: 2px solid #4a90e2;
+  color: #4a90e2;
+  transition: all 0.3s ease-in-out;
+}
+
+.loginButton:hover {
+  background-color: #4a90e2;
+  color: white;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .navbarNav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }

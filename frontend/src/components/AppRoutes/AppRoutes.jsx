@@ -9,6 +9,7 @@ import Login from '../../pages/Login';
 import { AgendaProvider } from '../../Contexts/AgendaContext';
 import Agenda from '../../pages/Agenda';
 import Consulta from '../../pages/Consulta';
+import Historico from '../../pages/Historico';
 
 const AppRoutes = () => {
   const { isAuthenticated } = useContext(LoginContext);
@@ -33,6 +34,16 @@ const AppRoutes = () => {
               <ProtectedRoute>
                 <AgendaProvider>
                   <Agenda />
+                </AgendaProvider>
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/historico"
+            element={
+              <ProtectedRoute>
+                <AgendaProvider>
+                  <Historico />
                 </AgendaProvider>
               </ProtectedRoute>
             }

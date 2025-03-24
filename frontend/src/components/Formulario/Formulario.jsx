@@ -85,9 +85,11 @@ const Formulario = ({
         />
       ))}
 
-      <button type="submit" className="btn btn-primary">
-        {btnForm}
-      </button>
+      {btnForm && (
+        <button type="submit" className="btn btn-primary">
+          {btnForm}
+        </button>
+      )}
     </form>
   );
 };

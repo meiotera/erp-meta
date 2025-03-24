@@ -1,8 +1,50 @@
+/* Header.module.css */
+
 .header {
-    position: relative;
-    /* or static */
-    top: 0;
+  background-color: #ffffff;
+  padding: 20px 0;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.08);
+  border-bottom: 3px solid #4a90e2;
+}
+
+.headerContainer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+}
+
+.logo {
+  max-height: 80px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.logo:hover {
+  transform: scale(1.05);
+}
+
+.navbarContainer {
+  flex-grow: 1;
+  display: flex;
+  justify-content: flex-end;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .headerContainer {
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .logo {
+    max-height: 70px;
+  }
+
+  .navbarContainer {
     width: 100%;
-
-
+    justify-content: center;
+  }
 }

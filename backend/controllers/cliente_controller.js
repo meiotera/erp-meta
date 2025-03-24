@@ -1,8 +1,8 @@
-const Cliente = require("../models/Clientes");
-const Agendamento = require("../models/Agendamento");
-const mongoose = require("mongoose");
+const Cliente = require('../models/Clientes');
+const Agendamento = require('../models/Agendamento');
+const mongoose = require('mongoose');
 const { ObjectId } = mongoose.Types;
-const { validarCPF, criarRespostaErro } = require("../utilities/utils");
+const { validarCPF, criarRespostaErro } = require('../utilities/utils');
 
 exports.cadastrar_cliente = async (req, res, next) => {
   try {
@@ -18,7 +18,7 @@ exports.cadastrar_cliente = async (req, res, next) => {
     } = req.body;
 
     const cpf_validado = await validarCPF(cpf);
-    if (cpf_validado.type === "error") {
+    if (cpf_validado.type === 'error') {
       return criarRespostaErro(res, 400, cpf_validado.message);
     }
 
@@ -36,28 +36,28 @@ exports.cadastrar_cliente = async (req, res, next) => {
     if (id_agendamento && mongoose.Types.ObjectId.isValid(id_agendamento)) {
       await Agendamento.findByIdAndUpdate(id_agendamento, {
         cliente: newCliente._id,
-        isCadastrado: true
+        isCadastrado: true,
       });
     } else if (id_agendamento) {
-      return criarRespostaErro(res, 400, "ID de agendamento inválido.");
+      return criarRespostaErro(res, 400, 'ID de agendamento inválido.');
     }
 
     res.status(200).send({
-      message: "Cliente cadastrado com sucesso.",
+      message: 'Cliente cadastrado com sucesso.',
       clienteId: newCliente._id,
     });
   } catch (error) {
     return criarRespostaErro(
       res,
       500,
-      "Erro ao cadastrar cliente: " + error.message
+      'Erro ao cadastrar cliente: ' + error.message,
     );
   }
 };
 
 exports.listar_clientes = async (req, res, next) => {
   try {
-    const clientes = await Cliente.find().select("-id -__v -created_at");
+    const clientes = await Cliente.find().select('-id -__v -created_at');
 
     res.status(200).send(clientes);
   } catch (error) {
@@ -71,7 +71,7 @@ exports.listar_meus_pacientes = async (req, res, next) => {
 
     const clientes = await Cliente.find({
       funcionario,
-    }).select("-id -__v -created_at");
+    }).select('-id -__v -created_at');
 
     // ordenar por nome
     const clientesEmOrdem = clientes.sort((a, b) => {
@@ -90,25 +90,35 @@ exports.listar_meus_pacientes = async (req, res, next) => {
   }
 };
 
-exports.buscar_paciente = async (req, res, next) => {
+exports.buscar_paciente = async (req, res) => {
   try {
     const { query } = req.body;
 
-    const paciente = await Cliente.findOne({
-      $or: [{ nome: { $regex: query, $options: "i" } }, { cpf: query }],
-    });
+    if (!query || query.trim().length < 3) {
+      return res.status(400).json({
+        status: 400,
+        message: 'Digite pelo menos 3 caracteres para buscar.',
+      });
+    }
 
-    if (!paciente) {
+    const paciente = await Cliente.find({
+      $or: [
+        { nome: { $regex: query, $options: 'i' } }, // Busca por nome (case insensitive)
+        { cpf: { $regex: `^${query}`, $options: 'i' } }, // Busca CPF começando com os caracteres digitados
+      ],
+    }).limit(10); // Retorna no máximo 10 resultados para evitar sobrecarga
+
+    if (!paciente.length) {
       return res
         .status(404)
-        .json({ status: 404, message: "Paciente não encontrado" });
+        .json({ status: 404, message: 'Paciente não encontrado' });
     }
 
     res.status(200).json({ status: 200, paciente: paciente });
   } catch (error) {
     res.status(500).json({
       status: 500,
-      message: "Erro ao buscar paciente",
+      message: 'Erro ao buscar paciente',
       error: error.message,
     });
   }
@@ -119,13 +129,13 @@ exports.delete_cliente = async (req, res, next) => {
 
   if (!cliente) {
     return res.status(404).send({
-      message: "Cliente não encontrado.",
+      message: 'Cliente não encontrado.',
     });
   }
 
   // await listar_meus_pacientes(req, res, next);
   res.status(200).send({
-    message: "Cliente deletado com sucesso.",
+    message: 'Cliente deletado com sucesso.',
   });
 };
 
@@ -137,11 +147,11 @@ exports.update_cliente = async (req, res, next) => {
 
   if (!cliente) {
     return res.status(404).send({
-      message: "Cliente não encontrado.",
+      message: 'Cliente não encontrado.',
     });
   }
 
   res.status(200).send({
-    message: "Cliente atualizado com sucesso.",
+    message: 'Cliente atualizado com sucesso.',
   });
 };

@@ -71,8 +71,6 @@ const Agenda = () => {
   const [page, setPage] = useState(1);
   const limit = 5;
 
-  console.log('Agenda', agenda);
-
   const formatarAgendamentos = useCallback(() => {
     if (!agenda?.agendamentos?.length) return [];
 
@@ -164,7 +162,11 @@ const Agenda = () => {
       ) : (
         <Section headingH2={`Olá ${funcionario.nome}`}>
           <div className="container-table">
-            <Tabela colunas={colunas} dados={agendamentos} />
+            {agenda.agendamentos < 1 ? (
+              <p>Sem atendimentos agendados</p>
+            ) : (
+              <Tabela colunas={colunas} dados={agendamentos} />
+            )}
           </div>
           {modalIsOpen && (
             <Modal isOpen={modalIsOpen} onClose={fecharModal}>

@@ -1,25 +1,25 @@
-const { formatarData } = require("../utilities/utils");
-const Funcionarios = require("../models/Funcionarios");
-const Agenda_Especialista = require("../models/Agenda_Especialista");
-const Agendamento = require("../models/Agendamento");
-const Atendimento = require("../models/Atendimento");
+const { formatarData } = require('../utilities/utils');
+const Funcionarios = require('../models/Funcionarios');
+const Agenda_Especialista = require('../models/Agenda_Especialista');
+const Agendamento = require('../models/Agendamento');
+const Atendimento = require('../models/Atendimento');
 
 const {
   getHistoricoCliente,
-} = require("../controllers/atendimento_controller");
+} = require('../controllers/atendimento_controller');
 
 const {
   listar_meus_pacientes,
   buscar_paciente,
-} = require("../controllers/cliente_controller");
+} = require('../controllers/cliente_controller');
 
-const { meus_agendamentos } = require("../controllers/agendamento_controller");
+const { meus_agendamentos } = require('../controllers/agendamento_controller');
 
 exports.getHome = async (req, res, next) => {
   try {
     const funcionarios = await Funcionarios.find().select(
-      "id nome descricao foto instagram profissao telefone valor_consulta"
-    );;
+      'id nome descricao foto instagram profissao telefone valor_consulta',
+    );
     res.status(200).json({ funcionarios });
   } catch (error) {
     next(error);
@@ -28,9 +28,8 @@ exports.getHome = async (req, res, next) => {
 
 exports.getAgendamento = async (req, res, next) => {
   try {
-    const buscarAgenda = await Agenda_Especialista.find().populate(
-      "funcionario"
-    );
+    const buscarAgenda =
+      await Agenda_Especialista.find().populate('funcionario');
     const agenda = buscarAgenda.map((agendaItem) => {
       const agendaFiltrada = agendaItem.agenda
         .map((dia) => {
@@ -67,8 +66,8 @@ exports.getHorariosDatas = async (req, res, next) => {
 
     if (!agenda || agenda.agenda.length === 0) {
       return res.status(200).json({
-        status: "error",
-        message: "Agenda não disponível"
+        status: 'error',
+        message: 'Agenda não disponível',
       });
     }
 
@@ -76,32 +75,34 @@ exports.getHorariosDatas = async (req, res, next) => {
     const horarios = agenda.agenda.map(async (dia) => {
       // Filtrar apenas os horários disponíveis e apagar horários indisponíveis do BD
       for (const horario of dia.horariosDisponiveis) {
-      if (!horario.disponivel) {
-        await Agenda_Especialista.updateOne(
-        { "agenda._id": dia._id },
-        { $pull: { "agenda.$.horariosDisponiveis": { _id: horario._id } } }
-        );
-      }
+        if (!horario.disponivel) {
+          await Agenda_Especialista.updateOne(
+            { 'agenda._id': dia._id },
+            { $pull: { 'agenda.$.horariosDisponiveis': { _id: horario._id } } },
+          );
+        }
       }
 
-      const horariosDisponiveis = dia.horariosDisponiveis.filter((horario) => horario.disponivel);
+      const horariosDisponiveis = dia.horariosDisponiveis.filter(
+        (horario) => horario.disponivel,
+      );
 
       // Apagar o dia se não tiver horários disponíveis
       if (horariosDisponiveis.length === 0) {
-      await Agenda_Especialista.updateOne(
-        { "agenda._id": dia._id },
-        { $pull: { agenda: { _id: dia._id } } }
-      );
+        await Agenda_Especialista.updateOne(
+          { 'agenda._id': dia._id },
+          { $pull: { agenda: { _id: dia._id } } },
+        );
       }
 
       return horariosDisponiveis;
     });
 
     await Promise.all(horarios);
- 
+
     res.status(200).json({
-      status: "success",
-      agenda: agenda.agenda
+      status: 'success',
+      agenda: agenda.agenda,
     });
   } catch (error) {
     next(error);
@@ -109,7 +110,7 @@ exports.getHorariosDatas = async (req, res, next) => {
 };
 
 exports.getLogin = async (req, res, next) => {
-  res.status(200).json({ message: "Login page" });
+  res.status(200).json({ message: 'Login page' });
 };
 
 exports.getAgenda = async (req, res, next) => {
@@ -119,7 +120,7 @@ exports.getAgenda = async (req, res, next) => {
 
     const atendimentosRealizados = await Atendimento.find({
       realizado: true,
-    }).populate("agendamento");
+    }).populate('agendamento');
 
     const agendamentosFiltrados = agendamentos.filter((agendamento) => {
       const agendamentoRealizado = atendimentosRealizados.find(
@@ -127,9 +128,9 @@ exports.getAgenda = async (req, res, next) => {
           return (
             atendimento.agendamento &&
             atendimento.agendamento._id.toString() ===
-            agendamento._id.toString()
+              agendamento._id.toString()
           );
-        }
+        },
       );
 
       return !agendamentoRealizado;
@@ -140,34 +141,33 @@ exports.getAgenda = async (req, res, next) => {
     });
 
     const agendamentosFormatados = agendamentosFiltrados.map((agendamento) => {
-        return {
-          nome: agendamento.nome,
-          cpf: agendamento.cpf,
-          telefone: agendamento.telefone,
-          data: formatarData(agendamento.data),
-          hora: agendamento.hora,
-          id: agendamento._id,
-          isCadastrado: agendamento.isCadastrado,
-          cliente: agendamento.cliente,
-        };
-      });
+      return {
+        nome: agendamento.nome,
+        cpf: agendamento.cpf,
+        telefone: agendamento.telefone,
+        data: formatarData(agendamento.data),
+        hora: agendamento.hora,
+        id: agendamento._id,
+        isCadastrado: agendamento.isCadastrado,
+        cliente: agendamento.cliente,
+      };
+    });
 
     const agenda = await Agenda_Especialista.findOne({
       funcionario: funcionario,
-      "agenda.horariosDisponiveis": { $elemMatch: { disponivel: true } },
-    }).populate("funcionario");
+      'agenda.horariosDisponiveis': { $elemMatch: { disponivel: true } },
+    }).populate('funcionario');
 
     if (!agenda) {
       console.log(
-        "Agenda do especialista não encontrada para o funcionarioId: ",
-        funcionario
+        'Agenda do especialista não encontrada para o funcionarioId: ',
+        funcionario,
       );
       return res.status(200).json({
-        status: "success",
+        status: 'success',
         agendamentos: agendamentosFormatados,
         agenda: [], // Passar um array vazio se não houver agenda
-       
-        
+
         totalAgendamentos,
       });
     }
@@ -187,11 +187,10 @@ exports.getAgenda = async (req, res, next) => {
       .filter(({ horariosDisponiveis }) => horariosDisponiveis.length > 0);
 
     res.status(200).json({
-      status: "success",
+      status: 'success',
       agendamentos: agendamentosFormatados,
       agenda: agendaFormatada,
-     
-    
+
       totalAgendamentos,
     });
   } catch (error) {
@@ -203,7 +202,7 @@ exports.meusPacientes = async (req, res, next) => {
   try {
     const meusPacientes = await listar_meus_pacientes(req, res, next);
     res.status(200).json({
-      status: "success",
+      status: 'success',
       pacientes: meusPacientes,
     });
   } catch (error) {
@@ -218,21 +217,21 @@ exports.meusAtendimentosRealizados = async (req, res, next) => {
     const meus_atendimentos = await Atendimento.find({
       funcionario: funcionario,
     })
-      .populate("cliente")
-      .populate("agendamento");
+      .populate('cliente')
+      .populate('agendamento');
 
     res.status(200).json({
       status: 200,
-      message: "Atendimentos realizados",
+      message: 'Atendimentos realizados',
       meus_atendimentos,
     });
   } catch (error) {
-    return criarRespostaErro(res, 500, "Erro ao buscar atendimentos");
+    return criarRespostaErro(res, 500, 'Erro ao buscar atendimentos');
   }
 };
 
 exports.getCadastroCliente = async (req, res, next) => {
-  res.status(200).json({ message: "Cadastro de cliente" });
+  res.status(200).json({ message: 'Cadastro de cliente' });
 };
 
 exports.renderHistoricoCliente = async (req, res, next) => {
@@ -240,30 +239,28 @@ exports.renderHistoricoCliente = async (req, res, next) => {
     const historicoAtendimento = await getHistoricoCliente(req, res, next);
     res.status(200).json({
       status: 200,
-      message: "Histórico do cliente",
+      message: 'Histórico do cliente',
       historico: historicoAtendimento,
     });
   } catch (error) {
     return res.status(500).json({
-      error: "Erro ao buscar histórico do cliente",
+      error: 'Erro ao buscar histórico do cliente',
     });
   }
 };
 
 exports.getCadastrarEspecialista = async (req, res, next) => {
   try {
-    res.status(200).json({ message: "Cadastrar especialista" });
+    res.status(200).json({ message: 'Cadastrar especialista' });
   } catch (error) {
     next(error);
   }
 };
 
 exports.getMeuPerfil = async (req, res, next) => {
-  res.status(200).json({ message: "Meu perfil" });
+  res.status(200).json({ message: 'Meu perfil' });
 };
 
 exports.getFinanceiro = async (req, res, next) => {
-  res.status(200).json({ message: "Financeiro" });
+  res.status(200).json({ message: 'Financeiro' });
 };
-
-

@@ -21,7 +21,6 @@ export const UsersProvider = ({ children }) => {
 
         setFuncionarios(data);
 
-        console.log(data);
         setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar funcionários:', error);
