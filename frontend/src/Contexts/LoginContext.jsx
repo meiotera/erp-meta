@@ -7,7 +7,8 @@ export const LoginContext = createContext();
 
 export const LoginProvider = ({ children }) => {
   const [message, setMessage] = useState(null);
-  const [funcionario, setFuncionario] = useState(null);
+  const [funcionario, setFuncionario] = useState(null); // Initialize as null
+  const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
   // Verifica se há um token válido no cookie
@@ -22,6 +23,8 @@ export const LoginProvider = ({ children }) => {
       // Se houver token, mantém o usuário autenticado e evita re-login manual
       const token = authToken();
       if (token) {
+        // Decode the token to get user information if needed
+        // For now, just set the token
         setFuncionario({ token }); // Simplesmente mantém o usuário logado
       }
     };
@@ -31,30 +34,56 @@ export const LoginProvider = ({ children }) => {
 
   const postLogin = async (data) => {
     try {
-      const response = await login(data);
+      setLoading(true);
+      const dataResponse = await login(data); // Agora recebe o objeto JSON diretamente
 
-      if (response.status !== 200) {
-        setMessage({ type: 'alert-danger', text: response.message });
-        return response;
+      console.log(dataResponse);
+
+      if (dataResponse.status !== 200) {
+        // Verifica o status do backend
+        setMessage({ type: 'alert-danger', text: dataResponse.message });
+        return dataResponse;
       }
 
-      setMessage({ type: 'alert-primary', text: response.message });
+      setMessage({ type: 'alert-primary', text: dataResponse.message });
 
-      if (response.data && response.data.funcionario) {
-        setFuncionario(response.data.funcionario);
+      if (dataResponse && dataResponse.data) {
+        setFuncionario(dataResponse.data); // Atualize o estado com os dados do funcionário
       } else {
         setFuncionario(null);
-        return response;
+        return dataResponse;
       }
 
       // Define o cookie do token
-      document.cookie = `jwt=${response.token}; path=/;`;
+      document.cookie = `jwt=${dataResponse.token}; path=/;`;
+
+      setLoading(false);
 
       navigate('/agenda');
-      return response;
+      return dataResponse;
     } catch (error) {
-      setMessage({ type: 'alert-danger', text: 'Erro ao fazer login' });
-      return { status: 500, message: 'Erro ao fazer login' };
+      // Verifica se o erro tem uma mensagem do backend
+      if (
+        error.response &&
+        error.response.data &&
+        error.response.data.message
+      ) {
+        setMessage({ type: 'alert-danger', text: error.response.data.message });
+      } else if (error.message) {
+        // Caso seja um erro genérico do JavaScript
+        setMessage({ type: 'alert-danger', text: error.message });
+      } else {
+        // Mensagem genérica para erros desconhecidos
+        setMessage({
+          type: 'alert-danger',
+          text: 'Ocorreu um erro inesperado.',
+        });
+      }
+
+      setLoading(false);
+      return error;
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -72,9 +101,14 @@ export const LoginProvider = ({ children }) => {
         isAuthenticated,
         logout,
         funcionario,
+        loading,
+        setLoading,
+        setMessage,
       }}
     >
       {children}
     </LoginContext.Provider>
   );
 };
+
+export default LoginProvider;

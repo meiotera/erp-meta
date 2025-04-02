@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import Input from '../Input/Input';
 import Message from '../Message/Message';
-import useAgendamento from '../../Hooks/useAgendamento';
+import Loading from '../Loading/Loading';
 
 const Formulario = ({
   campos,
@@ -9,31 +9,16 @@ const Formulario = ({
   btnForm,
   agendamentoId,
   idFuncionario,
+  loading,
+  setMessage,
+  message, // Recebe a mensagem como prop
 }) => {
-  const { agendamento, loading, error } = useAgendamento(agendamentoId);
-
-  // Inicializa o estado do formulário com os valores vindos dos campos
   const [formData, setFormData] = useState(() =>
     campos.reduce((acc, campo) => {
       acc[campo.id] = campo.value || '';
       return acc;
     }, {}),
   );
-
-  const [message, setMessage] = useState(null);
-
-  // Atualiza os campos quando os dados do agendamento forem carregados
-  useEffect(() => {
-    if (agendamento) {
-      setFormData((prevData) => ({
-        ...prevData,
-        nome: agendamento.agendamento.nome || '',
-        telefone: agendamento.agendamento.telefone || '',
-        email: agendamento.agendamento.email || '',
-        cpf: agendamento.agendamento.cpf || '',
-      }));
-    }
-  }, [agendamento]);
 
   // Atualiza os campos do funcionário e id_agendamento
   useEffect(() => {
@@ -49,10 +34,9 @@ const Formulario = ({
   const validateForm = () => {
     const camposVazios = campos.filter((campo) => !formData[campo.id]);
     if (camposVazios.length > 0) {
-      setMessage({ type: 'error', text: 'Preencha todos os campos' });
+      setMessage({ type: 'alert-danger', text: 'Verifique todos os campos.' });
       return false;
     }
-    setMessage(null);
     return true;
   };
 
@@ -69,9 +53,8 @@ const Formulario = ({
 
   return (
     <form onSubmit={onSubmit}>
-      {message && <Message type={'alert-danger'} text={message.text} />}
-      {loading && <Message type={'alert-info'} text="Carregando dados..." />}
-      {error && <Message type={'alert-danger'} text={error} />}
+      {/* Exibe a mensagem recebida como prop */}
+      {message && <Message type={message.type} text={message.text} />}
 
       {campos.map((campo) => (
         <Input
@@ -85,11 +68,14 @@ const Formulario = ({
         />
       ))}
 
-      {btnForm && (
-        <button type="submit" className="btn btn-primary">
-          {btnForm}
-        </button>
-      )}
+      {btnForm &&
+        (loading ? (
+          <Loading />
+        ) : (
+          <button type="submit" className="btn btn-primary button">
+            {btnForm}
+          </button>
+        ))}
     </form>
   );
 };

@@ -1,8 +1,7 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import SectionMain from '../components/SectionMain/SectionMain';
 import Formulario from '../components/Formulario/Formulario';
 import Section from '../components/Section/Section';
-import Message from '../components/Message/Message';
 import { LoginContext } from '../Contexts/LoginContext';
 
 const campos = [
@@ -15,28 +14,44 @@ const campos = [
   {
     id: 'password',
     type: 'password',
-    placeholder: 'Informa sua senha',
+    placeholder: 'Informe sua senha',
     label: 'Senha',
   },
 ];
 
 const Login = () => {
-  const { postLogin, message } = useContext(LoginContext);
+  const { postLogin, loading, setLoading, message, setMessage } =
+    useContext(LoginContext);
 
   const handleSubmit = async (formData) => {
-    const response = await postLogin(formData);
-    return response;
+    await postLogin(formData);
   };
+
+  useEffect(() => {
+    return () => {
+      setMessage(null);
+    };
+  }, []);
 
   return (
     <SectionMain>
-      <Section headingH2="Entre com suas credenciais">
-        {message && <Message type={message.type} text={message.text} />}
-        <Formulario
-          campos={campos}
-          handleSubmit={handleSubmit}
-          btnForm={'Entrar'}
-        />
+      <Section
+        headingH2="Entre com suas credenciais"
+        className={
+          'd-flex justify-content-center flex-column align-items-center'
+        }
+      >
+        <div className="w-100" style={{ maxWidth: '350px' }}>
+          <Formulario
+            campos={campos}
+            handleSubmit={handleSubmit}
+            btnForm={'Entrar'}
+            loading={loading}
+            setLoading={setLoading}
+            message={message} // Passa a mensagem como prop
+            setMessage={setMessage}
+          />
+        </div>
       </Section>
     </SectionMain>
   );

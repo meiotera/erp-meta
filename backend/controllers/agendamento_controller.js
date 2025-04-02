@@ -1,14 +1,14 @@
-const mongoose = require("mongoose");
-const Agendamento = require("../models/Agendamento");
-const Agenda_Especialista = require("../models/Agenda_Especialista");
-const disponibilidadeAgenda = require("../utilities/disponibilidade_agenda");
+const mongoose = require('mongoose');
+const Agendamento = require('../models/Agendamento');
+const Agenda_Especialista = require('../models/Agenda_Especialista');
+const disponibilidadeAgenda = require('../utilities/disponibilidade_agenda');
 
 const {
   validarCPF,
   buscarFuncionarioECliente,
   criarRespostaErro,
-} = require("../utilities/utils");
-const moment = require("moment-timezone");
+} = require('../utilities/utils');
+const moment = require('moment-timezone');
 
 function converterStringParaData(dataString) {
   return new Date(dataString);
@@ -20,15 +20,15 @@ exports.agendar_atendimento = async (req, res, next) => {
 
   try {
     const { nome, telefone, email, cpf, agendamentos, funcionario } = req.body;
-    const telefoneFormatado = telefone.replace(/\D/g, "");
+    const telefoneFormatado = telefone.replace(/\D/g, '');
 
     const cpf_validado = await validarCPF(cpf);
-    if (!cpf_validado) return criarRespostaErro(res, 400, "CPF inválido.");
+    if (!cpf_validado) return criarRespostaErro(res, 400, 'CPF inválido.');
     if (!telefoneFormatado || !agendamentos || agendamentos.length === 0)
       return criarRespostaErro(
         res,
         400,
-        "Todos os campos obrigatórios devem ser preenchidos."
+        'Todos os campos obrigatórios devem ser preenchidos.',
       );
 
     const agendamentosCriados = [];
@@ -38,11 +38,11 @@ exports.agendar_atendimento = async (req, res, next) => {
       res,
       funcionario,
       cpf_validado.cpf,
-      agendamentos
+      agendamentos,
     );
 
     for (const agendamento of agendamentos) {
-      console.log('chegou aqui')
+      console.log('chegou aqui');
       const { data, hora } = agendamento;
       const { funcionario: funcionarioEncontrado, cliente } =
         await buscarFuncionarioECliente(funcionario, cpf_validado.cpf);
@@ -50,10 +50,10 @@ exports.agendar_atendimento = async (req, res, next) => {
       if (!funcionarioEncontrado) {
         await session.abortTransaction();
         session.endSession();
-        return criarRespostaErro(res, 404, "Especialista não encontrado.");
+        return criarRespostaErro(res, 404, 'Especialista não encontrado.');
       }
 
-      if (disponibilidade.type === "error") {
+      if (disponibilidade.type === 'error') {
         await session.abortTransaction();
         session.endSession();
         return criarRespostaErro(res, 400, disponibilidade.message);
@@ -65,21 +65,21 @@ exports.agendar_atendimento = async (req, res, next) => {
       const atualizado = await Agenda_Especialista.updateOne(
         {
           funcionario,
-          "agenda.data": dataConvertida,
-          "agenda.horariosDisponiveis.horario": hora,
+          'agenda.data': dataConvertida,
+          'agenda.horariosDisponiveis.horario': hora,
         },
         {
           $set: {
-            "agenda.$[outer].horariosDisponiveis.$[inner].disponivel": false,
+            'agenda.$[outer].horariosDisponiveis.$[inner].disponivel': false,
           },
         },
         {
           arrayFilters: [
-            { "outer.data": dataConvertida },
-            { "inner.horario": hora },
+            { 'outer.data': dataConvertida },
+            { 'inner.horario': hora },
           ],
           session,
-        }
+        },
       );
 
       if (atualizado.modifiedCount === 0) {
@@ -88,7 +88,7 @@ exports.agendar_atendimento = async (req, res, next) => {
         return criarRespostaErro(
           res,
           400,
-          "Horário não disponível para agendamento."
+          'Horário não disponível para agendamento.',
         );
       }
 
@@ -107,11 +107,10 @@ exports.agendar_atendimento = async (req, res, next) => {
             email,
           },
         ],
-        { session }
+        { session },
       );
 
       agendamentosCriados.push(novoAgendamento[0]);
-
     }
 
     await session.commitTransaction();
@@ -119,7 +118,7 @@ exports.agendar_atendimento = async (req, res, next) => {
 
     res.status(200).json({
       status: 200,
-      message: "Atendimento agendado com sucesso.",
+      message: 'Atendimento agendado com sucesso.',
       agendamentos: agendamentosCriados.map((agendamento) => agendamento._id),
     });
   } catch (error) {
@@ -130,7 +129,7 @@ exports.agendar_atendimento = async (req, res, next) => {
     return criarRespostaErro(
       res,
       500,
-      "Erro ao criar agendamento: " + error.message
+      'Erro ao criar agendamento: ' + error.message,
     );
   }
 };
@@ -142,18 +141,20 @@ exports.meus_agendamentos = async (req, res, next, skip, limit) => {
     const agendamentos = await Agendamento.find({
       funcionario: funcionarioId,
     })
-      .select("nome cpf telefone data hora isCadastrado")
+      .select('nome cpf telefone data hora email isCadastrado')
       .sort({
         data: 1,
         hora: 1,
       })
       .skip(skip)
       .limit(limit)
-      .populate("cliente");
+      .populate('cliente');
+
+    console.log('back', agendamentos);
 
     return agendamentos;
   } catch (error) {
-    return next(new Error("Erro ao listar agendamentos: " + error.message));
+    return next(new Error('Erro ao listar agendamentos: ' + error.message));
   }
 };
 
@@ -162,10 +163,10 @@ exports.buscar_agendamento = async (req, res, next) => {
   try {
     const { id } = req.params;
 
-    const agendamento = await Agendamento.findById(id).populate("cliente");
+    const agendamento = await Agendamento.findById(id).populate('cliente');
 
     if (!agendamento) {
-      return criarRespostaErro(res, 404, "Agendamento não encontrado.");
+      return criarRespostaErro(res, 404, 'Agendamento não encontrado.');
     }
 
     console.log(agendamento);
@@ -175,6 +176,6 @@ exports.buscar_agendamento = async (req, res, next) => {
       agendamento,
     });
   } catch (error) {
-    return criarRespostaErro(res, 500, "Erro ao buscar agendamento.");
+    return criarRespostaErro(res, 500, 'Erro ao buscar agendamento.');
   }
 };

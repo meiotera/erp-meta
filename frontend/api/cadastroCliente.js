@@ -1,27 +1,29 @@
+import apiFetch from './api';
 import authToken from '../src/utils/authToken';
+import { jwtDecode } from 'jwt-decode';
 
 export const cadastrarCliente = async (formData) => {
   try {
+    const token = authToken();
+    if (!token) {
+      throw new Error('Token de autenticação não encontrado.');
+    }
 
-    const token = authToken()
+    const decodedToken = jwtDecode(token);
+    const idFuncionario = decodedToken.id; //
 
-    const response = await fetch(
-      'http://localhost:3000/clientes/cadastrar-cliente',
-      {
-        method: 'POST',
-        credentials: 'include',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(formData),
-      },
-    );
-    const data = response;
- 
-    return data;
-   
+    const dadosCliente = {
+      ...formData,
+      funcionario: idFuncionario,
+    };
+
+    const response = await apiFetch('/clientes/cadastrar-cliente', {
+      method: 'POST',
+      body: JSON.stringify(dadosCliente),
+    });
+    return response.json();
   } catch (error) {
     console.error(error.message);
-  } 
+    throw error;
+  }
 };

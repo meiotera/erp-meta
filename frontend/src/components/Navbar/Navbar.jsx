@@ -43,7 +43,14 @@ function Navbar() {
                 </NavLink>
               </li>
               <li className={styles.navItem}>
-                <NavLink to="/login" className={styles.loginButton}>
+                <NavLink
+                  to="/login"
+                  className={({ isActive }) =>
+                    isActive
+                      ? `${styles.loginButton} ${styles.active}`
+                      : styles.loginButton
+                  }
+                >
                   Login
                 </NavLink>
               </li>

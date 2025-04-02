@@ -1,18 +1,21 @@
 import logo from '../../assets/logo-oficial.png';
 import Navbar from '../Navbar/Navbar';
 
+import styles from './Header.module.css';
+
+// 'container d-flex align-items-center justify-content-between';
+
 function Header() {
   return (
-    <header className="bg-white shadow-sm border-bottom border-primary py-3">
-      <div className="container d-flex align-items-center justify-content-between">
+    <header className={styles.header}>
+      <div className={styles.headerContainer}>
         <img
           src={logo}
           alt="logo-oficial-meta-saúde-integrada"
-          className="img-fluid"
-          style={{ maxHeight: '70px' }}
+          className={styles.logo}
         />
-        <Navbar />
       </div>
+      <Navbar />
     </header>
   );
 }

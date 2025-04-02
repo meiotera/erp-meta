@@ -7,10 +7,11 @@ import { AgendaContext } from '../../Contexts/AgendaContext';
 
 import styles from './FormConsulta.module.css';
 
-const FormConsulta = ({ campos, handleSubmit, btnForm }) => {
+const FormConsulta = ({ campos, btnForm, handleSubmit }) => {
   const navigate = useNavigate();
   const location = useLocation();
 
+  const [validationErrors, setValidationErrors] = useState([]);
   const { carregarAgenda } = useContext(AgendaContext);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [message, setMessage] = useState(null);
@@ -82,10 +83,20 @@ const FormConsulta = ({ campos, handleSubmit, btnForm }) => {
     if (validateForm()) {
       setIsSubmitting(true);
 
-      await handleSubmit(formData);
-      navigate('/agenda');
-      carregarAgenda(); // Recarrega a agenda após o envio do formulário
-      setIsSubmitting(false);
+      try {
+        await handleSubmit(formData);
+        carregarAgenda(); // Recarrega a agenda após o envio do formulário
+        navigate('/agenda');
+      } catch (error) {
+        if (error.errors) {
+          // Captura os erros de validação retornados pelo backend
+          setValidationErrors(error.errors);
+        } else {
+          setValidationErrors([error.message || 'Erro ao salvar a consulta']);
+        }
+      } finally {
+        setIsSubmitting(false);
+      }
     }
   };
 
@@ -108,6 +119,15 @@ const FormConsulta = ({ campos, handleSubmit, btnForm }) => {
 
   return (
     <>
+      {validationErrors.length > 0 && (
+        <div className={styles.alert}>
+          {validationErrors.map((err, index) => (
+            <p className={styles.erroForm} key={index}>
+              {err}
+            </p>
+          ))}
+        </div>
+      )}
       {message && <Message type="alert-danger" text={message.text} />}
       <div className={styles.headerForm}>
         <span>Atendendo {clienteNome}</span>
@@ -118,19 +138,19 @@ const FormConsulta = ({ campos, handleSubmit, btnForm }) => {
       <form onSubmit={onSubmit}>
         <input
           type="hidden"
-          onChange={handleInputChange}
-          name="agendamento"
+          value={formData.funcionario || ''}
+          name="funcionario"
           id="funcionario"
         />
         <input
           type="hidden"
-          onChange={handleInputChange}
-          name="funcionario"
+          value={formData.agendamento || ''}
+          name="agendamento"
           id="agendamento"
         />
         <input
           type="hidden"
-          onChange={handleInputChange}
+          value={formData.cliente || ''}
           name="cliente"
           id="cliente"
         />
@@ -149,7 +169,7 @@ const FormConsulta = ({ campos, handleSubmit, btnForm }) => {
             />
           </div>
         ))}
-        <label htmlFor="valor" className="mt-4">
+        <label htmlFor="valor" className="mt-4 label">
           Valor da consulta
         </label>
         <input
@@ -161,8 +181,12 @@ const FormConsulta = ({ campos, handleSubmit, btnForm }) => {
           value={formData.valor || ''}
           onChange={handleValorChange}
         />
-        <button type="submit" className="btn btn-primary">
-          {btnForm}
+        <button
+          type="submit"
+          className="btn btn-primary button"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? 'Salvando...' : btnForm}
         </button>
       </form>
       <ConfirmModal

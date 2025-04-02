@@ -1,14 +1,22 @@
-const Agenda_Especialista = require("../models/Agenda_Especialista");
-const mongoose = require("mongoose");
+const Agenda_Especialista = require('../models/Agenda_Especialista');
+const mongoose = require('mongoose');
 
 exports.criar_agenda = async (req, res, next) => {
   try {
     const { id_funcionario, agenda } = req.body;
 
+    console.log(id_funcionario, agenda);
+
+    if (!id_funcionario || !agenda) {
+      return res.status(400).send({
+        message: 'id_funcionario e agenda são obrigatórios.',
+      });
+    }
+
     // Verifica se o ID do funcionário é um ObjectId válido
     if (!mongoose.Types.ObjectId.isValid(id_funcionario)) {
       return res.status(400).send({
-        message: "ID do funcionário inválido.",
+        message: 'ID do funcionário inválido.',
       });
     }
 
@@ -18,26 +26,24 @@ exports.criar_agenda = async (req, res, next) => {
     });
 
     if (existeAgenda) {
-      // Atualizar a agenda existente juntando os dados
       // Verificar se os novos dados da agenda são válidos
       if (
         !Array.isArray(agenda) ||
         agenda.some(
-          (item) => !item.data || !Array.isArray(item.horariosDisponiveis)
+          (item) => !item.data || !Array.isArray(item.horariosDisponiveis),
         )
       ) {
         return res.status(400).send({
-          message: "Dados da agenda inválidos.",
+          message: 'Dados da agenda inválidos.',
         });
       }
 
-      // Juntar os dados existentes com os novos
       const novaAgenda = [...existeAgenda.agenda];
 
       agenda.forEach((novoItem) => {
         const novaData = new Date(novoItem.data);
         const index = novaAgenda.findIndex(
-          (item) => new Date(item.data).getTime() === novaData.getTime()
+          (item) => new Date(item.data).getTime() === novaData.getTime(),
         );
         if (index !== -1) {
           // Se a data já existir, juntar os horários disponíveis
@@ -45,7 +51,7 @@ exports.criar_agenda = async (req, res, next) => {
             const horarioIndex = novaAgenda[
               index
             ].horariosDisponiveis.findIndex(
-              (horario) => horario.horario === novoHorario.horario
+              (horario) => horario.horario === novoHorario.horario,
             );
             if (horarioIndex !== -1) {
               // Atualizar a disponibilidade do horário existente
@@ -67,14 +73,15 @@ exports.criar_agenda = async (req, res, next) => {
       try {
         await existeAgenda.save();
         res.status(200).send({
-          status: "success",
-          message: "Agenda atualizada com sucesso.",
+          status: 'success',
+          message: 'Agenda atualizada com sucesso.',
           agendaId: existeAgenda.id,
         });
       } catch (saveError) {
+        console.error('Erro ao salvar a agenda existente:', saveError);
         res.status(500).send({
-          status: "error",
-          message: "Erro ao salvar a agenda verifique os dados informados.",
+          status: 'error',
+          message: 'Erro ao salvar a agenda. Verifique os dados informados.',
           error: saveError.message,
         });
       }
@@ -88,23 +95,24 @@ exports.criar_agenda = async (req, res, next) => {
       try {
         await novaAgenda.save();
         res.status(201).send({
-          status: "success",
-          message: "Agenda criada com sucesso.",
+          status: 'success',
+          message: 'Agenda criada com sucesso.',
           agendaId: novaAgenda.id,
         });
       } catch (saveError) {
-        console.error("Erro ao salvar a nova agenda:", saveError);
+        console.error('Erro ao salvar a nova agenda:', saveError);
         res.status(500).send({
-          status: "error",
-          message: "Erro ao salvar a nova agenda.",
+          status: 'error',
+          message: 'Erro ao salvar a nova agenda.',
           error: saveError.message,
         });
       }
     }
   } catch (error) {
+    console.error('Erro no controlador criar_agenda:', error);
     res.status(500).send({
-      status: "error",
-      message: "Erro ao criar/atualizar a agenda.",
+      status: 'error',
+      message: 'Erro ao criar/atualizar a agenda.',
       error: error.message,
     });
   }

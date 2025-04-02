@@ -33,21 +33,13 @@ exports.atendimento = async (req, res, next) => {
       });
     }
 
-    // Sanitização dos dados de entrada
-    const sanitizedRecursos = validator.escape(recursos.trim());
-    const sanitizedObservacao = validator.escape(observacao.trim());
-    const sanitizedEncaminhamento = validator.escape(encaminhamento.trim());
-    const sanitizedMedicacao = validator.escape(medicacao.trim());
-    const sanitizedObjetivo = validator.escape(objetivo.trim());
-    const sanitizedValor = validator.escape(valor.trim());
-
     const atendimento = new Atendimento({
-      recursos: sanitizedRecursos,
-      observacao: sanitizedObservacao,
-      encaminhamento: sanitizedEncaminhamento,
-      medicacao: sanitizedMedicacao,
-      objetivo: sanitizedObjetivo,
-      valor: sanitizedValor,
+      objetivo,
+      recursos,
+      observacao,
+      encaminhamento,
+      medicacao,
+      valor,
       cliente,
       funcionario,
       agendamento,
@@ -62,9 +54,9 @@ exports.atendimento = async (req, res, next) => {
       atendimento,
     });
   } catch (error) {
-    console.log(error.name === 'ValidationError');
     if (error.name === 'ValidationError') {
       const errors = Object.values(error.errors).map((err) => err.message);
+      console.log('back', errors);
       return res.status(400).json({
         status: 400,
         message: 'Erro de validação',

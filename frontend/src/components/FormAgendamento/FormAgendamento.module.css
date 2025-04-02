@@ -1,0 +1,38 @@
+/* Estilo para o contêiner dos botões */
+.buttonContainer {
+  display: flex !important;
+  justify-content: space-around !important;
+  margin-top: 20px !important;
+}
+
+/* Estilo para o botão de sucesso (Agendar) */
+.btnSuccess {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btnSuccess:hover {
+  background-color: #218838;
+}
+
+/* Estilo para o botão de cancelar */
+.btnDanger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btnDanger:hover {
+  background-color: #c82333;
+}

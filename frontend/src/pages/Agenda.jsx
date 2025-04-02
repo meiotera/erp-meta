@@ -3,73 +3,48 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../Contexts/LoginContext';
 import { AgendaContext } from '../Contexts/AgendaContext';
-import { cadastrarCliente } from '../../api/cadastroCliente';
 import SectionMain from '../components/SectionMain/SectionMain';
-import Tabela from '../components/Tabela/Tabela';
+import Loading from '../components/Loading/Loading';
+import Agendamentos from './Agendamentos';
+import GerenciarAgenda from './GerenciarAgenda';
 import Button from '../components/Button/Button';
 import Modal from '../components/Modal/Modal';
-import Formulario from '../components/Formulario/Formulario';
-import Section from '../components/Section/Section';
-import Loading from '../components/Loading/Loading';
-
-const colunas = [
-  { header: 'Nome', field: 'cliente' },
-  { header: 'Data', field: 'data' },
-  { header: 'Hora', field: 'hora' },
-  { header: 'Telefone', field: 'telefone' },
-  { header: 'Ações', field: 'cadastrado' },
-];
-
-const campos = [
-  {
-    id: 'nome',
-    type: 'text',
-    placeholder: 'Nome',
-    label: 'Nome',
-    name: 'nome',
-  },
-  {
-    id: 'telefone',
-    type: 'text',
-    placeholder: 'Telefone',
-    label: 'Telefone',
-    name: 'telefone',
-  },
-  { id: 'cpf', type: 'text', placeholder: 'CPF', label: 'CPF', name: 'cpf' },
-  {
-    id: 'email',
-    type: 'email',
-    placeholder: 'E-mail',
-    label: 'E-mail',
-    name: 'email',
-  },
-  {
-    id: 'dataNascimento',
-    type: 'date',
-    placeholder: 'Data de Nascimento',
-    label: 'Data de Nascimento',
-    name: 'dataNascimento',
-  },
-  {
-    id: 'responsavel',
-    type: 'text',
-    placeholder: 'Responsável',
-    label: 'Responsável',
-    name: 'responsavel',
-  },
-];
+import FormCadastroCliente from '../components/FormCadastroCliente/FormCadastroCliente';
 
 const Agenda = () => {
-  const navigate = useNavigate();
-  const location = useLocation();
   const { funcionario } = useContext(LoginContext);
   const { agenda, loading, message, carregarAgenda } =
-    useContext(AgendaContext);
+    useContext(AgendaContext); // Adicione cadastrarCliente aqui
   const [agendamentos, setAgendamentos] = useState([]);
-  const [agendamentoId, setAgendamentoId] = useState('');
-  const [modalIsOpen, setIsOpen] = useState(false);
   const [page, setPage] = useState(1);
   const limit = 5;
+  const navigate = useNavigate();
+  const location = useLocation();
+  const [modalIsOpen, setIsOpen] = useState(false);
+  const [diasDisponiveis, setDiasDisponiveis] = useState([]);
+  const [horarios, setHorarios] = useState([]);
+  const [agendamentoSelecionado, setAgendamentoSelecionado] = useState(null); // Novo estado
+
+  useEffect(() => {
+    // Extract available dates and times from the agenda object
+    if (agenda && agenda.agenda) {
+      const availableDates = [];
+      const availableTimes = [];
+
+      agenda.agenda.forEach((item) => {
+        availableDates.push(item.data);
+        item.horariosDisponiveis.forEach((horario) => {
+          availableTimes.push({
+            data: item.data,
+            horario: horario.horario,
+          });
+        });
+      });
+
+      setDiasDisponiveis(availableDates);
+      setHorarios(availableTimes);
+    }
+  }, [agenda]);
 
   const formatarAgendamentos = useCallback(() => {
     if (!agenda?.agendamentos?.length) return [];
@@ -83,9 +58,10 @@ const Agenda = () => {
       cpf: agendamento.cpf,
       cliente: agendamento.nome,
       telefone: agendamento.telefone,
+      email: agendamento.email,
       id: agendamento.id,
       cadastrado:
-        agendamento.isCadastrado || agendamento.id === agendamentoId ? (
+        agendamento.isCadastrado && funcionario ? (
           <Button
             className={'btn-success'}
             action={() =>
@@ -98,94 +74,72 @@ const Agenda = () => {
           </Button>
         ) : (
           <Button
-            action={() => abrirModal(agendamento.id)}
+            action={() => {
+              setIsOpen(true);
+              setAgendamentoSelecionado(agendamento); // Define o agendamento selecionado
+            }}
             className={'btn-info'}
           >
             Cadastrar
           </Button>
         ),
     }));
-  }, [agenda.agenda, page, agendamentoId, navigate]);
+  }, [agenda, page, navigate, funcionario]);
 
   useEffect(() => {
     setAgendamentos(formatarAgendamentos());
-  }, [page, agendamentoId, agenda]);
-
-  const abrirModal = useCallback((id) => {
-    setAgendamentoId(id);
-    setIsOpen(true);
-  }, []);
-
-  const fecharModal = useCallback(() => {
-    setIsOpen(false);
-  }, []);
-
-  const handleSubmit = async (formData) => {
-    const response = await cadastrarCliente(formData);
-
-    if (response.status === 200) {
-      fecharModal();
-      await carregarAgenda(); // Recarrega a agenda após o cadastro do cliente
-      setAgendamentos(formatarAgendamentos());
-    }
-
-    return response;
-  };
+  }, [page, agenda, formatarAgendamentos]);
 
   const carregarMais = useCallback(() => {
-    if (agendamentos.length < agenda.agendamentos.length) {
+    if (agendamentos.length < agenda.agendamentos.length && !loading) {
       setPage((prevPage) => prevPage + 1);
     }
-  }, [agendamentos, agenda]);
+  }, [agendamentos, agenda, loading]);
 
   useEffect(() => {
-    carregarAgenda();
-  }, [location.pathname]);
+    if (!agenda.agendamentos.length) {
+      carregarAgenda();
+    }
+  }, [location.pathname, carregarAgenda, agenda.agendamentos.length]);
 
   if (loading && agendamentos.length === 0) {
     return <Loading />;
   }
 
-  if (message) {
-    return <div className={`alert ${message.type}`}>{message.text}</div>;
-  }
-
-  // Verifica se há uma rota aninhada ativa
   const isNestedRouteActive = location.pathname !== '/agenda';
 
   return (
     <SectionMain>
       {isNestedRouteActive ? (
-        <>
-          <Outlet />
-        </>
+        <Outlet />
       ) : (
-        <Section headingH2={`Olá ${funcionario.nome}`}>
-          <div className="container-table">
-            {agenda.agendamentos < 1 ? (
-              <p>Sem atendimentos agendados</p>
-            ) : (
-              <Tabela colunas={colunas} dados={agendamentos} />
-            )}
-          </div>
+        <>
+          <Agendamentos
+            funcionario={funcionario}
+            agendamentos={agendamentos}
+            loading={loading}
+            carregarMais={carregarMais}
+          />
+          <GerenciarAgenda />
           {modalIsOpen && (
-            <Modal isOpen={modalIsOpen} onClose={fecharModal}>
-              <Formulario
-                campos={campos}
-                btnForm={'Cadastrar'}
-                agendamentoId={agendamentoId}
-                handleSubmit={handleSubmit}
-                idFuncionario={funcionario.id}
+            <Modal
+              isOpen={modalIsOpen}
+              onClose={() => {
+                setIsOpen(false);
+                setAgendamentoSelecionado(null);
+              }}
+            >
+              {/* Renderiza o componente CadastroCliente */}
+              <FormCadastroCliente
+                fecharModal={() => {
+                  setIsOpen(false);
+                  setAgendamentoSelecionado(null);
+                }}
+                agendamento={agendamentoSelecionado} // Passa o agendamento selecionado
               />
             </Modal>
           )}
-          {loading && <Loading />}
-          {!loading && agendamentos.length < agenda.agendamentos.length && (
-            <Button className={'btn-primary'} action={carregarMais}>
-              Carregar mais
-            </Button>
-          )}
-        </Section>
+        </>
       )}
     </SectionMain>
   );

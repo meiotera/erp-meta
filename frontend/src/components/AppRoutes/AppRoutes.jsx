@@ -12,7 +12,7 @@ import Consulta from '../../pages/Consulta';
 import Historico from '../../pages/Historico';
 
 const AppRoutes = () => {
-  const { isAuthenticated } = useContext(LoginContext);
+  const { isAuthenticated, funcionario } = useContext(LoginContext);
 
   return (
     <Routes>
@@ -22,11 +22,11 @@ const AppRoutes = () => {
       {/* Se não estiver autenticado pode acessar a página login */}
       <Route
         path="/login"
-        element={!isAuthenticated() ? <Login /> : <Navigate to="/agenda" />}
+        element={!funcionario ? <Login /> : <Navigate to="/agenda" />}
       />
 
       {/* Rotas protegidas */}
-      {isAuthenticated() && (
+      {funcionario && ( // Check if funcionario is not null
         <>
           <Route
             path="/agenda"
@@ -61,7 +61,7 @@ const AppRoutes = () => {
         </>
       )}
       {/* Redirecionamento padrão para usuários não autenticados */}
-      {!isAuthenticated() && <Route path="*" element={<Login />} />}
+      {!funcionario && <Route path="*" element={<Login />} />}
     </Routes>
   );
 };

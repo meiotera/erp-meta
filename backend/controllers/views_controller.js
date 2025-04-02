@@ -144,6 +144,7 @@ exports.getAgenda = async (req, res, next) => {
       return {
         nome: agendamento.nome,
         cpf: agendamento.cpf,
+        email: agendamento.email,
         telefone: agendamento.telefone,
         data: formatarData(agendamento.data),
         hora: agendamento.hora,

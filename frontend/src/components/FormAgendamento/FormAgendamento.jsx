@@ -4,11 +4,17 @@ import Select from '../Select/Select';
 import Message from '../Message/Message';
 import { validateCPF } from 'validations-br';
 import { UsersContext } from '../../Contexts/UsersContext';
+import { format, parseISO } from 'date-fns';
 
-function FormAgendamento({ diasDisponiveis, horarios, fecharModal }) {
+import { ptBR } from 'date-fns/locale';
+
+import styles from './FormAgendamento.module.css';
+
+function FormAgendamento({ diasDisponiveis, fecharModal }) {
   const { postAgendamento, funcionarioId } = useContext(UsersContext);
 
   const [selectedDate, setSelectedDate] = useState('');
+  const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [message, setMessage] = useState(null);
   const [formData, setFormData] = useState({
     nome: '',
@@ -41,7 +47,14 @@ function FormAgendamento({ diasDisponiveis, horarios, fecharModal }) {
   };
 
   const handleDateChange = (event) => {
-    setSelectedDate(event.target.value);
+    const selectedDateValue = event.target.value;
+    setSelectedDate(selectedDateValue);
+
+    // Encontre os horários disponíveis para a data selecionada
+    const selectedDay = diasDisponiveis.find(
+      (dia) => dia.data === selectedDateValue,
+    );
+    setHorariosDisponiveis(selectedDay ? selectedDay.horariosDisponiveis : []);
   };
 
   const handleInputChange = (id, value) => {
@@ -58,30 +71,23 @@ function FormAgendamento({ diasDisponiveis, horarios, fecharModal }) {
     }
 
     try {
+      const selectedDateUTC = parseISO(selectedDate);
+
       await postAgendamento({
         ...formData,
         agendamentos: [
           {
-            data: selectedDate,
+            data: selectedDateUTC,
             hora: event.target.horarios.value,
           },
         ],
       });
-      setMessage({
-        type: 'alert alert-primary',
-        text: 'Atendimento agendado com sucesso!',
-      });
+
+      fecharModal();
     } catch (error) {
       setMessage({ type: 'error', text: 'Erro ao enviar o formulário' });
     }
   };
-
-  const availableHorarios =
-    selectedDate !== ''
-      ? horarios[
-          diasDisponiveis.findIndex((item) => item.data === selectedDate)
-        ] || []
-      : [];
 
   return (
     <form onSubmit={handleSubmit}>
@@ -128,26 +134,38 @@ function FormAgendamento({ diasDisponiveis, horarios, fecharModal }) {
       <Select
         label="Selecione uma data"
         id="data"
-        options={diasDisponiveis.map((item) => ({
-          value: item.data,
-          label: new Date(item.data).toLocaleDateString(),
-        }))}
+        options={diasDisponiveis.map((item) => {
+          const itemDate = new Date(item.data); // Converte a string ISO para um objeto Date
+          const localDate = new Date(
+            itemDate.getTime() + itemDate.getTimezoneOffset() * 60000,
+          ); // Ajusta o fuso horário manualmente
+          const formattedDate = format(localDate, 'dd-MM-yyyy', {
+            locale: ptBR,
+          });
+          return {
+            value: item.data,
+            label: formattedDate,
+          };
+        })}
         onChange={handleDateChange}
       />
       <Select
         label="Horários disponíveis"
         id="horarios"
-        options={availableHorarios.map((h) => ({
+        options={horariosDisponiveis.map((h) => ({
           value: h.horario,
           label: h.horario,
         }))}
       />
-      <button type="submit" className="btn btn-success">
-        Agendar
-      </button>
-      <button onClick={fecharModal} className="btn btn-danger">
-        Cancelar
-      </button>
+
+      <div className="buttonContainer">
+        <button type="submit" className="btnSuccess">
+          Agendar
+        </button>
+        <button type="button" onClick={fecharModal} className="btnDanger">
+          Cancelar
+        </button>
+      </div>
     </form>
   );
 }

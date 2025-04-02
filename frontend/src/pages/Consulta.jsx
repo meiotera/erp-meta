@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import SectionMain from '../components/SectionMain/SectionMain';
 import FormConsulta from '../components/FormConsulta/FormConsulta';
 import { salvarConsulta } from '../../api/consultas'; // Importe a função salvarConsulta
@@ -44,34 +44,24 @@ const campos = [
 ];
 
 const Consulta = () => {
-  const [validationErrors, setValidationErrors] = useState([]);
-
   const handleSubmit = async (formData) => {
     try {
       const response = await salvarConsulta(formData);
-      setValidationErrors([]); // Limpa os erros de validação após o sucesso
-      return response;
-    } catch (error) {
-      if (error.errors) {
-        setValidationErrors(error.errors);
-      } else {
-        setValidationErrors([error.message]);
+
+      console.log('res', response);
+
+      if (!response.ok) {
+        const data = await response.json();
+        throw new Error(data.message || 'Erro ao salvar a consulta');
       }
+    } catch (error) {
+      throw error; // Repassa o erro para o componente `FormConsulta`
     }
   };
 
   return (
     <SectionMain>
       <div className={styles.consultaContainer}>
-        {validationErrors.length > 0 && (
-          <div className={styles.alert}>
-            {validationErrors.map((err, index) => (
-              <span className={styles.erroForm} key={index}>
-                {err}
-              </span>
-            ))}
-          </div>
-        )}
         <FormConsulta
           campos={campos}
           handleSubmit={handleSubmit}

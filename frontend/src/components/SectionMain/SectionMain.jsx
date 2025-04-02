@@ -1,9 +1,5 @@
 function SectionMain({ children }) {
-    return (
-        <main className="container mt-4">
-            {children}
-        </main>
-    )
+  return <main className="container mt-4">{children}</main>;
 }
 
-export default SectionMain
+export default SectionMain;

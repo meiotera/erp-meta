@@ -13,22 +13,25 @@ export const UsersProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [funcionarioId, setFuncionarioId] = useState(null);
   const [message, setMessage] = useState(null);
+  const [isFetched, setIsFetched] = useState(false); // Controle de requisições
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
+      if (isFetched) return; // Evita múltiplas requisições
       try {
         const data = await listarFuncionarios();
-
         setFuncionarios(data);
-
+        setIsFetched(true); // Marca como carregado
         setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar funcionários:', error);
+        setMessage({ type: 'error', text: 'Erro ao buscar funcionários' });
+        setLoading(false);
       }
     };
 
     fetchFuncionarios();
-  }, []);
+  }, [isFetched]);
 
   const fetchAgenda = async (id) => {
     try {
@@ -47,7 +50,7 @@ export const UsersProvider = ({ children }) => {
 
       setLoading(false);
     } catch (error) {
-      setMessage('Erro ao buscar agenda');
+      setMessage({ type: 'error', text: 'Erro ao buscar agenda' });
       setLoading(false);
     }
   };
@@ -77,6 +80,7 @@ export const UsersProvider = ({ children }) => {
         fetchAgenda,
         postAgendamento,
         message,
+        setMessage,
         funcionarioId,
       }}
     >
@@ -84,3 +88,5 @@ export const UsersProvider = ({ children }) => {
     </UsersContext.Provider>
   );
 };
+
+export default UsersProvider;

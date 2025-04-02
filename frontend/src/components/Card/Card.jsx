@@ -1,13 +1,13 @@
 import styles from './Card.module.css';
-import { useContext } from 'react';
-import { UsersContext } from "../../Contexts/UsersContext";
 
-function Card({ funcionario: { nome, profissao, descricao, foto, id }, onClickEnabled }) {
-  const { fetchAgenda } = useContext(UsersContext);
-
+function Card({
+  funcionario: { nome, profissao, descricao, foto, id },
+  onClickEnabled,
+  onClick,
+}) {
   const handleClick = () => {
-    if (onClickEnabled) {
-      fetchAgenda(id);
+    if (onClickEnabled && onClick) {
+      onClick(id); // Passa o ID do profissional para a função onClick
     }
   };
 

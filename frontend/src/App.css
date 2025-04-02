@@ -1,5 +1,10 @@
+* {
+  box-sizing: border-box;
+}
+
 #root {
   width: 1440px;
+  box-sizing: border-box;
   margin: 0 auto;
   padding: 0;
   text-align: center;
@@ -45,6 +50,33 @@ main {
   filter: drop-shadow(0 0 2em #61dafbaa);
 }
 
+/* FORM */
+label::before {
+  content: '';
+  height: 20px;
+  width: 5px;
+  background-color: #ce0cd4;
+  margin-right: 8px;
+  display: block;
+}
+
+/* Estilo para o botão de envio */
+.button[type='submit'] {
+  background-color: #007bff; /* Fundo azul */
+  color: #ffffff; /* Texto branco */
+  border: none; /* Remove a borda */
+  border-radius: 6px; /* Bordas arredondadas */
+  padding: 12px 20px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  font-weight: 600; /* Negrito */
+  cursor: pointer; /* Cursor de ponteiro */
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease; /* Transições suaves */
+  margin-top: 20px; /* Espaçamento superior */
+  width: 100%; /* Largura total */
+}
+
 /* MODAL */
 .modal-overlay {
   position: fixed;
@@ -88,9 +120,34 @@ main {
     animation: logo-spin infinite 20s linear;
   }
 }
+.minha-classe-dia {
+  background-color: #f0f0f0;
+  height: max-content;
+}
+
+.fc-daygrid-day-events {
+  display: none;
+}
+
+.dia-passado {
+  opacity: 0.5; /* Ajuste o valor conforme necessário */
+}
+
+.click-day {
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.click-day:hover {
+  background-color: #007bff48;
+}
+
+.agenda {
+  width: 100%;
+}
 
 .card {
-  padding: 2em;
+  padding: 1em;
 }
 
 .read-the-docs {
@@ -98,7 +155,54 @@ main {
 }
 
 .active {
-  color: #e54a86;
+  color: #fcd949 !important;
   font-weight: bold;
-  border-bottom: 3px solid #e54a86;
+  /* border-bottom: 3px solid #f58b4c; */
+}
+
+@media screen and (max-width: 990px) {
+  .agenda {
+    width: 230px;
+  }
+}
+
+/* btn s */
+
+/* Estilo para o contêiner dos botões */
+.buttonContainer {
+  display: flex !important;
+  justify-content: space-around !important;
+  margin-top: 20px !important;
+}
+
+/* Estilo para o botão de sucesso (Agendar) */
+.btnSuccess {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btnSuccess:hover {
+  background-color: #218838;
+}
+
+/* Estilo para o botão de cancelar */
+.btnDanger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btnDanger:hover {
+  background-color: #c82333;
 }

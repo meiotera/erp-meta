@@ -1,22 +1,15 @@
+import apiFetch from './api';
+
 export const login = async (data) => {
-    try {
-        const response = await fetch('http://localhost:3000/funcionarios/login', {
-            method: 'POST',
-            include: 'credentials',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(data),
-        });      
+  try {
+    const response = await apiFetch('/funcionarios/login', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    });
 
-        if (!response.ok) {
-            console.error('Erro ao fazer login:', response);
-        }
-
-        // console.log('login', await response.json());
-
-        return await response.json();
-    } catch (error) {
-        throw error;
-    }
-}
+    console.log(response);
+    return response.json(); // Corrigido: Retorna os dados em JSON
+  } catch (error) {
+    throw error;
+  }
+};
