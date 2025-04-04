@@ -11,6 +11,20 @@ export const listarFuncionarios = async () => {
   }
 };
 
+export const updateFuncionario = async (data, funcionarioId) => {
+  try {
+    const response = await apiFetch('/funcionarios/update-especialista', {
+      method: 'PATCH',
+      body: JSON.stringify(data, funcionarioId),
+    });
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Erro ao atualizar funcionário:', error);
+    throw error;
+  }
+};
+
 export const listarDataseHorarios = async (id) => {
   try {
     const response = await apiFetch(`/especialista/${id}/dias-horarios`);

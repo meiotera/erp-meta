@@ -13,6 +13,7 @@ const Formulario = ({
   setMessage,
   message,
   initialData, // Nova prop para dados iniciais
+  className,
 }) => {
   const [formData, setFormData] = useState(() =>
     campos.reduce((acc, campo) => {
@@ -63,26 +64,31 @@ const Formulario = ({
   };
 
   return (
-    <form onSubmit={onSubmit}>
+    <form onSubmit={onSubmit} className={className?.form}>
       {message && <Message type={message.type} text={message.text} />}
 
-      {campos.map((campo) => (
-        <Input
-          key={campo.id}
-          id={campo.id}
-          type={campo.type}
-          placeholder={campo.placeholder}
-          value={formData[campo.id] || ''}
-          handleInputChange={handleInputChange}
-          label={campo.label}
-        />
-      ))}
+      <div className={className?.inputContainer}>
+        {campos.map((campo) => (
+          <Input
+            key={campo.id}
+            id={campo.id}
+            type={campo.type}
+            placeholder={campo.placeholder}
+            value={formData[campo.id] || ''}
+            handleInputChange={handleInputChange}
+            label={campo.label}
+          />
+        ))}
+      </div>
 
       {btnForm &&
         (loading ? (
           <Loading />
         ) : (
-          <button type="submit" className="btn btn-primary button">
+          <button
+            type="submit"
+            className={`btn btn-primary button ${className?.button}`}
+          >
             {btnForm}
           </button>
         ))}
