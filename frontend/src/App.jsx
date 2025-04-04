@@ -16,6 +16,7 @@ import { UsersProvider } from './Contexts/UsersContext';
 import { LoginProvider } from './Contexts/LoginContext';
 // import { AgendaProvider } from './Contexts/AgendaContext';
 import AppRoutes from './components/AppRoutes/AppRoutes';
+import SectionMain from './components/SectionMain/SectionMain';
 
 // function App() {
 //   return (
@@ -60,7 +61,9 @@ function App() {
       <BrowserRouter>
         <LoginProvider>
           <Header />
-          <AppRoutes />
+          <SectionMain>
+            <AppRoutes />
+          </SectionMain>
           <Footer />
         </LoginProvider>
       </BrowserRouter>

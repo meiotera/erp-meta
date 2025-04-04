@@ -109,7 +109,7 @@ const Agenda = () => {
   const isNestedRouteActive = location.pathname !== '/agenda';
 
   return (
-    <SectionMain>
+    <>
       {isNestedRouteActive ? (
         <Outlet />
       ) : (
@@ -141,7 +141,7 @@ const Agenda = () => {
           )}
         </>
       )}
-    </SectionMain>
+    </>
   );
 };
 

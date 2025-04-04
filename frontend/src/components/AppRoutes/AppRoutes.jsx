@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useCallback, useContext, useState, useEffect } from 'react';
 import { Routes, Route, Navigate } from 'react-router-dom';
 import ProtectedRoute from '../ProtectedRoute/ProtectedRoute';
 
@@ -10,6 +10,10 @@ import { AgendaProvider } from '../../Contexts/AgendaContext';
 import Agenda from '../../pages/Agenda';
 import Consulta from '../../pages/Consulta';
 import Historico from '../../pages/Historico';
+import Painel from '../../pages/Painel';
+import Perfil from '../Perfil/Perfil';
+import Usuarios from '../Usuarios/Usuarios';
+import Relatorios from '../Relatorios/Relatorios';
 
 const AppRoutes = () => {
   const { isAuthenticated, funcionario } = useContext(LoginContext);
@@ -39,6 +43,16 @@ const AppRoutes = () => {
             }
           />
           <Route
+            path="/agenda/consulta"
+            element={
+              <ProtectedRoute>
+                <AgendaProvider>
+                  <Consulta />
+                </AgendaProvider>
+              </ProtectedRoute>
+            }
+          />
+          <Route
             path="/historico"
             element={
               <ProtectedRoute>
@@ -49,15 +63,20 @@ const AppRoutes = () => {
             }
           />
           <Route
-            path="/agenda/consulta"
+            path="/configuracao"
             element={
               <ProtectedRoute>
                 <AgendaProvider>
-                  <Consulta />
+                  <Painel />
                 </AgendaProvider>
               </ProtectedRoute>
             }
-          />
+          >
+            <Route index element={<Navigate to="perfil" replace />} />
+            <Route path="perfil" element={<Perfil />} />
+            <Route path="usuarios" element={<Usuarios />} />
+            <Route path="relatorios" element={<Relatorios />} />
+          </Route>
         </>
       )}
       {/* Redirecionamento padrão para usuários não autenticados */}

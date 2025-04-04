@@ -11,7 +11,8 @@ const Formulario = ({
   idFuncionario,
   loading,
   setMessage,
-  message, // Recebe a mensagem como prop
+  message,
+  initialData, // Nova prop para dados iniciais
 }) => {
   const [formData, setFormData] = useState(() =>
     campos.reduce((acc, campo) => {
@@ -30,6 +31,16 @@ const Formulario = ({
       }));
     }
   }, [agendamentoId, idFuncionario]);
+
+  // Preenche o formulário com os dados iniciais
+  useEffect(() => {
+    if (initialData) {
+      setFormData((prevData) => ({
+        ...prevData,
+        ...initialData,
+      }));
+    }
+  }, [initialData]);
 
   const validateForm = () => {
     const camposVazios = campos.filter((campo) => !formData[campo.id]);
@@ -53,7 +64,6 @@ const Formulario = ({
 
   return (
     <form onSubmit={onSubmit}>
-      {/* Exibe a mensagem recebida como prop */}
       {message && <Message type={message.type} text={message.text} />}
 
       {campos.map((campo) => (

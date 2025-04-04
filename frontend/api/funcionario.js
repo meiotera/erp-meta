@@ -21,3 +21,15 @@ export const listarDataseHorarios = async (id) => {
     throw error;
   }
 };
+
+export const buscarFuncionario = async (id) => {
+  try {
+    const response = await apiFetch(`/funcionarios/buscar-especialista/${id}`);
+    const data = await response.json();
+
+    return data;
+  } catch (error) {
+    console.error('Erro ao buscar funcionário:', error);
+    throw error;
+  }
+};

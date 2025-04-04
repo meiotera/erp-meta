@@ -34,26 +34,22 @@ const Login = () => {
   }, []);
 
   return (
-    <SectionMain>
-      <Section
-        headingH2="Entre com suas credenciais"
-        className={
-          'd-flex justify-content-center flex-column align-items-center'
-        }
-      >
-        <div className="w-100" style={{ maxWidth: '350px' }}>
-          <Formulario
-            campos={campos}
-            handleSubmit={handleSubmit}
-            btnForm={'Entrar'}
-            loading={loading}
-            setLoading={setLoading}
-            message={message} // Passa a mensagem como prop
-            setMessage={setMessage}
-          />
-        </div>
-      </Section>
-    </SectionMain>
+    <Section
+      headingH2="Entre com suas credenciais"
+      className={'d-flex justify-content-center flex-column align-items-center'}
+    >
+      <div className="w-100" style={{ maxWidth: '350px' }}>
+        <Formulario
+          campos={campos}
+          handleSubmit={handleSubmit}
+          btnForm={'Entrar'}
+          loading={loading}
+          setLoading={setLoading}
+          message={message} // Passa a mensagem como prop
+          setMessage={setMessage}
+        />
+      </div>
+    </Section>
   );
 };
 

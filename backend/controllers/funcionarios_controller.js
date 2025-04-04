@@ -1,9 +1,9 @@
-const Funcionarios = require("../models/Funcionarios");
-const fs = require("fs");
-const path = require("path");
-const sharp = require("sharp");
-const multer = require("multer");
-const { criarRespostaErro } = require("../utilities/utils");
+const Funcionarios = require('../models/Funcionarios');
+const fs = require('fs');
+const path = require('path');
+const sharp = require('sharp');
+const multer = require('multer');
+const { criarRespostaErro } = require('../utilities/utils');
 
 const filterObj = (obj, ...camposPermitidos) => {
   const newObj = {};
@@ -17,8 +17,8 @@ const filterObj = (obj, ...camposPermitidos) => {
 
 exports.listar_funcionarios = async (req, res, next) => {
   try {
-    const funcionarios = await Funcionarios.find()
-    
+    const funcionarios = await Funcionarios.find();
+
     res.status(200).send(funcionarios);
   } catch (error) {
     next(error);
@@ -41,8 +41,8 @@ exports.cadastro_especialista = async (req, res, next) => {
     await newFuncionario.save();
 
     res.status(201).send({
-      status: "success",
-      message: "Especialista cadastrado com sucesso.",
+      status: 'success',
+      message: 'Especialista cadastrado com sucesso.',
       funcionarioId: newFuncionario.id,
     });
   } catch (error) {
@@ -62,7 +62,7 @@ const multerFilter = (req, file, cb) => {
   if (mimetype && extname) {
     return cb(null, true);
   } else {
-    const error = new Error("Apenas imagens são permitidas!");
+    const error = new Error('Apenas imagens são permitidas!');
     error.statusCode = 400;
     cb(new Error(error), false);
   }
@@ -75,7 +75,7 @@ const upload = multer({
 });
 
 // middleware para upload de imagem
-exports.uploadUserPhoto = upload.single("foto");
+exports.uploadUserPhoto = upload.single('foto');
 
 // redimensionar imagem do usuario
 exports.resizeUserPhoto = async (req, res, next) => {
@@ -85,35 +85,58 @@ exports.resizeUserPhoto = async (req, res, next) => {
 
   await sharp(req.file.buffer)
     .resize(500, 500)
-    .toFormat("jpeg")
+    .toFormat('jpeg')
     .jpeg({ quality: 80 })
     .toFile(
-      path.join(__dirname, "../public/images/fotos_perfil", req.file.filename)
+      path.join(__dirname, '../public/images/fotos_perfil', req.file.filename),
     );
 
-  req.body.foto = path.join("public/images/fotos_perfil", req.file.filename);
+  req.body.foto = path.join('public/images/fotos_perfil', req.file.filename);
 
   next();
+};
+
+exports.buscar_especialista = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const especialista = await Funcionarios.findById(id);
+
+    if (!especialista) {
+      return res.status(404).send({
+        status: 'fail',
+        message: 'Especialista não encontrado.',
+      });
+    }
+
+    res.status(200).send({
+      status: 'success',
+      data: {
+        especialista,
+      },
+    });
+  } catch (error) {
+    next(error);
+  }
 };
 
 exports.update_especialista = async (req, res, next) => {
   try {
     if (req.body.password || req.body.confirm_password) {
       return res.status(400).send({
-        status: "fail",
-        message: "Não é possível atualizar a senha por aqui.",
+        status: 'fail',
+        message: 'Não é possível atualizar a senha por aqui.',
       });
     }
 
     const filteredBody = filterObj(
       req.body,
-      "nome",
-      "telefone",
-      "profissao",
-      "email",
-      "descricao",
-      "instagram",
-      "valor_consulta"
+      'nome',
+      'telefone',
+      'profissao',
+      'email',
+      'descricao',
+      'instagram',
+      'valor_consulta',
     );
 
     if (req.file) {
@@ -126,15 +149,15 @@ exports.update_especialista = async (req, res, next) => {
       {
         new: true,
         runValidators: true,
-      }
+      },
     );
 
     res.status(200).json({
-      status: "success",
+      status: 'success',
       data: {
         funcionario: updatedFuncionario,
       },
-      message: "Especialista atualizado com sucesso.",
+      message: 'Especialista atualizado com sucesso.',
     });
   } catch (error) {
     next(error);

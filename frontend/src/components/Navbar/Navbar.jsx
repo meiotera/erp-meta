@@ -1,11 +1,11 @@
-import { useContext } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import { NavLink } from 'react-router-dom';
 import { LoginContext } from '../../Contexts/LoginContext';
 
 import styles from './Navbar.module.css';
 
 function Navbar() {
-  const { isAuthenticated, logout } = useContext(LoginContext);
+  const { isAuthenticated, logout, funcionario } = useContext(LoginContext);
   const isUserAuthenticated = isAuthenticated(); // Evita chamadas desnecessárias
 
   return (
@@ -24,6 +24,13 @@ function Navbar() {
                   Histórico
                 </NavLink>
               </li>
+
+              <li className={styles.navItem}>
+                <NavLink to="/configuracao" className={styles.navLink}>
+                  Painel
+                </NavLink>
+              </li>
+
               <li className={styles.navItem}>
                 <NavLink onClick={logout} className={styles.logoutButton}>
                   Sair

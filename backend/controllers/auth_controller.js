@@ -1,50 +1,52 @@
-const Funcionario = require("../models/Funcionarios");
-const jwt = require("jsonwebtoken");
-const { criarRespostaErro } = require("../utilities/utils");
+const Funcionario = require('../models/Funcionarios');
+const jwt = require('jsonwebtoken');
+const { criarRespostaErro } = require('../utilities/utils');
 // const bcrypt = require("bcryptjs");
 
-const signToken = (id) => {
+const signToken = (id, role, nome) => {
   return jwt.sign(
     {
       id,
+      role,
+      nome,
     },
     process.env.JWT_SECRET,
     {
       expiresIn: process.env.JWT_EXPIRES_IN,
-    }
+    },
   );
 };
 
 const createSendToken = (funcionario, statusCode, req, res) => {
-  const token = signToken(funcionario._id);
+  // Certifique-se de que role e nome existem no objeto funcionario
+  const { _id, role, nome } = funcionario;
 
+  if (!role || !nome) {
+    return res.status(500).json({
+      status: 'error',
+      message: 'Dados do funcionário estão incompletos.',
+    });
+  }
 
-  // const cookieOptions = {
-  //   expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000), // 7 dias
-  //   httpOnly: false, // Permite acesso via JavaScript no frontend (apenas para testes)
-  //   secure: false, // Permite salvar no localhost (mude para `true` em produção!)
-  //   sameSite: "lax", // Evita bloqueios de cookies em algumas situações
-  // };
+  const token = signToken(_id, role, nome);
 
   const cookieOptions = {
     expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
     ),
     httpOnly: true,
     secure:
       req.secure ||
-      req.headers["x-forwarded-proto"] === "https" ||
-      process.env.NODE_ENV === "production",
+      req.headers['x-forwarded-proto'] === 'https' ||
+      process.env.NODE_ENV === 'production',
   };
 
-  res.cookie("jwt", token, cookieOptions);
+  res.cookie('jwt', token, cookieOptions);
 
-  // Remove a senha do output
   funcionario.password = undefined;
 
-  return res.status(statusCode).json({
-    status: statusCode,
-    message: "Login realizado com sucesso.",
+  res.status(statusCode).json({
+    status: 'success',
     token,
     data: {
       funcionario,
@@ -67,7 +69,7 @@ exports.signup = async (req, res, next) => {
     await newFuncionario.save();
 
     res.status(201).send({
-      message: "Funcionário criado com sucesso.",
+      message: 'Funcionário criado com sucesso.',
       funcionarioId: newFuncionario.id,
     });
   } catch (error) {
@@ -81,19 +83,19 @@ exports.login = async (req, res, next) => {
 
     // Verificar se os campos estão preenchidos
     if (!email || !password) {
-      return criarRespostaErro(res, 400, "Email e senha são obrigatórios.");
+      return criarRespostaErro(res, 400, 'Email e senha são obrigatórios.');
     }
 
     const funcionario = await Funcionario.findOne({ email }).select(
-      "+password"
+      '+password',
     );
 
     if (!funcionario) {
-      // return criarRespostaErro(res, 404, "Email ou senha incorretos!.");    
+      // return criarRespostaErro(res, 404, "Email ou senha incorretos!.");
       return res.status(400).json({
-          status: 400,
-          message: "Email ou senha incorretos!.",  
-       });
+        status: 400,
+        message: 'Email ou senha incorretos!.',
+      });
     }
 
     // Verificar se o usuário está bloqueado
@@ -101,7 +103,7 @@ exports.login = async (req, res, next) => {
       return criarRespostaErro(
         res,
         429,
-        "Seu usuário foi bloqueado por muitas tentativas falhas, volte mais tarde."
+        'Seu usuário foi bloqueado por muitas tentativas falhas, volte mais tarde.',
       );
     }
 
@@ -109,7 +111,7 @@ exports.login = async (req, res, next) => {
     const isPasswordCorrect = await funcionario.comparePassword(password);
     if (!isPasswordCorrect) {
       await funcionario.incrementLoginAttempts();
-      return criarRespostaErro(res, 401, "Email ou senha incorretos!.");
+      return criarRespostaErro(res, 401, 'Email ou senha incorretos!.');
     }
 
     // Se a senha estiver correta, resetar tentativas de senha
@@ -117,18 +119,18 @@ exports.login = async (req, res, next) => {
 
     createSendToken(funcionario, 200, req, res);
   } catch (error) {
-    console.log(error)
+    console.log(error);
     next(error);
   }
 };
 
 exports.logout = async (req, res) => {
-  res.cookie("jwt", "loggedout", {
+  res.cookie('jwt', 'loggedout', {
     expires: new Date(Date.now() + 10 * 1000),
     httpOnly: true,
   });
 
   res.status(200).json({
-    status: "success",
+    status: 'success',
   });
 };

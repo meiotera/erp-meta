@@ -56,36 +56,18 @@ const campos = [
 
 const Agendamentos = ({ funcionario, agendamentos, loading, carregarMais }) => {
   const { agenda } = useContext(AgendaContext);
-  const [modalIsOpen, setIsOpen] = useState(false);
-  const [agendamentoId, setAgendamentoId] = useState('');
-  const [modalContent, setModalContent] = useState(null);
+  // const [modalIsOpen, setIsOpen] = useState(false);
+  // const [agendamentoId, setAgendamentoId] = useState('');
+  // const [modalContent, setModalContent] = useState(null);
 
-  console.log(agenda);
-
-  // const abrirModal = useCallback((id) => {
-  //   setAgendamentoId(id);
-  //   setModalContent('form');
-  //   setIsOpen(true);
-  // }, []);
+  // console.log(agenda);
 
   const fecharModal = useCallback(() => {
     setIsOpen(false);
   }, []);
 
-  // const handleSubmit = async (formData) => {
-  //   const response = await cadastrarCliente(formData);
-
-  //   if (response.status === 200) {
-  //     fecharModal();
-  //     await carregarAgenda(); // Recarrega a agenda após o cadastro do cliente
-  //     setAgendamentoId(formatarAgendamentos());
-  //   }
-
-  //   return response;
-  // };
-
   return (
-    <Section headingH2={`Olá ${funcionario.funcionario.nome}`}>
+    <Section headingH2={`Minha agenda`}>
       <div className="container-table">
         {agendamentos.length < 1 ? (
           <p>Sem atendimentos agendados</p>
@@ -93,19 +75,7 @@ const Agendamentos = ({ funcionario, agendamentos, loading, carregarMais }) => {
           <Tabela colunas={colunas} dados={agendamentos} />
         )}
       </div>
-      {/* {modalIsOpen && (
-        <Modal isOpen={modalIsOpen} onClose={fecharModal}>
-          {modalContent === 'form' ? (
-            <Formulario
-              campos={campos}
-              btnForm={'Cadastrar'}
-              agendamentoId={agendamentoId}
-              handleSubmit={handleSubmit}
-              idFuncionario={funcionario.id}
-            />
-          ) : null}
-        </Modal>
-      )} */}
+
       {loading && <Loading />}
       {!loading && agendamentos.length < agenda.agendamentos.length && (
         <Button className={'btn-primary'} action={carregarMais}>

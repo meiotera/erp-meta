@@ -1,7 +1,7 @@
 import React, { useContext, useState, useEffect, useCallback } from 'react';
 import { useLocation } from 'react-router-dom';
 import Section from '../components/Section/Section';
-import SectionMain from '../components/SectionMain/SectionMain';
+
 import FormAgendamento from '../components/FormAgendamento/FormAgendamento';
 import Equipe from '../components/Equipe/Equipe';
 import Loading from '../components/Loading/Loading';
@@ -108,7 +108,7 @@ function Agendamento() {
   }, [setAgenda]);
 
   return (
-    <SectionMain>
+    <>
       <Section headingH2={'Selecione o especialista'}>
         <Equipe onClickEnabled={true} onClick={selecionarProfissional} />
       </Section>
@@ -136,7 +136,7 @@ function Agendamento() {
           fecharModal={fecharModal}
         />
       </Modal>
-    </SectionMain>
+    </>
   );
 }
 

@@ -3,11 +3,14 @@ import { useNavigate } from 'react-router-dom';
 import { login } from '../../api/auth';
 import authToken from '../utils/authToken';
 
+import { jwtDecode } from 'jwt-decode';
+
 export const LoginContext = createContext();
 
 export const LoginProvider = ({ children }) => {
   const [message, setMessage] = useState(null);
   const [funcionario, setFuncionario] = useState(null); // Initialize as null
+
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
 
@@ -16,16 +19,38 @@ export const LoginProvider = ({ children }) => {
     return !!authToken();
   };
 
+  // useEffect(() => {
+  //   const checkAuth = () => {
+  //     if (!isAuthenticated()) return;
+
+  //     // Se houver token, mantém o usuário autenticado e evita re-login manual
+  //     const token = authToken();
+  //     if (token) {
+  //       // For now, just set the token
+  //       setFuncionario({ token });
+  //     }
+  //   };
+
+  //   checkAuth();
+  // }, []);
+
   useEffect(() => {
     const checkAuth = () => {
       if (!isAuthenticated()) return;
 
-      // Se houver token, mantém o usuário autenticado e evita re-login manual
+      // Obtém o token do cookie
       const token = authToken();
       if (token) {
-        // Decode the token to get user information if needed
-        // For now, just set the token
-        setFuncionario({ token }); // Simplesmente mantém o usuário logado
+        try {
+          // Decodifica o token para obter os dados do usuário
+          const decoded = jwtDecode(token);
+          setFuncionario(decoded); // Armazena os dados decodificados no estado
+
+          console.log('decode', decoded);
+        } catch (error) {
+          console.error('Erro ao decodificar o token JWT:', error);
+          setFuncionario(null);
+        }
       }
     };
 
@@ -37,9 +62,7 @@ export const LoginProvider = ({ children }) => {
       setLoading(true);
       const dataResponse = await login(data); // Agora recebe o objeto JSON diretamente
 
-      console.log(dataResponse);
-
-      if (dataResponse.status !== 200) {
+      if (dataResponse.status !== 'success') {
         // Verifica o status do backend
         setMessage({ type: 'alert-danger', text: dataResponse.message });
         return dataResponse;
@@ -48,9 +71,10 @@ export const LoginProvider = ({ children }) => {
       setMessage({ type: 'alert-primary', text: dataResponse.message });
 
       if (dataResponse && dataResponse.data) {
-        setFuncionario(dataResponse.data); // Atualize o estado com os dados do funcionário
+        setFuncionario(dataResponse.data);
       } else {
         setFuncionario(null);
+
         return dataResponse;
       }
 
@@ -58,7 +82,6 @@ export const LoginProvider = ({ children }) => {
       document.cookie = `jwt=${dataResponse.token}; path=/;`;
 
       setLoading(false);
-
       navigate('/agenda');
       return dataResponse;
     } catch (error) {

@@ -6,11 +6,10 @@ import Map from '../Map/Map';
 import styles from './Main.module.css';
 import liders from '../../assets/vivianeAugusto.jpeg';
 import Specialties from '../Specialties/Specialties';
-import SectionMain from '../SectionMain/SectionMain';
 
 function Main() {
   return (
-    <SectionMain>
+    <>
       <Section headingH2={'Meta Saúde Integrada'}>
         {/* <HeadingH2>Meta Saúde Integrada</HeadingH2> */}
         <Paragraph>
@@ -88,7 +87,7 @@ function Main() {
       <Section headingH2={'Faça-nos uma visita'}>
         <Map />
       </Section>
-    </SectionMain>
+    </>
   );
 }
 

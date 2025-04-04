@@ -2,6 +2,7 @@ import React, { createContext, useEffect, useState } from 'react';
 import {
   listarFuncionarios,
   listarDataseHorarios,
+  buscarFuncionario,
 } from '../../api/funcionario';
 import { agendarAtendimento } from '../../api/agendamento';
 
@@ -9,6 +10,7 @@ export const UsersContext = createContext();
 
 export const UsersProvider = ({ children }) => {
   const [funcionarios, setFuncionarios] = useState([]);
+  const [funcionarioEncontrado, setFuncionarioEncontrado] = useState(null); // []
   const [agenda, setAgenda] = useState([]);
   const [loading, setLoading] = useState(true);
   const [funcionarioId, setFuncionarioId] = useState(null);
@@ -55,6 +57,21 @@ export const UsersProvider = ({ children }) => {
     }
   };
 
+  const buscarDadosFuncionario = async (id) => {
+    try {
+      setLoading(true);
+      const data = await buscarFuncionario(id);
+      setFuncionarioEncontrado(data);
+      setLoading(false);
+    } catch {
+      setMessage({
+        type: 'error',
+        text: 'Erro ao buscar dados do funcionário',
+      });
+      setLoading(false);
+    }
+  };
+
   const postAgendamento = async (data) => {
     try {
       const response = await agendarAtendimento(data);
@@ -73,6 +90,7 @@ export const UsersProvider = ({ children }) => {
       value={{
         funcionarios,
         setFuncionarios,
+        funcionarioEncontrado,
         loading,
         setLoading,
         agenda,
@@ -82,6 +100,7 @@ export const UsersProvider = ({ children }) => {
         message,
         setMessage,
         funcionarioId,
+        buscarDadosFuncionario,
       }}
     >
       {children}

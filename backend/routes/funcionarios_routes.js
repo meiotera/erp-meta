@@ -30,6 +30,9 @@ router.post(
   restrictTo('admin'),
   func.cadastro_especialista,
 );
+
+router.get('/buscar-especialista/:id', protect, func.buscar_especialista);
+
 router.get(
   '/listar-funcionarios',
   protect,
