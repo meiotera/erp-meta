@@ -4,6 +4,7 @@ import {
   listarDataseHorarios,
   buscarFuncionario,
   updateFuncionario,
+  cadastrarFuncionario,
 } from '../../api/funcionario';
 import { agendarAtendimento } from '../../api/agendamento';
 
@@ -86,6 +87,20 @@ export const UsersProvider = ({ children }) => {
     }
   };
 
+  const cadastraFuncionario = async (data) => {
+    try {
+      const response = await cadastrarFuncionario(data);
+      if (response.status === 'success') {
+        setMessage({ type: 'success', text: response.message });
+      } else {
+        setMessage({ type: 'error', text: response.message });
+      }
+    } catch (error) {
+      console.log(error);
+      setMessage({ type: 'error', text: 'Erro ao cadastrar funcionário' });
+    }
+  };
+
   const updateDadosFuncionario = async (data) => {
     try {
       const response = await updateFuncionario(data);
@@ -116,6 +131,7 @@ export const UsersProvider = ({ children }) => {
         funcionarioId,
         buscarDadosFuncionario,
         updateDadosFuncionario,
+        cadastraFuncionario,
       }}
     >
       {children}

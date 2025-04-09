@@ -40,7 +40,7 @@ exports.cadastro_especialista = async (req, res, next) => {
 
     await newFuncionario.save();
 
-    res.status(201).send({
+    res.status(201).json({
       status: 'success',
       message: 'Especialista cadastrado com sucesso.',
       funcionarioId: newFuncionario.id,

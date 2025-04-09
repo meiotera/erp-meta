@@ -1,7 +1,14 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import Input from '../Input/Input';
 import Message from '../Message/Message';
 import Loading from '../Loading/Loading';
+import { UsersContext } from '../../Contexts/UsersContext';
+import Select from '../Select/Select';
+
+const funcoes = [
+  { value: 'admin', label: 'Administrador' },
+  { value: 'funcionario', label: 'Especialista' },
+];
 
 const Formulario = ({
   campos,
@@ -10,11 +17,12 @@ const Formulario = ({
   agendamentoId,
   idFuncionario,
   loading,
-  setMessage,
-  message,
   initialData, // Nova prop para dados iniciais
   className,
+  newFuncionario,
 }) => {
+  const { setMessage, message } = useContext(UsersContext);
+
   const [formData, setFormData] = useState(() =>
     campos.reduce((acc, campo) => {
       acc[campo.id] = campo.value || '';
@@ -46,7 +54,7 @@ const Formulario = ({
   const validateForm = () => {
     const camposVazios = campos.filter((campo) => !formData[campo.id]);
     if (camposVazios.length > 0) {
-      setMessage({ type: 'alert-danger', text: 'Verifique todos os campos.' });
+      setMessage({ type: 'error', text: 'Verifique todos os campos.' });
       return false;
     }
     return true;
@@ -62,6 +70,18 @@ const Formulario = ({
       handleSubmit(formData);
     }
   };
+
+  // resetar todos os campos
+  useEffect(() => {
+    return () => {
+      setFormData((prevData) =>
+        campos.reduce((acc, campo) => {
+          acc[campo.id] = '';
+          return acc;
+        }, prevData),
+      );
+    };
+  }, []);
 
   return (
     <form onSubmit={onSubmit} className={className?.form}>
@@ -79,6 +99,16 @@ const Formulario = ({
             label={campo.label}
           />
         ))}
+
+        {/* Adiciona o Select se newFuncionario for true */}
+        {newFuncionario && (
+          <Select
+            label="Função"
+            id="role"
+            options={funcoes}
+            onChange={(e) => handleInputChange('role', e.target.value)}
+          />
+        )}
       </div>
 
       {btnForm &&

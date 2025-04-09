@@ -11,6 +11,23 @@ export const listarFuncionarios = async () => {
   }
 };
 
+export const cadastrarFuncionario = async (data) => {
+  try {
+    const response = await apiFetch('/funcionarios/cadastrar-especialista', {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+    const responseData = await response.json();
+    return responseData;
+  } catch (error) {
+    console.error('Erro ao cadastrar funcionários:', error);
+    throw error;
+  }
+};
+
 export const updateFuncionario = async (data, funcionarioId) => {
   try {
     const response = await apiFetch('/funcionarios/update-especialista', {

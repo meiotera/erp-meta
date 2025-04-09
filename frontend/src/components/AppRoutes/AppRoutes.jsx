@@ -12,7 +12,7 @@ import Consulta from '../../pages/Consulta';
 import Historico from '../../pages/Historico';
 import Painel from '../../pages/Painel';
 import Perfil from '../Perfil/Perfil';
-import Usuarios from '../Usuarios/Usuarios';
+import CadastrarUsuario from '../Usuarios/CadastrarUsuario';
 import Relatorios from '../Relatorios/Relatorios';
 
 const AppRoutes = () => {
@@ -74,7 +74,7 @@ const AppRoutes = () => {
           >
             <Route index element={<Navigate to="perfil" replace />} />
             <Route path="perfil" element={<Perfil />} />
-            <Route path="usuarios" element={<Usuarios />} />
+            <Route path="usuarios" element={<CadastrarUsuario />} />
             <Route path="relatorios" element={<Relatorios />} />
           </Route>
         </>

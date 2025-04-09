@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import SectionMain from '../components/SectionMain/SectionMain';
 import Formulario from '../components/Formulario/Formulario';
 import Section from '../components/Section/Section';
@@ -22,6 +22,8 @@ const campos = [
 const Login = () => {
   const { postLogin, loading, setLoading, message, setMessage } =
     useContext(LoginContext);
+
+  const [newFuncionario, setNewFuncionario] = useState(false);
 
   const handleSubmit = async (formData) => {
     await postLogin(formData);
@@ -47,6 +49,7 @@ const Login = () => {
           setLoading={setLoading}
           message={message} // Passa a mensagem como prop
           setMessage={setMessage}
+          newFuncionario={newFuncionario}
         />
       </div>
     </Section>

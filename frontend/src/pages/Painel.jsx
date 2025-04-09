@@ -22,7 +22,7 @@ const Painel = () => {
           </li>
           {role === 'admin' && (
             <li>
-              <NavLink to={'usuarios'}>Usuários</NavLink>
+              <NavLink to={'usuarios'}>Cadastrar usuário</NavLink>
             </li>
           )}
           <li>

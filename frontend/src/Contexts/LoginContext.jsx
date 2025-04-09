@@ -64,11 +64,11 @@ export const LoginProvider = ({ children }) => {
 
       if (dataResponse.status !== 'success') {
         // Verifica o status do backend
-        setMessage({ type: 'alert-danger', text: dataResponse.message });
+        setMessage({ type: 'error', text: dataResponse.message });
         return dataResponse;
       }
 
-      setMessage({ type: 'alert-primary', text: dataResponse.message });
+      setMessage({ type: 'success', text: dataResponse.message });
 
       if (dataResponse && dataResponse.data) {
         setFuncionario(dataResponse.data);
@@ -91,14 +91,14 @@ export const LoginProvider = ({ children }) => {
         error.response.data &&
         error.response.data.message
       ) {
-        setMessage({ type: 'alert-danger', text: error.response.data.message });
+        setMessage({ type: 'error', text: error.response.data.message });
       } else if (error.message) {
         // Caso seja um erro genérico do JavaScript
-        setMessage({ type: 'alert-danger', text: error.message });
+        setMessage({ type: 'error', text: error.message });
       } else {
         // Mensagem genérica para erros desconhecidos
         setMessage({
-          type: 'alert-danger',
+          type: 'error',
           text: 'Ocorreu um erro inesperado.',
         });
       }

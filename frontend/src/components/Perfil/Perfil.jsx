@@ -100,7 +100,7 @@ const Perfil = () => {
 
   return (
     <>
-      {message && <Message type={message.type} text={message.text} />}
+      {/* {message && <Message type={message.type} text={message.text} />} */}
       {!loading && funcionarioEncontrado && (
         <Formulario
           handleSubmit={handleSubmit}
