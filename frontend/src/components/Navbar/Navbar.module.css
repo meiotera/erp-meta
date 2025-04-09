@@ -1,0 +1,86 @@
+/* Navbar.module.css */
+
+/* Navbar principal */
+.navbar {
+  padding: 15px 20px;
+  position: relative;
+}
+
+/* Container */
+.container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+/* Lista de navegação */
+.navbarNav {
+  list-style: none;
+  display: flex;
+  gap: 30px;
+  padding: 0;
+  margin: 0;
+}
+
+/* Itens da navegação */
+.navItem {
+  position: relative;
+}
+
+/* Estilo dos links */
+.navLink {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 500;
+  color: #fff;
+  padding: 12px 18px;
+  border-radius: 6px;
+  transition: all 0.3s ease-in-out;
+}
+
+.navLink:hover {
+  color: #f58b4c;
+}
+
+/* Botão de Logout */
+.logoutButton {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: 600;
+  color: #fff !important;
+  padding: 12px 18px;
+  border-radius: 6px;
+  border: none;
+  background: none;
+  transition: all 0.3s ease-in-out;
+}
+
+.logoutButton:hover {
+  color: #f58b4c !important;
+}
+
+/* Botão de Login */
+.loginButton {
+  text-decoration: none;
+  font-size: 18px;
+  font-weight: 600;
+  padding: 12px 18px;
+  color: #fff !important;
+  transition: all 0.3s ease-in-out;
+}
+
+.loginButton:hover {
+  color: #f58b4c !important;
+}
+
+.loginButton.active {
+  color: #fcd949 !important;
+}
+
+/* Responsividade */
+@media (max-width: 768px) {
+  .navbarNav {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

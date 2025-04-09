@@ -1,0 +1,43 @@
+.menuNav ul {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 0;
+  justify-content: center;
+  gap: 20px;
+  list-style: none;
+  margin: 30px 0;
+}
+
+.menuNav ul li {
+  margin: 0;
+}
+
+.menuNav ul li a {
+  display: block;
+  padding: 12px 20px;
+  text-decoration: none;
+  color: #fff;
+  background-color: #153291;
+  border-radius: 10px;
+  transition:
+    background-color 0.3s ease-in-out,
+    transform 0.2s ease-in-out;
+  cursor: pointer;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-weight: 500;
+}
+
+.menuNav ul li a:hover {
+  background-color: #0e2263;
+  transform: translateY(-2px);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+}
+
+@media (max-width: 600px) {
+  .menuNav ul {
+    gap: 10px;
+  }
+  .menuNav ul li a {
+    padding: 10px 16px;
+  }
+}

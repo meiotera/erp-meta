@@ -1,0 +1,17 @@
+.bi {
+  font-size: 2rem;
+  color: #7716e7;
+}
+
+.cardPersonal {
+  width: 15em;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  cursor: pointer;
+  transition: ease-in-out 0.2s;
+}
+
+.cardPersonal:hover {
+  border: 1px solid #7716e7;
+  box-shadow: #7716e7 0px 0px 10px;
+}

@@ -1,0 +1,101 @@
+/* Estilo geral do formulário */
+form {
+  background-color: #ffffff; /* Fundo branco */
+  border: 1px solid #e0e0e0; /* Borda cinza clara */
+  border-radius: 8px; /* Bordas arredondadas */
+  padding: 20px; /* Espaçamento interno */
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* Sombra suave */
+  max-width: 800px;
+  margin: 0 auto; /* Centraliza o formulário */
+}
+
+/* Estilo para os rótulos */
+label {
+  font-size: 14px; /* Tamanho da fonte */
+  font-weight: 600; /* Negrito */
+  color: #333333; /* Cor do texto */
+  margin-bottom: 8px; /* Espaçamento abaixo do rótulo */
+  display: block; /* Garante que o rótulo fique acima do campo */
+  text-align: start;
+  font-size: 1.2em;
+  /* margin-left: 16px; */
+  margin-top: 16px;
+
+  display: flex;
+  align-items: center;
+}
+
+/* Estilo para os campos de entrada */
+textarea {
+  width: 100%; /* Largura total */
+  padding: 12px; /* Espaçamento interno */
+  border: 1px solid #cccccc; /* Borda cinza */
+  border-radius: 6px; /* Bordas arredondadas */
+  font-size: 14px; /* Tamanho da fonte */
+  color: #333333; /* Cor do texto */
+  background-color: #f9f9f9; /* Fundo cinza claro */
+  transition:
+    border-color 0.3s ease,
+    box-shadow 0.3s ease; /* Transições suaves */
+  resize: none; /* Remove a opção de redimensionar o textarea */
+  height: 120px;
+}
+
+/* Estilo para os campos ao receber foco */
+textarea:focus,
+input[type='text']:focus {
+  border-color: #007bff; /* Cor azul para o foco */
+  box-shadow: 0 0 8px rgba(0, 123, 255, 0.25); /* Sombra azul suave */
+  outline: none; /* Remove o outline padrão */
+}
+
+/* Estilo para o contêiner de cada campo */
+.form-group {
+  margin-bottom: 20px; /* Espaçamento entre os campos */
+}
+
+/* Estilo para o campo de valor */
+input#valor {
+  font-weight: 600; /* Negrito */
+  background-color: #fdfdfd; /* Fundo branco */
+}
+
+/* Estilo para o cabeçalho do formulário */
+.headerForm {
+  display: flex;
+  justify-content: space-between; /* Espaça os elementos */
+  align-items: center; /* Alinha verticalmente */
+  margin-bottom: 20px; /* Espaçamento inferior */
+}
+
+.headerForm span {
+  font-size: 18px; /* Tamanho da fonte */
+  font-weight: 600; /* Negrito */
+  color: #333333; /* Cor do texto */
+}
+
+/* Estilo para mensagens de erro */
+.alert {
+  background-color: #f8d7da; /* Fundo vermelho claro */
+  color: #721c24; /* Texto vermelho escuro */
+  border: 1px solid #f5c6cb; /* Borda vermelha clara */
+  border-radius: 5px; /* Bordas arredondadas */
+  padding: 10px 15px; /* Espaçamento interno */
+  margin-bottom: 15px; /* Espaçamento inferior */
+  font-size: 14px; /* Tamanho da fonte */
+  line-height: 1.5; /* Altura da linha */
+}
+
+.erroForm {
+  margin: 5px 0; /* Espaçamento entre as mensagens */
+  font-weight: bold; /* Negrito */
+  font-size: 14px; /* Tamanho da fonte */
+  display: flex;
+  align-items: center;
+}
+
+.erroForm::before {
+  content: '⚠️'; /* Ícone de alerta */
+  margin-right: 8px; /* Espaçamento entre o ícone e o texto */
+  font-size: 16px; /* Tamanho do ícone */
+}

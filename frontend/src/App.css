@@ -1,0 +1,208 @@
+* {
+  box-sizing: border-box;
+}
+
+#root {
+  width: 1440px;
+  box-sizing: border-box;
+  margin: 0 auto;
+  padding: 0;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+header {
+  flex-shrink: 0;
+}
+
+footer {
+  flex-shrink: 0;
+  /* ir para o fundo da página */
+  margin-top: auto;
+}
+main {
+  margin-bottom: 2rem;
+}
+.logo {
+  height: 8em;
+  padding: 1.5em;
+  will-change: filter;
+  transition: filter 300ms;
+}
+
+.container-table {
+  max-height: 320px;
+  overflow: auto;
+}
+
+.backgroundGlobal {
+  background: linear-gradient(135deg, #3d3ab8, #e54a86);
+  padding: 1rem 0;
+}
+
+.logo:hover {
+  filter: drop-shadow(0 0 2em #646cffaa);
+}
+
+.logo.react:hover {
+  filter: drop-shadow(0 0 2em #61dafbaa);
+}
+
+/* FORM */
+label::before {
+  content: '';
+  height: 20px;
+  width: 5px;
+  background-color: #ce0cd4;
+  margin-right: 8px;
+  display: block;
+}
+
+/* Estilo para o botão de envio */
+.button[type='submit'] {
+  background-color: #007bff; /* Fundo azul */
+  color: #ffffff; /* Texto branco */
+  border: none; /* Remove a borda */
+  border-radius: 6px; /* Bordas arredondadas */
+  padding: 12px 20px; /* Espaçamento interno */
+  font-size: 16px; /* Tamanho da fonte */
+  font-weight: 600; /* Negrito */
+  cursor: pointer; /* Cursor de ponteiro */
+  transition:
+    background-color 0.3s ease,
+    box-shadow 0.3s ease; /* Transições suaves */
+  margin-top: 20px; /* Espaçamento superior */
+  width: 100%; /* Largura total */
+}
+
+/* MODAL */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.erroForm {
+  display: block;
+}
+
+.modal-content {
+  max-width: 500px;
+  margin: 0 auto;
+  padding: 15px 20px;
+  /* border: none; */
+  border-radius: 10px !important;
+  background-color: white !important;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+  height: max-content;
+}
+
+@keyframes logo-spin {
+  from {
+    transform: rotate(0deg);
+  }
+
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  a:nth-of-type(2) .logo {
+    animation: logo-spin infinite 20s linear;
+  }
+}
+.minha-classe-dia {
+  background-color: #f0f0f0;
+  height: max-content;
+}
+
+.fc-daygrid-day-events {
+  display: none;
+}
+
+.dia-passado {
+  opacity: 0.5; /* Ajuste o valor conforme necessário */
+}
+
+.click-day {
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+}
+
+.click-day:hover {
+  background-color: #007bff48;
+}
+
+.agenda {
+  width: 100%;
+}
+
+.card {
+  padding: 1em;
+}
+
+.read-the-docs {
+  color: #888;
+}
+
+.active {
+  color: #fcd949 !important;
+  font-weight: bold;
+  /* border-bottom: 3px solid #f58b4c; */
+}
+
+@media screen and (max-width: 990px) {
+  .agenda {
+    width: 230px;
+  }
+}
+
+/* btn s */
+
+/* Estilo para o contêiner dos botões */
+.buttonContainer {
+  display: flex !important;
+  justify-content: space-around !important;
+  margin-top: 20px !important;
+}
+
+/* Estilo para o botão de sucesso (Agendar) */
+.btnSuccess {
+  background-color: #28a745;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btnSuccess:hover {
+  background-color: #218838;
+}
+
+/* Estilo para o botão de cancelar */
+.btnDanger {
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 16px;
+  transition: background-color 0.3s ease;
+}
+
+.btnDanger:hover {
+  background-color: #c82333;
+}

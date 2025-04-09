@@ -1,0 +1,27 @@
+.containerAgenda {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.minhaAgenda {
+  flex: 1 1 360px;
+}
+
+.calendario {
+  flex: 2 1 300px;
+}
+
+.diasSelecionados {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.cardDia {
+  flex: 1 1 150px;
+}
+
+@media (max-width: 768px) {
+  .minhaAgenda {
+    margin-top: 36px;
+  }
+}
