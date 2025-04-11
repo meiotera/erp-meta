@@ -23,6 +23,7 @@ footer {
   margin-top: auto;
 }
 main {
+  min-height: 500px;
   margin-bottom: 2rem;
 }
 .logo {
@@ -70,9 +71,7 @@ label::before {
   font-size: 16px; /* Tamanho da fonte */
   font-weight: 600; /* Negrito */
   cursor: pointer; /* Cursor de ponteiro */
-  transition:
-    background-color 0.3s ease,
-    box-shadow 0.3s ease; /* Transições suaves */
+  transition: background-color 0.3s ease, box-shadow 0.3s ease; /* Transições suaves */
   margin-top: 20px; /* Espaçamento superior */
   width: 100%; /* Largura total */
 }

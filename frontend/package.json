@@ -29,6 +29,7 @@
     "react-modal": "^3.16.3",
     "react-router-dom": "^7.1.5",
     "react-scan": "^0.2.14",
+    "recharts": "^2.15.2",
     "validations-br": "^1.4.0"
   },
   "devDependencies": {

@@ -7,6 +7,7 @@ import {
   cadastrarFuncionario,
 } from '../../api/funcionario';
 import { agendarAtendimento } from '../../api/agendamento';
+import { fetchDadosFinanceiros } from '../../api/financeiro';
 
 export const UsersContext = createContext();
 
@@ -114,6 +115,28 @@ export const UsersProvider = ({ children }) => {
     }
   };
 
+  const fetchFinanceiro = async (dataInicial, dataFinal) => {
+    // setLoading(true); // Você pode manter o loading aqui se preferir
+    try {
+      // 1. Chame a função da API, que DEVE retornar os dados JSON parseados
+      const dadosJson = await fetchDadosFinanceiros(dataInicial, dataFinal);
+
+      console.log('da', dadosJson);
+
+      return dadosJson;
+    } catch (error) {
+      console.error('Erro ao buscar dados financeiros no Context:', error);
+      setMessage({
+        type: 'error',
+        text: error.message || 'Erro ao buscar dados financeiros',
+      });
+      // Retorne um array vazio ou null em caso de erro para o componente lidar
+      return []; // Retornar array vazio é mais seguro para .map
+    } finally {
+      // setLoading(false); // Pode manter o loading aqui
+    }
+  };
+
   return (
     <UsersContext.Provider
       value={{
@@ -132,6 +155,7 @@ export const UsersProvider = ({ children }) => {
         buscarDadosFuncionario,
         updateDadosFuncionario,
         cadastraFuncionario,
+        fetchFinanceiro, // Adicionado ao contexto
       }}
     >
       {children}

@@ -1,11 +1,12 @@
 .menuNav ul {
   display: flex;
   flex-wrap: wrap;
-  padding: 0;
+  padding-bottom: 20px;
   justify-content: center;
   gap: 20px;
   list-style: none;
   margin: 30px 0;
+  border-bottom: 3px solid #e7bd03;
 }
 
 .menuNav ul li {
@@ -19,9 +20,7 @@
   color: #fff;
   background-color: #153291;
   border-radius: 10px;
-  transition:
-    background-color 0.3s ease-in-out,
-    transform 0.2s ease-in-out;
+  transition: background-color 0.3s ease-in-out, transform 0.2s ease-in-out;
   cursor: pointer;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
   font-weight: 500;
