@@ -109,10 +109,6 @@ function Agendamento() {
 
   return (
     <>
-      <Section headingH2={'Selecione o especialista'}>
-        <Equipe onClickEnabled={true} onClick={selecionarProfissional} />
-      </Section>
-
       {loading ? (
         <Loading />
       ) : (
@@ -124,6 +120,9 @@ function Agendamento() {
           />
         )
       )}
+      <Section headingH2={'Selecione o especialista'}>
+        <Equipe onClickEnabled={true} onClick={selecionarProfissional} />
+      </Section>
 
       <Modal
         isOpen={modalIsOpen}

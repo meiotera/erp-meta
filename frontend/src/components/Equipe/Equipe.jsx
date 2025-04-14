@@ -6,6 +6,8 @@ import Loading from '../Loading/Loading';
 function Equipe({ onClickEnabled, onClick }) {
   const { funcionarios, loading } = useContext(UsersContext);
 
+  console.log(funcionarios);
+
   // if (loading) {
   //   return <Loading />;
   // }

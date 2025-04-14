@@ -1,17 +1,50 @@
-.bi {
-  font-size: 2rem;
-  color: #7716e7;
-}
-
-.cardPersonal {
-  width: 15em;
+.card {
+  flex: 1 1 160;
+  width: 180px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   border: 1px solid #ccc;
-  border-radius: 15px;
+  border-radius: 10px;
+  margin: 15px;
+  overflow: hidden;
+
   cursor: pointer;
-  transition: ease-in-out 0.2s;
 }
 
-.cardPersonal:hover {
-  border: 1px solid #7716e7;
-  box-shadow: #7716e7 0px 0px 10px;
+.card:hover {
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.card img {
+  width: 100%;
+  height: 200px;
+  object-fit: cover;
+
+  display: block;
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 15px;
+  flex-grow: 1;
+
+  width: 100%;
+
+  text-align: center;
+}
+
+.cardBody h5 {
+  margin-bottom: 8px;
+  font-size: 1.1rem;
+  font-style: italic;
+  text-transform: capitalize;
+}
+
+.cardBody p {
+  font-size: 0.9rem;
+  color: #555;
 }

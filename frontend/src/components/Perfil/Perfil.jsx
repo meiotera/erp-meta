@@ -1,9 +1,7 @@
-import React, { useContext, useEffect } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import Formulario from '../Formulario/Formulario';
 import Loading from '../Loading/Loading';
-
 import styles from './Perfil.module.css';
-
 import { LoginContext } from '../../Contexts/LoginContext';
 import { UsersContext } from '../../Contexts/UsersContext';
 import Message from '../Message/Message';
@@ -54,14 +52,23 @@ const campos = [
   {
     id: 'valor_consulta',
     type: 'text',
-    placeholder: 'Valor da consulta',
+    placeholder: 'Valor da consulta (opcional)',
     label: 'Valor da consulta',
+    name: 'valor_consulta',
+  },
+  {
+    id: 'foto',
+    type: 'text',
+    placeholder: 'https://exemplo.com/imagem.jpg',
+    label: 'URL da Imagem de Perfil',
+    name: 'foto',
   },
   {
     id: '_id',
     type: 'hidden',
     placeholder: '',
     label: '',
+    name: '_id',
   },
 ];
 
@@ -76,37 +83,70 @@ const Perfil = () => {
     setMessage,
   } = useContext(UsersContext);
 
+  const [formData, setFormData] = useState(null);
   const funcionarioId = funcionario?.id || funcionario?.funcionario?.id;
 
   useEffect(() => {
     async function handleDadosFuncionario() {
-      await buscarDadosFuncionario(funcionarioId);
+      if (funcionarioId) {
+        await buscarDadosFuncionario(funcionarioId);
+      }
     }
-    handleDadosFuncionario();
-  }, []);
+    if (!formData) {
+      handleDadosFuncionario();
+    }
+  }, [funcionarioId, formData]);
+  useEffect(() => {
+    if (funcionarioEncontrado?.data?.especialista && !formData) {
+      setFormData(funcionarioEncontrado.data.especialista);
+    }
+  }, [funcionarioEncontrado, formData]);
 
   const handleSubmit = async (data) => {
-    await updateDadosFuncionario(data);
+    const dataToSend = { ...formData, ...data };
+
+    setFormData(dataToSend);
+
+    await updateDadosFuncionario(dataToSend);
   };
 
-  // desmontar o componente quando sair da página
   useEffect(() => {
     return () => {
       setMessage(null);
     };
   }, []);
 
-  if (loading) return <Loading />;
+  if (loading && !formData) return <Loading />;
+
+  const fotoUrl = formData?.foto || '';
 
   return (
-    <>
-      {/* {message && <Message type={message.type} text={message.text} />} */}
-      {!loading && funcionarioEncontrado && (
+    <div className={styles.perfilContainer}>
+      <div className={styles.previewContainer}>
+        <p>Pré-visualização:</p>
+        {fotoUrl ? (
+          <img
+            key={fotoUrl}
+            src={fotoUrl}
+            alt="Pré-visualização do Perfil"
+            className={styles.previewImage}
+            onError={(e) => {
+              e.target.onerror = null;
+
+              e.target.style.display = 'none';
+            }}
+          />
+        ) : (
+          <p className={styles.noPreviewText}>Nenhuma imagem definida.</p>
+        )}
+      </div>
+
+      {formData && (
         <Formulario
           handleSubmit={handleSubmit}
           campos={campos}
-          initialData={funcionarioEncontrado.data.especialista}
-          btnForm={'Atualizar'}
+          initialData={formData}
+          btnForm={'Atualizar Perfil'}
           className={{
             form: styles.form,
             inputContainer: styles.inputContainer,
@@ -115,7 +155,7 @@ const Perfil = () => {
           }}
         />
       )}
-    </>
+    </div>
   );
 };
 

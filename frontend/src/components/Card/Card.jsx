@@ -12,10 +12,15 @@ function Card({
   };
 
   return (
-    <div className={`p-2 m-2 ${styles.cardPersonal}`} onClick={handleClick}>
-      <div className="card-body text-center">
-        <h5 className="card-title">{nome}</h5>
-        <p className="card-text">{descricao}</p>
+    <div className={styles.card} onClick={handleClick}>
+      <img
+        src={foto ? foto : '../../src/assets/logo-oficial.png'}
+        alt={`imagem de ${nome}`}
+      />
+      <div class={styles.cardBody}>
+        <h5>{nome}</h5>
+        <p>{profissao}</p>
+        <p>{descricao}</p>
       </div>
     </div>
   );
