@@ -17,7 +17,7 @@ function Card({
         src={foto ? foto : '../../src/assets/logo-oficial.png'}
         alt={`imagem de ${nome}`}
       />
-      <div class={styles.cardBody}>
+      <div className={styles.cardBody}>
         <h5>{nome}</h5>
         <p>{profissao}</p>
         <p>{descricao}</p>

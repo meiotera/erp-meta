@@ -8,6 +8,7 @@ import Loading from '../components/Loading/Loading';
 import Message from '../components/Message/Message';
 import Modal from '../components/Modal/Modal';
 import { UsersContext } from '../Contexts/UsersContext';
+import useMetaTags from '../Hooks/useMetaTags';
 
 function Agendamento() {
   const {
@@ -25,6 +26,15 @@ function Agendamento() {
   const [profissionalSelecionado, setProfissionalSelecionado] = useState(null);
 
   const location = useLocation();
+
+  useMetaTags({
+    title: 'Home | Meta Saúde Integrada',
+    description:
+      'Agende sua consulta na Clínica Meta Saúde Integrada de forma rápida e segura. Escolha o profissional, a especialidade e o melhor horário para você. Oferecemos atendimentos em Fisioterapia, Psicopedagogia, Psicanálise e Terapias integradas, com foco no cuidado humanizado e na sua qualidade de vida.',
+    keywords:
+      'agendamento online, clínica de fisioterapia, psicopedagogia, psicanálise, terapia, Mossoró, saúde integrada',
+    robots: 'index, follow',
+  });
 
   // Função que abre o modal
   const abrirModal = () => {
