@@ -1,6 +1,6 @@
 import authToken from '../src/utils/authToken';
 
-const baseURL = 'http://localhost:3000';
+const baseURL = import.meta.env.VITE_BACKEND_URL;
 
 const apiFormFetch = async (url, options = {}) => {
   const token = authToken();
