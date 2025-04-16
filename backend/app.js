@@ -17,9 +17,11 @@ console.log('Iniciando o servidor...');
 
 // Configurar o CORS para permitir requisições do frontend
 const corsOptions = {
-  origin: 'http://127.0.0.1:5173', // Substitua pelo URL do seu frontend
+  //origin: 'http://127.0.0.1:5173', // URL do seu frontend
+  origin: ['https://meta-saude-integrada.vercel.app'],
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 
 // Use o middleware compression
