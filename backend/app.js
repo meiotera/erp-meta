@@ -18,7 +18,7 @@ console.log('Iniciando o servidor...');
 // Configurar o CORS para permitir requisições do frontend
 const corsOptions = {
   //origin: 'http://127.0.0.1:5173', // URL do seu frontend
-  origin: ['https://meta-saude-integrada.vercel.app'],
+  origin: ['https://erp-meta.vercel.app'],
   credentials: true,
 };
 
