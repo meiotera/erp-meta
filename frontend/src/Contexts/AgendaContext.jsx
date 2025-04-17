@@ -110,7 +110,7 @@ export const AgendaProvider = ({ children }) => {
         id_funcionario: idFuncionario,
         agenda,
       });
-      carregarAgenda();
+      // carregarAgenda();
       setMessage({ type: 'success', text: 'Agenda criada com sucesso!' });
     } catch (error) {
       setMessage({ type: 'error', text: 'Erro ao criar nova agenda' });
@@ -139,7 +139,7 @@ export const AgendaProvider = ({ children }) => {
       setMessage({ type: 'error', text: 'Erro ao cadastrar cliente.' });
       throw error;
     } finally {
-      setLoading(false); // Garante que o loading seja desativado
+      setLoading(false);
     }
   };
   useEffect(() => {

@@ -2,6 +2,8 @@ import authToken from '../src/utils/authToken';
 
 const baseURL = import.meta.env.VITE_BACKEND_URL;
 
+console.log(baseURL);
+
 const apiFetch = async (url, options = {}) => {
   const token = authToken();
 

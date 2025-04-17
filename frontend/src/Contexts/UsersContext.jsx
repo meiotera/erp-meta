@@ -20,6 +20,9 @@ export const UsersProvider = ({ children }) => {
   const [message, setMessage] = useState(null);
   const [isFetched, setIsFetched] = useState(false); // Controle de requisições
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successModalMessage, setSuccessModalMessage] = useState('');
+
   useEffect(() => {
     const fetchFuncionarios = async () => {
       if (isFetched) return; // Evita múltiplas requisições
@@ -76,12 +79,22 @@ export const UsersProvider = ({ children }) => {
   };
 
   const postAgendamento = async (data) => {
+    setLoading(true);
+    setMessage(null); // Limpa mensagens de erro do formulário
+    setShowSuccessModal(false); // Garante que o modal de sucesso esteja fechado
+    setSuccessModalMessage('');
     try {
       const response = await agendarAtendimento(data);
-      if (response.status === 200) {
-        setMessage({ type: 'success', text: response.message });
+      if (response.status === 200 && response.message) {
+        setSuccessModalMessage(response.message);
+        setShowSuccessModal(true);
+        setLoading(false);
+        return true;
       } else {
-        setMessage({ type: 'error', text: response.message });
+        setMessage({
+          type: 'error',
+          text: response.message || 'Ocorreu um erro inesperado.',
+        });
       }
     } catch (error) {
       setMessage({ type: 'error', text: 'Erro ao agendar atendimento' });
@@ -92,7 +105,11 @@ export const UsersProvider = ({ children }) => {
     try {
       const response = await cadastrarFuncionario(data);
       if (response.status === 'success') {
-        setMessage({ type: 'success', text: response.message });
+        // setMessage({ type: 'success', text: response.message });
+        setSuccessModalMessage(response.message);
+        setShowSuccessModal(true);
+        setLoading(false);
+        return true;
       } else {
         setMessage({ type: 'error', text: response.message });
       }
@@ -156,6 +173,9 @@ export const UsersProvider = ({ children }) => {
         updateDadosFuncionario,
         cadastraFuncionario,
         fetchFinanceiro, // Adicionado ao contexto
+        showSuccessModal,
+        setShowSuccessModal,
+        successModalMessage,
       }}
     >
       {children}

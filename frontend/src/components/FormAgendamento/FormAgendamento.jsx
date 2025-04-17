@@ -1,21 +1,22 @@
-import React, { useState, useContext } from 'react';
+// /home/renan/erp-meta/frontend/src/components/FormAgendamento/FormAgendamento.jsx
+import React, { useState, useContext, useEffect } from 'react';
 import Input from '../Input/Input';
 import Select from '../Select/Select';
-import Message from '../Message/Message';
+import Message from '../Message/Message'; // Ainda necessário para erros de validação/API
 import { validateCPF } from 'validations-br';
 import { UsersContext } from '../../Contexts/UsersContext';
 import { format, parseISO } from 'date-fns';
-
 import { ptBR } from 'date-fns/locale';
-
 import styles from './FormAgendamento.module.css';
 
 function FormAgendamento({ diasDisponiveis, fecharModal }) {
-  const { postAgendamento, funcionarioId } = useContext(UsersContext);
+  // Obtém message/setMessage para erros, loading, e postAgendamento
+  const { postAgendamento, funcionarioId, message, setMessage, loading } =
+    useContext(UsersContext);
 
+  // Estados locais do formulário
   const [selectedDate, setSelectedDate] = useState('');
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
-  const [message, setMessage] = useState(null);
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -24,80 +25,112 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
     funcionario: funcionarioId,
   });
 
+  // Limpa a mensagem de ERRO do contexto ao desmontar
+  useEffect(() => {
+    return () => {
+      setMessage(null);
+    };
+  }, [setMessage]);
+
   const validateForm = () => {
+    // ... (lógica de validação existente, usando setMessage para erros)
     if (
       formData.nome === '' ||
       formData.email === '' ||
       formData.cpf === '' ||
-      formData.telefone === ''
+      formData.telefone === '' ||
+      selectedDate === '' ||
+      !document.getElementById('horarios')?.value
     ) {
       setMessage({
-        type: 'alert-danger text-center',
-        text: 'Preencha todos os campos',
+        type: 'error',
+        text: 'Preencha todos os campos obrigatórios.',
       });
       return false;
     }
-
     if (!validateCPF(formData.cpf)) {
-      setMessage({ type: 'alert-danger text-center', text: 'CPF inválido' });
+      setMessage({ type: 'error', text: 'CPF inválido' });
       return false;
     }
-
+    // setMessage(null); // Limpa antes de submeter no handleSubmit
     return true;
   };
 
   const handleDateChange = (event) => {
+    // ... (lógica existente)
     const selectedDateValue = event.target.value;
     setSelectedDate(selectedDateValue);
+    setMessage(null); // Limpa erro ao mudar data
 
-    // Encontre os horários disponíveis para a data selecionada
     const selectedDay = diasDisponiveis.find(
       (dia) => dia.data === selectedDateValue,
     );
     setHorariosDisponiveis(selectedDay ? selectedDay.horariosDisponiveis : []);
+
+    const horarioSelect = document.getElementById('horarios');
+    if (horarioSelect) {
+      horarioSelect.value = '';
+    }
   };
 
   const handleInputChange = (id, value) => {
+    // ... (lógica existente)
     setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
+    // Opcional: limpar erro ao digitar
+    // if (message) setMessage(null);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
+    setMessage(null); // Limpa mensagens de erro anteriores
+
     if (!validateForm()) {
-      return;
+      return; // Erro de validação, mensagem já definida
     }
 
-    try {
-      const selectedDateUTC = parseISO(selectedDate);
+    // Não precisa mais de try/catch aqui, pois o contexto trata
+    const horarioSelecionado = event.target.horarios.value;
 
-      await postAgendamento({
-        ...formData,
-        agendamentos: [
-          {
-            data: selectedDateUTC,
-            hora: event.target.horarios.value,
-          },
-        ],
-      });
+    // Chama postAgendamento e verifica o resultado
+    const success = await postAgendamento({
+      ...formData,
+      agendamentos: [
+        {
+          data: selectedDate,
+          hora: horarioSelecionado,
+        },
+      ],
+    });
 
+    // Fecha o modal do formulário APENAS se o agendamento foi bem-sucedido
+    if (success) {
       fecharModal();
-    } catch (error) {
-      setMessage({ type: 'error', text: 'Erro ao enviar o formulário' });
     }
+    // Se !success, o modal permanece aberto e a mensagem de erro (definida no contexto) será exibida
   };
 
   return (
-    <form onSubmit={handleSubmit}>
+    // A key pode ser baseada na mensagem de erro agora
+    <form
+      onSubmit={handleSubmit}
+      key={message ? message.text : 'no-message-form'}
+    >
       <Input
         type="hidden"
         name="funcionario_id"
         id="funcionario_id"
         value={funcionarioId}
       />
-      {message && <Message type={message.type} text={message.text} />}
+
+      {/* Renderiza APENAS mensagens de ERRO (ou validação) */}
+      {message && message.type === 'error' && (
+        <Message type={message.type} text={message.text} />
+      )}
+
+      {/* Restante dos Inputs e Selects ... */}
       <Input
         type="text"
         label="Nome"
@@ -105,6 +138,7 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         placeholder="Informe seu nome"
         value={formData.nome}
         handleInputChange={handleInputChange}
+        required
       />
       <Input
         type="email"
@@ -113,6 +147,7 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         placeholder="Informe seu email"
         value={formData.email}
         handleInputChange={handleInputChange}
+        required
       />
       <Input
         type="text"
@@ -121,6 +156,7 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         placeholder="CPF Somente números"
         value={formData.cpf}
         handleInputChange={handleInputChange}
+        required
       />
       <Input
         type="tel"
@@ -129,40 +165,56 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         placeholder="Informe seu telefone"
         value={formData.telefone}
         handleInputChange={handleInputChange}
+        required
       />
 
       <Select
         label="Selecione uma data"
         id="data"
-        options={diasDisponiveis.map((item) => {
-          const itemDate = new Date(item.data); // Converte a string ISO para um objeto Date
-          const localDate = new Date(
-            itemDate.getTime() + itemDate.getTimezoneOffset() * 60000,
-          ); // Ajusta o fuso horário manualmente
-          const formattedDate = format(localDate, 'dd-MM-yyyy', {
-            locale: ptBR,
-          });
-          return {
-            value: item.data,
-            label: formattedDate,
-          };
-        })}
+        value={selectedDate}
+        options={[
+          { value: '', label: 'Selecione...' },
+          ...diasDisponiveis.map((item) => {
+            const itemDate = parseISO(item.data);
+            const formattedDate = format(itemDate, 'dd/MM/yyyy', {
+              locale: ptBR,
+            });
+            return {
+              value: item.data,
+              label: formattedDate,
+            };
+          }),
+        ]}
         onChange={handleDateChange}
+        required
       />
       <Select
         label="Horários disponíveis"
         id="horarios"
-        options={horariosDisponiveis.map((h) => ({
-          value: h.horario,
-          label: h.horario,
-        }))}
+        options={[
+          { value: '', label: 'Selecione...' },
+          ...horariosDisponiveis
+            .filter((h) => h.disponivel)
+            .map((h) => ({
+              value: h.horario,
+              label: h.horario,
+            })),
+        ]}
+        disabled={!selectedDate || horariosDisponiveis.length === 0}
+        required
       />
+      {/* ... Fim dos Inputs e Selects */}
 
-      <div className="buttonContainer">
-        <button type="submit" className="btnSuccess">
-          Agendar
+      <div className={styles.buttonContainer}>
+        <button type="submit" className="btnSuccess" disabled={loading}>
+          {loading ? 'Agendando...' : 'Agendar'}
         </button>
-        <button type="button" onClick={fecharModal} className="btnDanger">
+        <button
+          type="button"
+          onClick={fecharModal}
+          className="btnDanger"
+          disabled={loading} // Desabilita cancelar durante o loading também
+        >
           Cancelar
         </button>
       </div>

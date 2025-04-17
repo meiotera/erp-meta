@@ -40,7 +40,6 @@ function Agendamento() {
   const abrirModal = () => {
     setIsOpen(true);
     setLoading(false);
-    // Reseta a mensagem ao abrir o modal
   };
 
   // Função que fecha o modal
@@ -54,12 +53,12 @@ function Agendamento() {
 
   // Função chamada ao clicar em um profissional
   const selecionarProfissional = (id) => {
-    fecharModal(); // Fecha o modal antes de buscar a nova agenda
+    fecharModal();
     setProfissionalSelecionado(id);
-    setMessage(null); // Reseta a mensagem
-    setDiasDisponiveis([]); // Reseta os dias disponíveis
-    setHorariosDisponiveis([]); // Reseta os horários disponíveis
-    fetchAgenda(id); // Busca a agenda do profissional
+    setMessage(null);
+    setDiasDisponiveis([]);
+    setHorariosDisponiveis([]);
+    fetchAgenda(id);
   };
 
   const atualizarDiasEHorarios = useCallback(() => {
@@ -88,7 +87,7 @@ function Agendamento() {
       );
       setHorariosDisponiveis(horarios);
 
-      abrirModal(); // Abre o modal se houver horários disponíveis
+      abrirModal();
     } else {
       if (modalIsOpen) {
         setMessage({
@@ -111,7 +110,7 @@ function Agendamento() {
       setIsOpen(false);
       setDiasDisponiveis([]);
       setHorariosDisponiveis([]);
-      setMessage(null); // Reseta a mensagem ao desmontar o componente
+      setMessage(null);
       setProfissionalSelecionado(null);
       setAgenda([]);
     };

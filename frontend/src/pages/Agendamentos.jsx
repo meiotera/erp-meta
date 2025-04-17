@@ -56,11 +56,6 @@ const campos = [
 
 const Agendamentos = ({ funcionario, agendamentos, loading, carregarMais }) => {
   const { agenda } = useContext(AgendaContext);
-  // const [modalIsOpen, setIsOpen] = useState(false);
-  // const [agendamentoId, setAgendamentoId] = useState('');
-  // const [modalContent, setModalContent] = useState(null);
-
-  // console.log(agenda);
 
   const fecharModal = useCallback(() => {
     setIsOpen(false);
