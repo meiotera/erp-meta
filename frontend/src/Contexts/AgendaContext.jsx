@@ -110,7 +110,7 @@ export const AgendaProvider = ({ children }) => {
         id_funcionario: idFuncionario,
         agenda,
       });
-      // carregarAgenda();
+      carregarAgenda();
       setMessage({ type: 'success', text: 'Agenda criada com sucesso!' });
     } catch (error) {
       setMessage({ type: 'error', text: 'Erro ao criar nova agenda' });
