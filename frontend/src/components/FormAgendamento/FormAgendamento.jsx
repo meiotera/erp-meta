@@ -1,8 +1,7 @@
-// /home/renan/erp-meta/frontend/src/components/FormAgendamento/FormAgendamento.jsx
 import React, { useState, useContext, useEffect } from 'react';
 import Input from '../Input/Input';
 import Select from '../Select/Select';
-import Message from '../Message/Message'; // Ainda necessário para erros de validação/API
+import Message from '../Message/Message';
 import { validateCPF } from 'validations-br';
 import { UsersContext } from '../../Contexts/UsersContext';
 import { format, parseISO } from 'date-fns';
@@ -10,11 +9,9 @@ import { ptBR } from 'date-fns/locale';
 import styles from './FormAgendamento.module.css';
 
 function FormAgendamento({ diasDisponiveis, fecharModal }) {
-  // Obtém message/setMessage para erros, loading, e postAgendamento
   const { postAgendamento, funcionarioId, message, setMessage, loading } =
     useContext(UsersContext);
 
-  // Estados locais do formulário
   const [selectedDate, setSelectedDate] = useState('');
   const [horariosDisponiveis, setHorariosDisponiveis] = useState([]);
   const [formData, setFormData] = useState({
@@ -25,9 +22,6 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
     funcionario: funcionarioId,
   });
 
-  console.log(diasDisponiveis);
-
-  // Limpa a mensagem de ERRO do contexto ao desmontar
   useEffect(() => {
     return () => {
       setMessage(null);
@@ -35,7 +29,6 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
   }, [setMessage]);
 
   const validateForm = () => {
-    // ... (lógica de validação existente, usando setMessage para erros)
     if (
       formData.nome === '' ||
       formData.email === '' ||
@@ -54,15 +47,14 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
       setMessage({ type: 'error', text: 'CPF inválido' });
       return false;
     }
-    // setMessage(null); // Limpa antes de submeter no handleSubmit
+
     return true;
   };
 
   const handleDateChange = (event) => {
-    // ... (lógica existente)
     const selectedDateValue = event.target.value;
     setSelectedDate(selectedDateValue);
-    setMessage(null); // Limpa erro ao mudar data
+    setMessage(null);
 
     const selectedDay = diasDisponiveis.find(
       (dia) => dia.data === selectedDateValue,
@@ -76,27 +68,26 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
   };
 
   const handleInputChange = (id, value) => {
-    // ... (lógica existente)
+    if (id === 'cpf' || id === 'telefone') {
+      value = value.replace(/\D/g, '');
+    }
+
     setFormData((prevState) => ({
       ...prevState,
       [id]: value,
     }));
-    // Opcional: limpar erro ao digitar
-    // if (message) setMessage(null);
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setMessage(null); // Limpa mensagens de erro anteriores
+    setMessage(null);
 
     if (!validateForm()) {
-      return; // Erro de validação, mensagem já definida
+      return;
     }
 
-    // Não precisa mais de try/catch aqui, pois o contexto trata
     const horarioSelecionado = event.target.horarios.value;
 
-    // Chama postAgendamento e verifica o resultado
     const success = await postAgendamento({
       ...formData,
       agendamentos: [
@@ -107,15 +98,12 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
       ],
     });
 
-    // Fecha o modal do formulário APENAS se o agendamento foi bem-sucedido
     if (success) {
       fecharModal();
     }
-    // Se !success, o modal permanece aberto e a mensagem de erro (definida no contexto) será exibida
   };
 
   return (
-    // A key pode ser baseada na mensagem de erro agora
     <form
       onSubmit={handleSubmit}
       key={message ? message.text : 'no-message-form'}
@@ -127,12 +115,10 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         value={funcionarioId}
       />
 
-      {/* Renderiza APENAS mensagens de ERRO (ou validação) */}
       {message && message.type === 'error' && (
         <Message type={message.type} text={message.text} />
       )}
 
-      {/* Restante dos Inputs e Selects ... */}
       <Input
         type="text"
         label="Nome"
@@ -176,7 +162,6 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         value={selectedDate}
         options={[
           ...diasDisponiveis.map((item) => {
-            // const itemDate = parseISO(item.data);
             const adjustedDate = new Date(
               new Date(item.data).getTime() + 3 * 60 * 60 * 1000,
             );
@@ -206,7 +191,6 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         disabled={!selectedDate || horariosDisponiveis.length === 0}
         required
       />
-      {/* ... Fim dos Inputs e Selects */}
 
       <div className={styles.buttonContainer}>
         <button type="submit" className="btnSuccess" disabled={loading}>
@@ -216,7 +200,7 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
           type="button"
           onClick={fecharModal}
           className="btnDanger"
-          disabled={loading} // Desabilita cancelar durante o loading também
+          disabled={loading}
         >
           Cancelar
         </button>
