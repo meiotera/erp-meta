@@ -25,6 +25,8 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
     funcionario: funcionarioId,
   });
 
+  console.log(diasDisponiveis);
+
   // Limpa a mensagem de ERRO do contexto ao desmontar
   useEffect(() => {
     return () => {
@@ -173,10 +175,12 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         id="data"
         value={selectedDate}
         options={[
-          { value: '', label: 'Selecione...' },
           ...diasDisponiveis.map((item) => {
-            const itemDate = parseISO(item.data);
-            const formattedDate = format(itemDate, 'dd/MM/yyyy', {
+            // const itemDate = parseISO(item.data);
+            const adjustedDate = new Date(
+              new Date(item.data).getTime() + 3 * 60 * 60 * 1000,
+            );
+            const formattedDate = format(adjustedDate, 'dd/MM/yyyy', {
               locale: ptBR,
             });
             return {
@@ -192,7 +196,6 @@ function FormAgendamento({ diasDisponiveis, fecharModal }) {
         label="Horários disponíveis"
         id="horarios"
         options={[
-          { value: '', label: 'Selecione...' },
           ...horariosDisponiveis
             .filter((h) => h.disponivel)
             .map((h) => ({

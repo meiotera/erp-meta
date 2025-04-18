@@ -28,7 +28,7 @@ function Agendamento() {
   const location = useLocation();
 
   useMetaTags({
-    title: 'Home | Meta Saúde Integrada',
+    title: 'Agendamento | Meta Saúde Integrada',
     description:
       'Agende sua consulta na Clínica Meta Saúde Integrada de forma rápida e segura. Escolha o profissional, a especialidade e o melhor horário para você. Oferecemos atendimentos em Fisioterapia, Psicopedagogia, Psicanálise e Terapias integradas, com foco no cuidado humanizado e na sua qualidade de vida.',
     keywords:

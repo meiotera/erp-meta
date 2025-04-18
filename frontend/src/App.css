@@ -104,6 +104,32 @@ label::before {
   height: max-content;
 }
 
+.table-responsive {
+  width: 100%;
+}
+
+.table {
+  width: 100%;
+  min-width: 320px;
+  border-collapse: collapse;
+}
+
+@media (max-width: 767.98px) {
+  .table th.col-telefone,
+  .table td.col-telefone {
+    display: none;
+  }
+
+  td {
+    padding: 5px 0 !important;
+    font-size: 14px !important;
+  }
+
+  .col-cadastrado button {
+    padding: 5px 8px;
+  }
+}
+
 @keyframes logo-spin {
   from {
     transform: rotate(0deg);

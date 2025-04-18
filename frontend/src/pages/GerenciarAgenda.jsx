@@ -43,7 +43,6 @@ const GerenciarAgenda = () => {
     return ['click-day'];
   }, []);
 
-  console.log(agenda);
   // Memoizar a lista de agendas
   const agendaList = useMemo(() => {
     return agendaCadastrada && agendaCadastrada.length > 0 ? (

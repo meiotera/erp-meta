@@ -119,7 +119,9 @@ function Home() {
             Augusto Negreiros, resolveram dar vida a esse sonho e inauguraram a
             tão sonhada Meta Saúde Integrada.
           </Paragraph>
-          <div className="d-flex justify-content-center flex-wrap">
+          <div
+            className={`d-flex justify-content-between flex-wrap ${styles.userClass}`}
+          >
             <Specialties
               especialidade={'Afeto'}
               icon={'bi-balloon-heart-fill'}

@@ -4,6 +4,7 @@ import Message from '../Message/Message';
 import Loading from '../Loading/Loading';
 import { UsersContext } from '../../Contexts/UsersContext';
 import Select from '../Select/Select';
+import { LoginContext } from '../../Contexts/LoginContext';
 
 const funcoes = [
   { value: 'admin', label: 'Administrador' },
@@ -21,7 +22,7 @@ const Formulario = ({
   className,
   newFuncionario,
 }) => {
-  const { setMessage, message } = useContext(UsersContext);
+  const { setMessage, message } = useContext(LoginContext);
 
   const [formData, setFormData] = useState(() =>
     campos.reduce((acc, campo) => {
