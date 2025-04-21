@@ -18,12 +18,12 @@ const Formulario = ({
   agendamentoId,
   idFuncionario,
   loading,
-  initialData, // Nova prop para dados iniciais
+  initialData,
   className,
   newFuncionario,
+  message,
+  setMessage,
 }) => {
-  const { setMessage, message } = useContext(LoginContext);
-
   const [formData, setFormData] = useState(() =>
     campos.reduce((acc, campo) => {
       acc[campo.id] = campo.value || '';
@@ -31,7 +31,6 @@ const Formulario = ({
     }, {}),
   );
 
-  // Atualiza os campos do funcionário e id_agendamento
   useEffect(() => {
     if (agendamentoId) {
       setFormData((prevData) => ({
@@ -42,7 +41,6 @@ const Formulario = ({
     }
   }, [agendamentoId, idFuncionario]);
 
-  // Preenche o formulário com os dados iniciais
   useEffect(() => {
     if (initialData) {
       setFormData((prevData) => ({
@@ -55,7 +53,7 @@ const Formulario = ({
   const validateForm = () => {
     const camposVazios = campos.filter((campo) => !formData[campo.id]);
     if (camposVazios.length > 0) {
-      setMessage({ type: 'error', text: 'Verifique todos os campos.' });
+      setMessage({ type: 'error', text: 'Preencha todos os campos' });
       return false;
     }
     return true;
@@ -72,7 +70,6 @@ const Formulario = ({
     }
   };
 
-  // resetar todos os campos
   useEffect(() => {
     return () => {
       setFormData((prevData) =>
@@ -101,7 +98,6 @@ const Formulario = ({
           />
         ))}
 
-        {/* Adiciona o Select se newFuncionario for true */}
         {newFuncionario && (
           <Select
             label="Função"

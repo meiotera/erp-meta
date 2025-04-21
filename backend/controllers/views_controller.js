@@ -28,8 +28,9 @@ exports.getHome = async (req, res, next) => {
 
 exports.getAgendamento = async (req, res, next) => {
   try {
-    const buscarAgenda =
-      await Agenda_Especialista.find().populate('funcionario');
+    const buscarAgenda = await Agenda_Especialista.find().populate(
+      'funcionario',
+    );
     const agenda = buscarAgenda.map((agendaItem) => {
       const agendaFiltrada = agendaItem.agenda
         .map((dia) => {
@@ -42,13 +43,13 @@ exports.getAgendamento = async (req, res, next) => {
             horariosDisponiveis,
           };
         })
-        .filter((dia) => dia.horariosDisponiveis.length > 0); // Filtra apenas os dias com horários disponíveis
+        .filter((dia) => dia.horariosDisponiveis.length > 0);
 
       return {
         nome: agendaItem.funcionario.nome,
         valor: agendaItem.funcionario.valor_consulta,
         id: agendaItem.funcionario._id,
-        profissao: agendaItem.funcionario.profissao, // Inclua a profissão do funcionário diretamente
+        profissao: agendaItem.funcionario.profissao,
         agenda: agendaFiltrada,
       };
     });
@@ -73,7 +74,6 @@ exports.getHorariosDatas = async (req, res, next) => {
 
     const dias = agenda.agenda.map((dia) => formatarData(dia.data));
     const horarios = agenda.agenda.map(async (dia) => {
-      // Filtrar apenas os horários disponíveis e apagar horários indisponíveis do BD
       for (const horario of dia.horariosDisponiveis) {
         if (!horario.disponivel) {
           await Agenda_Especialista.updateOne(
@@ -167,8 +167,7 @@ exports.getAgenda = async (req, res, next) => {
       return res.status(200).json({
         status: 'success',
         agendamentos: agendamentosFormatados,
-        agenda: [], // Passar um array vazio se não houver agenda
-
+        agenda: [],
         totalAgendamentos,
       });
     }
@@ -178,7 +177,7 @@ exports.getAgenda = async (req, res, next) => {
         return {
           data: formatarData(data),
           horariosDisponiveis: horariosDisponiveis
-            .filter((horario) => horario.disponivel === true) // mantém apenas horários disponíveis
+            .filter((horario) => horario.disponivel === true)
             .map((horario) => ({
               hora: horario.horario,
               disponivel: horario.disponivel,

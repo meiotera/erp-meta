@@ -23,11 +23,8 @@ const DB = process.env.DATABASE.replace(
   process.env.DATABASE_PASSWORD,
 );
 
-// Usar a variável de ambiente MONGO_URI para a conexão com o MongoDB
-// const DB = process.env.DATABASE;
-
 mongoose
-  .connect(DB) // Corrigido: removido os parênteses extras e passado as opções corretamente
+  .connect(DB)
   .then(() => {
     console.log('DB connection successful!');
     app.listen(PORT, () => {
@@ -42,7 +39,6 @@ process.on('unhandledRejection', (err) => {
   console.error('Unhandled Rejection! Desligando...');
   console.error(err.name, err.message);
   server.close(() => {
-    // 0 representa sucesso, 1 representa uma exceção não detectada
     process.exit(1);
   });
 });

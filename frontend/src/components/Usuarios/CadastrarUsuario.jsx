@@ -71,7 +71,7 @@ const campos = [
 
 const Usuarios = () => {
   const { funcionario } = useContext(LoginContext);
-  const { cadastraFuncionario } = useContext(UsersContext);
+  const { cadastraFuncionario, message, setMessage } = useContext(UsersContext);
   const [newFuncionario, setNewFuncionario] = useState(true);
 
   useEffect(() => {
@@ -92,6 +92,8 @@ const Usuarios = () => {
         handleSubmit={handleSubmit}
         campos={campos}
         btnForm={'Cadastrar'}
+        message={message}
+        setMessage={setMessage}
         className={{
           form: styles.form,
           inputContainer: styles.inputContainer,

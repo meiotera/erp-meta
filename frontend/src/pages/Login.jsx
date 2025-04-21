@@ -22,13 +22,17 @@ const campos = [
 const Login = () => {
   const { postLogin, loading, setLoading, message, setMessage } =
     useContext(LoginContext);
+  const [initialData, setInitialData] = useState(null);
 
   const [newFuncionario, setNewFuncionario] = useState(false);
 
   const handleSubmit = async (formData) => {
-    await postLogin(formData);
-  };
+    const res = await postLogin(formData);
 
+    if (res.status === 'success') {
+      setInitialData({ email: '', password: '' });
+    }
+  };
   useEffect(() => {
     return () => {
       setMessage(null);
@@ -50,6 +54,7 @@ const Login = () => {
           message={message} // Passa a mensagem como prop
           setMessage={setMessage}
           newFuncionario={newFuncionario}
+          initialData={initialData}
         />
       </div>
     </Section>

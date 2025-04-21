@@ -5,12 +5,10 @@ exports.financeiro = async (req, res, next) => {
     const { funcionario } = req;
     const { dataInicial, dataFinal } = req.body;
 
-    // Convertendo as datas de string para objeto Date
     const dataInicialDate = new Date(dataInicial);
     const dataFinalAjustada = new Date(dataFinal);
     dataFinalAjustada.setUTCHours(23, 59, 59, 999);
 
-    // Definir o filtro base para atendimentos realizados dentro do período
     const filtroBase = {
       realizado: true,
       create_at: {
@@ -19,12 +17,10 @@ exports.financeiro = async (req, res, next) => {
       },
     };
 
-    // Se o usuário não for admin, adicionar o filtro para o ID do funcionário
     if (funcionario.role !== 'admin') {
       filtroBase.funcionario = funcionario._id;
     }
 
-    // Usar agregação para obter a quantidade de atendimentos realizados e o valor total
     const realizadoRaw = await Atendimento.aggregate([
       {
         $match: filtroBase,
@@ -60,21 +56,17 @@ exports.financeiro = async (req, res, next) => {
       },
     ]);
 
-    // Garantir que o campo 'realizado' seja sempre um array
     const realizado = Array.isArray(realizadoRaw) ? realizadoRaw : [];
 
-    // Verificando se algum atendimento foi encontrado
     if (realizado.length === 0) {
       console.log('Nenhum atendimento encontrado para o período especificado.');
     }
 
-    // Retorno da resposta com os dados agregados
     return res.status(200).json({
       status: 'success',
       realizado,
     });
   } catch (error) {
-    // Tratamento de erro
     console.error('Erro ao obter dados financeiros:', error);
     return next(error);
   }

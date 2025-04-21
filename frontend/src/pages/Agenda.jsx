@@ -3,7 +3,6 @@ import { Outlet, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
 import { LoginContext } from '../Contexts/LoginContext';
 import { AgendaContext } from '../Contexts/AgendaContext';
-import SectionMain from '../components/SectionMain/SectionMain';
 import Loading from '../components/Loading/Loading';
 import Agendamentos from './Agendamentos';
 import GerenciarAgenda from './GerenciarAgenda';
@@ -13,8 +12,7 @@ import FormCadastroCliente from '../components/FormCadastroCliente/FormCadastroC
 
 const Agenda = () => {
   const { funcionario } = useContext(LoginContext);
-  const { agenda, loading, message, carregarAgenda } =
-    useContext(AgendaContext); // Adicione cadastrarCliente aqui
+  const { agenda, loading, carregarAgenda } = useContext(AgendaContext);
   const [agendamentos, setAgendamentos] = useState([]);
   const [page, setPage] = useState(1);
   const limit = 5;
@@ -23,10 +21,9 @@ const Agenda = () => {
   const [modalIsOpen, setIsOpen] = useState(false);
   const [diasDisponiveis, setDiasDisponiveis] = useState([]);
   const [horarios, setHorarios] = useState([]);
-  const [agendamentoSelecionado, setAgendamentoSelecionado] = useState(null); // Novo estado
+  const [agendamentoSelecionado, setAgendamentoSelecionado] = useState(null);
 
   useEffect(() => {
-    // Extract available dates and times from the agenda object
     if (agenda && agenda.agenda) {
       const availableDates = [];
       const availableTimes = [];
@@ -76,7 +73,7 @@ const Agenda = () => {
           <Button
             action={() => {
               setIsOpen(true);
-              setAgendamentoSelecionado(agendamento); // Define o agendamento selecionado
+              setAgendamentoSelecionado(agendamento);
             }}
             className={'btn-info'}
           >
@@ -129,13 +126,12 @@ const Agenda = () => {
                 setAgendamentoSelecionado(null);
               }}
             >
-              {/* Renderiza o componente CadastroCliente */}
               <FormCadastroCliente
                 fecharModal={() => {
                   setIsOpen(false);
                   setAgendamentoSelecionado(null);
                 }}
-                agendamento={agendamentoSelecionado} // Passa o agendamento selecionado
+                agendamento={agendamentoSelecionado}
               />
             </Modal>
           )}

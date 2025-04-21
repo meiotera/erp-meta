@@ -61,7 +61,6 @@ exports.agendar_atendimento = async (req, res, next) => {
 
       const dataConvertida = converterStringParaData(data);
 
-      // Marca o horário como indisponível na Agenda_Especialista com a sessão ativa
       const atualizado = await Agenda_Especialista.updateOne(
         {
           funcionario,
@@ -158,7 +157,6 @@ exports.meus_agendamentos = async (req, res, next, skip, limit) => {
   }
 };
 
-// buscar agendamento por id
 exports.buscar_agendamento = async (req, res, next) => {
   try {
     const { id } = req.params;

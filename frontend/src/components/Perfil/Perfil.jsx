@@ -4,7 +4,6 @@ import Loading from '../Loading/Loading';
 import styles from './Perfil.module.css';
 import { LoginContext } from '../../Contexts/LoginContext';
 import { UsersContext } from '../../Contexts/UsersContext';
-import Message from '../Message/Message';
 
 const campos = [
   {
@@ -144,6 +143,8 @@ const Perfil = () => {
       {formData && (
         <Formulario
           handleSubmit={handleSubmit}
+          message={message}
+          setMessage={setMessage}
           campos={campos}
           initialData={formData}
           btnForm={'Atualizar Perfil'}

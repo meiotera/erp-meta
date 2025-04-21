@@ -41,6 +41,15 @@ function Navbar() {
               </li>
               <li className={styles.navItem}>
                 <NavLink
+                  to="/agendamento"
+                  className={styles.navLink}
+                  onClick={fecharMenu}
+                >
+                  Agendamento
+                </NavLink>
+              </li>
+              <li className={styles.navItem}>
+                <NavLink
                   to="/historico"
                   className={styles.navLink}
                   onClick={fecharMenu}
@@ -57,6 +66,7 @@ function Navbar() {
                   Painel
                 </NavLink>
               </li>
+
               <li className={styles.navItem}>
                 <span
                   onClick={() => {

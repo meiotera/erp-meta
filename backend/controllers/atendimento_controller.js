@@ -83,7 +83,7 @@ exports.getHistoricoCliente = async (req, res, next) => {
 
     const historico = await Atendimento.find({ cliente: id_cliente })
       .populate('agendamento')
-      .lean(); // Retorna um objeto JavaScript puro
+      .lean();
 
     if (!historico || historico.length === 0) {
       return res
@@ -91,7 +91,6 @@ exports.getHistoricoCliente = async (req, res, next) => {
         .json({ status: 404, message: 'Nenhum atendimento encontrado' });
     }
 
-    // Retorna os dados corretamente
     res.status(200).json({
       status: 200,
       historico: historico.map((atendimento) => ({
@@ -100,7 +99,7 @@ exports.getHistoricoCliente = async (req, res, next) => {
         encaminhamento: atendimento.encaminhamento,
         medicacao: atendimento.medicacao,
         objetivo: atendimento.objetivo,
-        data: atendimento.createdAt, // Certifique-se de que `createdAt` existe
+        data: atendimento.createdAt,
         agendamento: atendimento.agendamento
           ? {
               data: atendimento.agendamento.data,

@@ -7,8 +7,7 @@ export const login = async (data) => {
       body: JSON.stringify(data),
     });
 
-    console.log(response);
-    return response.json(); // Corrigido: Retorna os dados em JSON
+    return response.json();
   } catch (error) {
     throw error;
   }

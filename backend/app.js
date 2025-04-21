@@ -6,28 +6,22 @@ const compression = require('compression');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { criarRespostaErro } = require('./utilities/utils');
-// const csurf = require("csurf");
 require('dotenv').config();
 const cors = require('cors');
 
 const app = express();
 app.set('trust proxy', 1);
 
-console.log('Iniciando o servidor...');
-
-// Configurar o CORS para permitir requisições do frontend
 const corsOptions = {
-  // origin: 'http://127.0.0.1:5173', // URL do seu frontend
-  origin: ['https://erp-meta.vercel.app'],
+  origin: 'http://127.0.0.1:5173',
+  // origin: ['https://erp-meta.vercel.app'],
   credentials: true,
 };
 
 app.use(cors(corsOptions));
 
-// Use o middleware compression
 app.use(compression());
 
-// Middleware para desativar cache
 app.use((req, res, next) => {
   res.set(
     'Cache-Control',
@@ -39,7 +33,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middlewares de segurança
 app.use(helmet());
 
 app.use(
@@ -56,7 +49,6 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(sanitize.sanitizeInput);
 
-// Arquivos estáticos
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
 console.log('Arquivos estáticos configurados.');
@@ -81,9 +73,6 @@ app.use('/agenda', agendamentos);
 app.use('/criar-agenda', criarAgenda);
 app.use('/atendimento', atendimentos);
 
-console.log('Rotas configuradas.');
-
-// Ajustar a rota de erro 404
 app.all('*', (req, res, next) => {
   res.status(404).send('Página não encontrada');
 });
@@ -98,5 +87,4 @@ app.use((err, req, res, next) => {
   );
 });
 
-console.log('Servidor configurado corretamente.');
 module.exports = app;
