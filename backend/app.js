@@ -12,9 +12,20 @@ const cors = require('cors');
 const app = express();
 app.set('trust proxy', 1);
 
+const allowedOrigins = [];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
+
 const corsOptions = {
-  origin: 'http://127.0.0.1:5173',
-  // origin: ['https://erp-meta.vercel.app'],
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+
   credentials: true,
 };
 
