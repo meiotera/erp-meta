@@ -6,10 +6,6 @@ import Loading from '../Loading/Loading';
 function Equipe({ onClickEnabled, onClick }) {
   const { funcionarios, loading } = useContext(UsersContext);
 
-  // if (loading) {
-  //   return <Loading />;
-  // }
-
   return (
     <div className="container mt-4">
       <div className="card-group d-flex justify-content-around flex-wrap">
