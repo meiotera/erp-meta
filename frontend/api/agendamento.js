@@ -16,9 +16,8 @@ export const agendarAtendimento = async (data) => {
 export const agendarAtendimentoInterno = async (agendamentoData) => {
   try {
     const response = await apiFetch.post('/agendamento', agendamentoData);
-    return response.data; // Contains { status, message, agendamentos }
+    return response.data;
   } catch (error) {
-    // Rethrow or handle specific errors
     console.error(
       'Erro ao agendar atendimento interno:',
       error.response?.data || error.message,

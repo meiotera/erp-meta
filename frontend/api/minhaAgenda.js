@@ -38,5 +38,3 @@ export const criarAgenda = async (data) => {
     throw error;
   }
 };
-
-// Removed: export const buscarHorarios = async () => { ... };

@@ -18,7 +18,7 @@ const Formulario = ({
   agendamentoId,
   idFuncionario,
   loading,
-  initialData,
+  initialData = {},
   className,
   newFuncionario,
   message,
@@ -95,6 +95,8 @@ const Formulario = ({
             value={formData[campo.id] || ''}
             handleInputChange={handleInputChange}
             label={campo.label}
+            minLength={campo.minLength}
+            maxLength={campo.maxLength}
           />
         ))}
 

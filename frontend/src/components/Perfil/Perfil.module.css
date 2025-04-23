@@ -69,3 +69,7 @@
   border: 1px solid #ddd;
   object-fit: cover;
 }
+
+.passwordSection {
+  margin-top: 50px;
+}

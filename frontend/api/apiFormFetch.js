@@ -11,7 +11,6 @@ const apiFormFetch = async (url, options = {}) => {
     headers.Authorization = `Bearer ${token}`;
   }
 
-  // Remover o cabeçalho Content-Type se o corpo for FormData
   if (options.body instanceof FormData) {
     delete headers['Content-Type'];
   }
@@ -26,7 +25,7 @@ const apiFormFetch = async (url, options = {}) => {
     try {
       errorData = await response.json();
     } catch (e) {
-      // fallback se não for JSON
+      console.error('Erro ao analisar a resposta JSON:', e);
     }
 
     const error = new Error(errorData.message || 'Erro na requisição');

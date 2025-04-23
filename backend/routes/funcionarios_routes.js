@@ -33,4 +33,6 @@ router.get(
   func.listar_funcionarios,
 );
 
+router.patch('/:id/update-password', protect, func.update_password);
+
 module.exports = router;

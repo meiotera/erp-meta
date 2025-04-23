@@ -24,12 +24,10 @@ export const salvarConsulta = async (formData) => {
 
     return response;
   } catch (error) {
-    // Verifica se o erro contém mensagens de validação
     if (error.errors) {
-      throw { errors: error.errors }; // Repassa os erros de validação diretamente
+      throw { errors: error.errors };
     }
 
-    // Caso contrário, lança um erro genérico
     throw new Error('Erro ao salvar a consulta');
   }
 };

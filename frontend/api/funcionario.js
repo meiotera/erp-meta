@@ -64,3 +64,25 @@ export const buscarFuncionario = async (id) => {
     throw error;
   }
 };
+
+export const updateSenha = async (id, passwordData) => {
+  try {
+    const response = await apiFetch(`/funcionarios/${id}/update-password`, {
+      method: 'PATCH',
+      body: JSON.stringify(passwordData),
+      headers: {
+        'Content-Type': 'application/json',
+      },
+    });
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      throw new Error(data.message || 'Erro ao atualizar senha.');
+    }
+    return data;
+  } catch (error) {
+    console.error('Erro ao atualizar senha:', error);
+    throw error;
+  }
+};

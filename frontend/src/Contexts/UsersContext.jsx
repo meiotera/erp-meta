@@ -5,6 +5,7 @@ import {
   buscarFuncionario,
   updateFuncionario,
   cadastrarFuncionario,
+  updateSenha,
 } from '../../api/funcionario';
 import { agendarAtendimento } from '../../api/agendamento';
 import { fetchDadosFinanceiros } from '../../api/financeiro';
@@ -18,18 +19,21 @@ export const UsersProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [funcionarioId, setFuncionarioId] = useState(null);
   const [message, setMessage] = useState(null);
-  const [isFetched, setIsFetched] = useState(false); // Controle de requisições
+  const [isFetched, setIsFetched] = useState(false);
 
   const [showSuccessModal, setShowSuccessModal] = useState(false);
   const [successModalMessage, setSuccessModalMessage] = useState('');
 
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState(null);
+
   useEffect(() => {
     const fetchFuncionarios = async () => {
-      if (isFetched) return; // Evita múltiplas requisições
+      if (isFetched) return;
       try {
         const data = await listarFuncionarios();
         setFuncionarios(data);
-        setIsFetched(true); // Marca como carregado
+        setIsFetched(true);
         setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar funcionários:', error);
@@ -78,10 +82,39 @@ export const UsersProvider = ({ children }) => {
     }
   };
 
+  const updateSenhaFuncionario = async (id, passwordData) => {
+    setPasswordLoading(true);
+    setPasswordMessage(null);
+    setMessage(null);
+    try {
+      const response = await updateSenha(id, passwordData);
+
+      if (response.status === 'success') {
+        setPasswordMessage({ type: 'success', text: response.message });
+
+        return true;
+      } else {
+        setPasswordMessage({
+          type: 'error',
+          text: response.message || 'Erro ao atualizar senha.',
+        });
+        return false;
+      }
+    } catch (error) {
+      setPasswordMessage({
+        type: 'error',
+        text: error.message || 'Erro inesperado ao atualizar senha.',
+      });
+      return false;
+    } finally {
+      setPasswordLoading(false);
+    }
+  };
+
   const postAgendamento = async (data) => {
     setLoading(true);
-    setMessage(null); // Limpa mensagens de erro do formulário
-    setShowSuccessModal(false); // Garante que o modal de sucesso esteja fechado
+    setMessage(null);
+    setShowSuccessModal(false);
     setSuccessModalMessage('');
     try {
       const response = await agendarAtendimento(data);
@@ -105,7 +138,6 @@ export const UsersProvider = ({ children }) => {
     try {
       const response = await cadastrarFuncionario(data);
       if (response.status === 'success') {
-        // setMessage({ type: 'success', text: response.message });
         setSuccessModalMessage(response.message);
         setShowSuccessModal(true);
         setLoading(false);
@@ -133,12 +165,8 @@ export const UsersProvider = ({ children }) => {
   };
 
   const fetchFinanceiro = async (dataInicial, dataFinal) => {
-    // setLoading(true); // Você pode manter o loading aqui se preferir
     try {
-      // 1. Chame a função da API, que DEVE retornar os dados JSON parseados
       const dadosJson = await fetchDadosFinanceiros(dataInicial, dataFinal);
-
-      console.log('da', dadosJson);
 
       return dadosJson;
     } catch (error) {
@@ -147,10 +175,10 @@ export const UsersProvider = ({ children }) => {
         type: 'error',
         text: error.message || 'Erro ao buscar dados financeiros',
       });
-      // Retorne um array vazio ou null em caso de erro para o componente lidar
-      return []; // Retornar array vazio é mais seguro para .map
+
+      return [];
     } finally {
-      // setLoading(false); // Pode manter o loading aqui
+      setLoading(false);
     }
   };
 
@@ -172,10 +200,14 @@ export const UsersProvider = ({ children }) => {
         buscarDadosFuncionario,
         updateDadosFuncionario,
         cadastraFuncionario,
-        fetchFinanceiro, // Adicionado ao contexto
+        fetchFinanceiro,
         showSuccessModal,
         setShowSuccessModal,
         successModalMessage,
+        updateSenhaFuncionario,
+        passwordLoading,
+        passwordMessage,
+        setPasswordMessage,
       }}
     >
       {children}

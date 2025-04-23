@@ -79,7 +79,6 @@ exports.update_especialista = async (req, res, next) => {
       });
     }
 
-    // Filtra os campos permitidos
     const filteredBody = filterObj(
       req.body,
       'nome',
@@ -114,6 +113,49 @@ exports.update_especialista = async (req, res, next) => {
         funcionario: updatedFuncionario,
       },
       message: 'Especialista atualizado com sucesso.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.update_password = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { currentPassword, password, confirm_password } = req.body;
+
+    if (!currentPassword || !password || !confirm_password) {
+      return res.status(400).json({
+        status: 'fail',
+        message:
+          'Por favor, forneça a senha atual, a nova senha e a confirmação da nova senha.',
+      });
+    }
+
+    const funcionario = await Funcionarios.findById(id).select('+password');
+
+    if (!funcionario) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Funcionário não encontrado.',
+      });
+    }
+
+    const isMatch = await funcionario.comparePassword(currentPassword);
+    if (!isMatch) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Senha atual incorreta.',
+      });
+    }
+
+    funcionario.password = password;
+    funcionario.confirm_password = confirm_password;
+
+    await funcionario.save();
+    res.status(200).json({
+      status: 'success',
+      message: 'Senha atualizada com sucesso.',
     });
   } catch (error) {
     next(error);
