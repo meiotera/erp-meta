@@ -20,13 +20,13 @@ import { jwtDecode } from 'jwt-decode';
 export const AgendaContext = createContext();
 
 export const AgendaProvider = ({ children }) => {
+  const { funcionario } = useContext(LoginContext);
   const [agenda, setAgenda] = useState({ agenda: [], agendamentos: [] });
   const [atendimentos, setAtendimentos] = useState([]);
   const [historico, setHistorico] = useState([]);
   const [cliente, setCliente] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState(null);
-  const { funcionario } = useContext(LoginContext);
 
   const carregarAgenda = useCallback(async () => {
     try {

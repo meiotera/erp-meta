@@ -116,7 +116,6 @@ exports.login = async (req, res, next) => {
 
     createSendToken(funcionario, 200, req, res);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

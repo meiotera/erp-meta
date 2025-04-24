@@ -7,7 +7,6 @@ export const fetchDadosFinanceiros = async (dataInicial, dataFinal) => {
       body: JSON.stringify({ dataInicial, dataFinal }),
     });
     const data = await response.json();
-    console.log(data);
 
     return data;
   } catch (error) {

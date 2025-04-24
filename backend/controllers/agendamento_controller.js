@@ -42,7 +42,6 @@ exports.agendar_atendimento = async (req, res, next) => {
     );
 
     for (const agendamento of agendamentos) {
-      console.log('chegou aqui');
       const { data, hora } = agendamento;
       const { funcionario: funcionarioEncontrado, cliente } =
         await buscarFuncionarioECliente(funcionario, cpf_validado.cpf);
@@ -149,8 +148,6 @@ exports.meus_agendamentos = async (req, res, next, skip, limit) => {
       .limit(limit)
       .populate('cliente');
 
-    console.log('back', agendamentos);
-
     return agendamentos;
   } catch (error) {
     return next(new Error('Erro ao listar agendamentos: ' + error.message));
@@ -166,8 +163,6 @@ exports.buscar_agendamento = async (req, res, next) => {
     if (!agendamento) {
       return criarRespostaErro(res, 404, 'Agendamento não encontrado.');
     }
-
-    console.log(agendamento);
 
     res.status(200).json({
       status: 200,

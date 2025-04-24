@@ -1,6 +1,6 @@
+import { LoginContext } from '../../Contexts/LoginContext';
 import { useContext, useState } from 'react';
 import { NavLink } from 'react-router-dom';
-import { LoginContext } from '../../Contexts/LoginContext';
 
 import styles from './Navbar.module.css';
 import { FaBars, FaTimes } from 'react-icons/fa'; // Ícones do menu

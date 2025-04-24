@@ -56,7 +56,7 @@ exports.atendimento = async (req, res, next) => {
   } catch (error) {
     if (error.name === 'ValidationError') {
       const errors = Object.values(error.errors).map((err) => err.message);
-      console.log('back', errors);
+
       return res.status(400).json({
         status: 400,
         message: 'Erro de validação',

@@ -1,8 +1,8 @@
 import React, { useContext, useEffect, useState } from 'react';
-import SectionMain from '../components/SectionMain/SectionMain';
+
+import { LoginContext } from '../Contexts/LoginContext';
 import Formulario from '../components/Formulario/Formulario';
 import Section from '../components/Section/Section';
-import { LoginContext } from '../Contexts/LoginContext';
 
 const campos = [
   {

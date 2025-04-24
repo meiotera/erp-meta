@@ -1,5 +1,4 @@
-import React, { useCallback, useContext, useEffect, useState } from 'react';
-import SectionMain from '../components/SectionMain/SectionMain';
+import React, { useContext, useEffect, useState } from 'react';
 import { AgendaContext } from '../Contexts/AgendaContext';
 import Section from '../components/Section/Section';
 import Input from '../components/Input/Input';

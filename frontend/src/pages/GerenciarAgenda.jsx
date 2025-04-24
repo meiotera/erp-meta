@@ -21,12 +21,10 @@ const GerenciarAgenda = () => {
   const { agenda } = useContext(AgendaContext);
   const { agenda: agendaCadastrada } = agenda;
 
-  // Memoizar a função handleDateClick
   const handleDateClick = useCallback((info) => {
     const clickedDate = parseISO(info.dateStr);
     const today = startOfToday();
 
-    // Impede a seleção de datas passadas, exceto a data de hoje
     if (isBefore(clickedDate, today) && !isSameDay(clickedDate, today)) {
       return;
     }
@@ -35,7 +33,6 @@ const GerenciarAgenda = () => {
     setIsOpen(true);
   }, []);
 
-  // Memorizar a função dayCellClassNames
   const dayCellClassNames = useCallback((date) => {
     if (isBefore(date.date, startOfToday())) {
       return ['dia-passado'];
@@ -43,7 +40,6 @@ const GerenciarAgenda = () => {
     return ['click-day'];
   }, []);
 
-  // Memoizar a lista de agendas
   const agendaList = useMemo(() => {
     return agendaCadastrada && agendaCadastrada.length > 0 ? (
       agendaCadastrada.map((registro, index) => (

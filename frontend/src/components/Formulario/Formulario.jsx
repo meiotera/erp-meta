@@ -1,10 +1,9 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect } from 'react';
 import Input from '../Input/Input';
 import Message from '../Message/Message';
 import Loading from '../Loading/Loading';
-import { UsersContext } from '../../Contexts/UsersContext';
+
 import Select from '../Select/Select';
-import { LoginContext } from '../../Contexts/LoginContext';
 
 const funcoes = [
   { value: 'admin', label: 'Administrador' },
@@ -32,21 +31,28 @@ const Formulario = ({
   );
 
   useEffect(() => {
-    if (agendamentoId) {
-      setFormData((prevData) => ({
-        ...prevData,
-        funcionario: idFuncionario,
-        id_agendamento: agendamentoId,
-      }));
+    if (agendamentoId || idFuncionario) {
+      setFormData((prevData) => {
+        const updated = {
+          ...prevData,
+          funcionario: idFuncionario,
+          id_agendamento: agendamentoId,
+        };
+        return JSON.stringify(updated) !== JSON.stringify(prevData)
+          ? updated
+          : prevData;
+      });
     }
   }, [agendamentoId, idFuncionario]);
 
   useEffect(() => {
-    if (initialData) {
-      setFormData((prevData) => ({
-        ...prevData,
-        ...initialData,
-      }));
+    if (initialData && Object.keys(initialData).length > 0) {
+      setFormData((prevData) => {
+        const merged = { ...prevData, ...initialData };
+        return JSON.stringify(merged) !== JSON.stringify(prevData)
+          ? merged
+          : prevData;
+      });
     }
   }, [initialData]);
 
@@ -60,7 +66,13 @@ const Formulario = ({
   };
 
   const handleInputChange = (id, value) => {
-    setFormData((prevData) => ({ ...prevData, [id]: value }));
+    if (id === 'cpf' || id === 'telefone') {
+      value = value.replace(/\D/g, '');
+    }
+    setFormData((prevData) => {
+      if (prevData[id] === value) return prevData; // evita re-render
+      return { ...prevData, [id]: value };
+    });
   };
 
   const onSubmit = async (e) => {
@@ -69,17 +81,6 @@ const Formulario = ({
       handleSubmit(formData);
     }
   };
-
-  useEffect(() => {
-    return () => {
-      setFormData((prevData) =>
-        campos.reduce((acc, campo) => {
-          acc[campo.id] = '';
-          return acc;
-        }, prevData),
-      );
-    };
-  }, []);
 
   return (
     <form onSubmit={onSubmit} className={className?.form}>

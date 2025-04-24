@@ -1,7 +1,7 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { LoginContext } from '../Contexts/LoginContext';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { LoginContext } from '../Contexts/LoginContext';
 import { AgendaContext } from '../Contexts/AgendaContext';
 import Loading from '../components/Loading/Loading';
 import Agendamentos from './Agendamentos';

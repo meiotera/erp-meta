@@ -5,8 +5,6 @@ exports.criar_agenda = async (req, res, next) => {
   try {
     const { id_funcionario, agenda } = req.body;
 
-    console.log(id_funcionario, agenda);
-
     if (!id_funcionario || !agenda) {
       return res.status(400).send({
         message: 'id_funcionario e agenda são obrigatórios.',

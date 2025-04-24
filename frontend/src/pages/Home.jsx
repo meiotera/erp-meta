@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Section from '../components/Section/Section';
 import Paragraph from '../components/Paragraph/Paragraph';
 import Specialties from '../components/Specialties/Specialties';
@@ -20,58 +20,9 @@ function Home() {
     robots: 'index, follow',
   });
 
-  // useEffect(() => {
-  //   // Definir o título da página
-  //   document.title = 'Agendamento';
-
-  //   // Criar a meta tag para descrição
-  //   const metaDescription = document.createElement('meta');
-  //   metaDescription.name = 'description';
-  //   metaDescription.content =
-  //     'A Clínica Meta Saúde Integrada oferece atendimento especializado em Fisioterapia, Psicopedagogia, Psicanálise e Terapia para crianças, adolescentes e adultos. Com uma equipe multidisciplinar dedicada ao cuidado integral da mente e do corpo, promovemos saúde, bem-estar e qualidade de vida em um ambiente acolhedor e humanizado.';
-  //   document.head.appendChild(metaDescription);
-
-  //   // Criar outras meta tags (exemplo: keywords)
-  //   const metaKeywords = document.createElement('meta');
-  //   metaKeywords.name = 'keywords';
-  //   metaKeywords.content =
-  //     'agendamento online, clínica de fisioterapia, psicopedagogia, psicanálise, terapia, Mossoró, saúde integrada';
-  //   document.head.appendChild(metaKeywords);
-
-  //   // Criar a meta tag para robots
-  //   const metaRobots = document.createElement('meta');
-  //   metaRobots.name = 'robots';
-  //   metaRobots.content = 'index, follow';
-  //   document.head.appendChild(metaRobots);
-
-  //   // Criar a meta tag para Open Graph (og:title)
-  //   const metaOgTitle = document.createElement('meta');
-  //   metaOgTitle.property = 'og:title';
-  //   metaOgTitle.content = 'Agende sua Consulta | Meta Saúde Integrada';
-  //   document.head.appendChild(metaOgTitle);
-
-  //   // Criar a meta tag para Open Graph (og:description)
-  //   const metaOgDescription = document.createElement('meta');
-  //   metaOgDescription.property = 'og:description';
-  //   metaOgDescription.content =
-  //     'Agende sua consulta de forma rápida e segura com nossos profissionais em fisioterapia, psicanálise e mais.';
-  //   document.head.appendChild(metaOgDescription);
-
-  //   // Cleanup (remoção das tags quando o componente for desmontado)
-  //   return () => {
-  //     document.head.removeChild(metaDescription);
-  //     document.head.removeChild(metaKeywords);
-  //     document.head.removeChild(metaRobots);
-  //     document.head.removeChild(metaOgTitle);
-  //     document.head.removeChild(metaOgDescription);
-  //   };
-  // }, []);
-
   return (
     <>
-      {/* <Header /> */}
       <Section headingH2={'Meta Saúde Integrada'}>
-        {/* <HeadingH2>Meta Saúde Integrada</HeadingH2> */}
         <Paragraph>
           A Meta Saúde Integrada é uma clínica de saúde que oferece atendimento
           em diversas especialidades. Aqui você encontra profissionais
@@ -149,7 +100,6 @@ function Home() {
       <Section headingH2={'Faça-nos uma visita'}>
         <Map />
       </Section>
-      {/* <Footer /> */}
     </>
   );
 }

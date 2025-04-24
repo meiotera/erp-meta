@@ -1,11 +1,11 @@
 import React, { useContext, useEffect, useState } from 'react';
 
+import { LoginContext } from '../../Contexts/LoginContext';
+import { UsersContext } from '../../Contexts/UsersContext';
 import Formulario from '../Formulario/Formulario';
 import PasswordUpdateForm from '../PasswordUpdateForm/PasswordUpdateForm';
 import Loading from '../Loading/Loading';
 import styles from './Perfil.module.css';
-import { LoginContext } from '../../Contexts/LoginContext';
-import { UsersContext } from '../../Contexts/UsersContext';
 
 const camposPerfil = [
   {
@@ -24,7 +24,6 @@ const camposPerfil = [
     // Opcional: Adicionar atributos HTML5 para validação básica no navegador
     minLength: 11,
     maxLength: 11, // Ou um máximo maior se permitir DDD + 9 dígitos + etc.
-    pattern: '\\d*', // Permite
   },
   {
     id: 'email',

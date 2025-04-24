@@ -1,4 +1,3 @@
-// /home/renan/erp-meta/frontend/api/minhaAgenda.js
 import apiFetch from './api';
 
 export const minhaAgenda = async () => {
@@ -6,7 +5,6 @@ export const minhaAgenda = async () => {
     const response = await apiFetch('/agenda');
     const data = await response.json();
 
-    console.log(data);
     return data;
   } catch (error) {
     console.error('Erro ao buscar agenda:', error);
@@ -20,7 +18,6 @@ export const realizados = async () => {
     const data = await response.json();
     return data;
   } catch (error) {
-    console.error('Erro ao buscar realizados:', error);
     throw error;
   }
 };
@@ -34,7 +31,6 @@ export const criarAgenda = async (data) => {
     const responseData = await response.json();
     return responseData;
   } catch (error) {
-    console.error('Erro ao criar agenda:', error);
     throw error;
   }
 };

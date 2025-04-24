@@ -160,10 +160,6 @@ exports.getAgenda = async (req, res, next) => {
     }).populate('funcionario');
 
     if (!agenda) {
-      console.log(
-        'Agenda do especialista não encontrada para o funcionarioId: ',
-        funcionario,
-      );
       return res.status(200).json({
         status: 'success',
         agendamentos: agendamentosFormatados,

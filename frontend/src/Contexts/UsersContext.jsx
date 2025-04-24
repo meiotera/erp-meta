@@ -108,6 +108,7 @@ export const UsersProvider = ({ children }) => {
       return false;
     } finally {
       setPasswordLoading(false);
+      // setPasswordMessage(null);
     }
   };
 
@@ -146,7 +147,6 @@ export const UsersProvider = ({ children }) => {
         setMessage({ type: 'error', text: response.message });
       }
     } catch (error) {
-      console.log(error);
       setMessage({ type: 'error', text: 'Erro ao cadastrar funcionário' });
     }
   };

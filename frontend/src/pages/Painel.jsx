@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
-import SectionMain from '../components/SectionMain/SectionMain';
+import { LoginContext } from '../Contexts/LoginContext';
 import Section from '../components/Section/Section';
 import { NavLink, Outlet } from 'react-router-dom';
 
 import styles from './Painel.module.css';
-
-import { LoginContext } from '../Contexts/LoginContext';
 
 const Painel = () => {
   const { funcionario } = useContext(LoginContext);

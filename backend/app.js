@@ -62,8 +62,6 @@ app.use(sanitize.sanitizeInput);
 
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 
-console.log('Arquivos estáticos configurados.');
-
 // Importação de rotas
 const viewRouter = require('./routes/views_routes');
 const financeiro = require('./routes/financeiro_routes');
@@ -72,8 +70,6 @@ const funcionarios = require('./routes/funcionarios_routes');
 const agendamentos = require('./routes/agendamento_routes');
 const criarAgenda = require('./routes/agenda_especialista_routes');
 const atendimentos = require('./routes/atendimento_routes');
-
-console.log('Rotas importadas.');
 
 // Uso das rotas
 app.use('/', viewRouter);

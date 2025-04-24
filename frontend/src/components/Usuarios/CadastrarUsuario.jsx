@@ -1,12 +1,16 @@
-import React, { useContext, useEffect, useState } from 'react';
-import Section from '../Section/Section';
-import Input from '../Input/Input';
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
+
 import { LoginContext } from '../../Contexts/LoginContext';
 import { UsersContext } from '../../Contexts/UsersContext';
-import Message from '../Message/Message';
+
 import Formulario from '../Formulario/Formulario';
 import { validateCPF } from 'validations-br';
-import Select from '../Select/Select';
 
 import styles from './Usuario.module.css';
 
@@ -76,15 +80,37 @@ const Usuarios = () => {
 
   useEffect(() => {
     setNewFuncionario(true);
+
     return () => {
+      setMessage(null);
       setNewFuncionario(false);
     };
-  }, []);
+  }, [setMessage]);
 
-  const handleSubmit = async (formData) => {
-    console.log('Dados enviados:', formData);
-    await cadastraFuncionario(formData);
-  };
+  const handleSubmit = useCallback(
+    async (formData) => {
+      if (formData.password !== formData.confirm_password) {
+        setMessage({ type: 'error', text: 'As senhas não coincidem.' });
+        return;
+      }
+      if (formData.cpf && !validateCPF(formData.cpf)) {
+        setMessage({ type: 'error', text: 'CPF inválido.' });
+        return;
+      }
+      await cadastraFuncionario(formData);
+    },
+    [cadastraFuncionario, setMessage],
+  );
+
+  const formClasses = useMemo(
+    () => ({
+      form: styles.form,
+      inputContainer: styles.inputContainer,
+      input: styles.input,
+      button: styles.button,
+    }),
+    [],
+  );
 
   return (
     <>
@@ -94,14 +120,8 @@ const Usuarios = () => {
         btnForm={'Cadastrar'}
         message={message}
         setMessage={setMessage}
-        className={{
-          form: styles.form,
-          inputContainer: styles.inputContainer,
-          input: styles.input,
-          button: styles.button,
-        }}
+        className={formClasses}
         newFuncionario={newFuncionario}
-        setNewFuncionario={setNewFuncionario}
       />
     </>
   );

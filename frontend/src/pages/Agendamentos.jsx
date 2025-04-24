@@ -1,8 +1,7 @@
-import React, { useState, useCallback, useContext } from 'react';
+import React, { useCallback, useContext } from 'react';
 import Tabela from '../components/Tabela/Tabela';
 import Button from '../components/Button/Button';
-import Modal from '../components/Modal/Modal';
-import Formulario from '../components/Formulario/Formulario';
+
 import Loading from '../components/Loading/Loading';
 import Section from '../components/Section/Section';
 import { AgendaContext } from '../Contexts/AgendaContext';

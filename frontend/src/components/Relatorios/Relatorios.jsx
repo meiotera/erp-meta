@@ -28,7 +28,7 @@ const Relatorios = () => {
 
     try {
       const resultado = await fetchFinanceiro(dataInicial, dataFinal);
-      console.log('resul', resultado);
+
       const dadosTransformados = resultado.realizado.map((item) => ({
         name: item.nome,
         value: item.valorTotal,
