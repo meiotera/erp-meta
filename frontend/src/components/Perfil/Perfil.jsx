@@ -18,12 +18,11 @@ const camposPerfil = [
   {
     id: 'telefone',
     type: 'text',
-    placeholder: 'Telefone (somente números)', // Adicionar dica
+    placeholder: 'Telefone (somente números)',
     label: 'Telefone',
     name: 'telefone',
-    // Opcional: Adicionar atributos HTML5 para validação básica no navegador
     minLength: 11,
-    maxLength: 11, // Ou um máximo maior se permitir DDD + 9 dígitos + etc.
+    maxLength: 11,
   },
   {
     id: 'email',
@@ -183,18 +182,20 @@ const Perfil = () => {
         )}
       </div>
 
-      <div className={styles.passwordSection}>
-        <h2>Alterar Senha</h2>
+      {funcionarioId === '680a31147dbe0554dcb5360d' ? null : (
+        <div className={styles.passwordSection}>
+          <h2>Alterar Senha</h2>
 
-        {funcionarioId && (
-          <PasswordUpdateForm
-            onSubmit={handlePasswordSubmit}
-            isLoading={passwordLoading}
-            message={passwordMessage}
-            setMessage={setPasswordMessage}
-          />
-        )}
-      </div>
+          {funcionarioId && (
+            <PasswordUpdateForm
+              onSubmit={handlePasswordSubmit}
+              isLoading={passwordLoading}
+              message={passwordMessage}
+              setMessage={setPasswordMessage}
+            />
+          )}
+        </div>
+      )}
     </div>
   );
 };
