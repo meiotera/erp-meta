@@ -172,3 +172,19 @@ exports.buscar_agendamento = async (req, res, next) => {
     return criarRespostaErro(res, 500, 'Erro ao buscar agendamento.');
   }
 };
+
+exports.delete_agendamento = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    console.log(id);
+    const agendamento = await Agendamento.findByIdAndDelete(id);
+
+    if (agendamento) {
+      res.status(200).json({
+        status: 200,
+        mensagem: 'Agendamento excluído com sucesso!',
+      });
+    }
+  } catch (error) {}
+};

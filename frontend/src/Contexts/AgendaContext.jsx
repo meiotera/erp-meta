@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { LoginContext } from './LoginContext';
 import { minhaAgenda, realizados, criarAgenda } from '../../api/minhaAgenda';
+import { excluirAgendamento } from '../../api/agendamento';
 import {
   buscaCliente,
   buscarAtendimentosCliente,
@@ -43,6 +44,27 @@ export const AgendaProvider = ({ children }) => {
       setLoading(false);
     }
   }, []);
+
+  const deleteAgendamento = async (id) => {
+    try {
+      setLoading(true);
+      const response = await excluirAgendamento(id);
+
+      if (response.ok) {
+        setMessage({
+          type: 'success',
+          text: 'Agendamento deletado com sucesso!',
+        });
+        carregarAgenda();
+      } else {
+        setMessage({ type: 'error', text: 'Erro ao deletar agendamento.' });
+      }
+    } catch (error) {
+      console.log('Erro ao deletar agendamento:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const atendimentosRealizados = async () => {
     try {
@@ -167,6 +189,7 @@ export const AgendaProvider = ({ children }) => {
         historico,
         buscarHistoricoCliente,
         criarNovaAgenda,
+        deleteAgendamento,
       }}
     >
       {children}

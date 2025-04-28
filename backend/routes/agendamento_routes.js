@@ -14,4 +14,10 @@ router.get(
   agendamento_controller.buscar_agendamento,
 );
 
+router.delete(
+  '/agendamento/:id',
+  protect,
+  agendamento_controller.delete_agendamento,
+);
+
 module.exports = router;
