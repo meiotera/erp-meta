@@ -168,7 +168,7 @@ export const AgendaProvider = ({ children }) => {
     if (funcionario) {
       carregarAgenda();
     }
-  }, [funcionario]);
+  }, [funcionario, carregarAgenda]);
 
   return (
     <AgendaContext.Provider

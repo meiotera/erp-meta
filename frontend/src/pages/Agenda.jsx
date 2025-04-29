@@ -100,7 +100,9 @@ const Agenda = () => {
         ),
       };
     });
-  }, [agenda, page, navigate, funcionario, deleteAgendamento]);
+  }, [agenda, page, navigate, funcionario]);
+
+  // [agenda, page, navigate, funcionario, deleteAgendamento]
 
   useEffect(() => {
     setAgendamentos(formatarAgendamentos());
@@ -116,11 +118,11 @@ const Agenda = () => {
     }
   }, [agendamentos, agenda, loading]);
 
-  useEffect(() => {
-    if (!agenda?.agendamentos?.length) {
-      carregarAgenda();
-    }
-  }, [carregarAgenda, agenda?.agendamentos]);
+  // useEffect(() => {
+  //   if (!agenda?.agendamentos?.length) {
+  //     carregarAgenda();
+  //   }
+  // }, [carregarAgenda, agenda?.agendamentos]);
 
   if (loading && agendamentos.length === 0) {
     return <Loading />;
