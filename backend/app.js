@@ -6,25 +6,33 @@ const compression = require('compression');
 const helmet = require('helmet');
 const rateLimit = require('express-rate-limit');
 const { criarRespostaErro } = require('./utilities/utils');
-// const csurf = require("csurf");
 require('dotenv').config();
 const cors = require('cors');
 
 const app = express();
+app.set('trust proxy', 1);
 
-console.log('Iniciando o servidor...');
+const allowedOrigins = [];
+if (process.env.FRONTEND_URL) {
+  allowedOrigins.push(process.env.FRONTEND_URL);
+}
 
-// Configurar o CORS para permitir requisições do frontend
 const corsOptions = {
-  origin: 'http://127.0.0.1:5173', // Substitua pelo URL do seu frontend
+  origin: function (origin, callback) {
+    if (!origin || allowedOrigins.indexOf(origin) !== -1) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+
   credentials: true,
 };
+
 app.use(cors(corsOptions));
 
-// Use o middleware compression
 app.use(compression());
 
-// Middleware para desativar cache
 app.use((req, res, next) => {
   res.set(
     'Cache-Control',
@@ -36,7 +44,6 @@ app.use((req, res, next) => {
   next();
 });
 
-// Middlewares de segurança
 app.use(helmet());
 
 app.use(
@@ -53,10 +60,7 @@ app.use(express.json({ limit: '10kb' }));
 app.use(express.urlencoded({ extended: true, limit: '10kb' }));
 app.use(sanitize.sanitizeInput);
 
-// Arquivos estáticos
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
-
-console.log('Arquivos estáticos configurados.');
 
 // Importação de rotas
 const viewRouter = require('./routes/views_routes');
@@ -67,8 +71,6 @@ const agendamentos = require('./routes/agendamento_routes');
 const criarAgenda = require('./routes/agenda_especialista_routes');
 const atendimentos = require('./routes/atendimento_routes');
 
-console.log('Rotas importadas.');
-
 // Uso das rotas
 app.use('/', viewRouter);
 app.use('/financeiro', financeiro);
@@ -78,9 +80,6 @@ app.use('/agenda', agendamentos);
 app.use('/criar-agenda', criarAgenda);
 app.use('/atendimento', atendimentos);
 
-console.log('Rotas configuradas.');
-
-// Ajustar a rota de erro 404
 app.all('*', (req, res, next) => {
   res.status(404).send('Página não encontrada');
 });
@@ -95,5 +94,4 @@ app.use((err, req, res, next) => {
   );
 });
 
-console.log('Servidor configurado corretamente.');
 module.exports = app;

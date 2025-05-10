@@ -8,17 +8,9 @@
 
   display: flex;
   justify-content: space-around;
+  flex-wrap: wrap;
   align-items: center;
 }
-/* 
-.headerContainer {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
-} */
 
 .logo {
   max-height: 100px;

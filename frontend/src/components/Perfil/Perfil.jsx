@@ -1,14 +1,13 @@
-import React, { useContext, useEffect } from 'react';
-import Formulario from '../Formulario/Formulario';
-import Loading from '../Loading/Loading';
-
-import styles from './Perfil.module.css';
+import React, { useContext, useEffect, useState } from 'react';
 
 import { LoginContext } from '../../Contexts/LoginContext';
 import { UsersContext } from '../../Contexts/UsersContext';
-import Message from '../Message/Message';
+import Formulario from '../Formulario/Formulario';
+import PasswordUpdateForm from '../PasswordUpdateForm/PasswordUpdateForm';
+import Loading from '../Loading/Loading';
+import styles from './Perfil.module.css';
 
-const campos = [
+const camposPerfil = [
   {
     id: 'nome',
     type: 'text',
@@ -19,9 +18,11 @@ const campos = [
   {
     id: 'telefone',
     type: 'text',
-    placeholder: 'Telefone',
+    placeholder: 'Telefone (somente números)',
     label: 'Telefone',
     name: 'telefone',
+    minLength: 11,
+    maxLength: 11,
   },
   {
     id: 'email',
@@ -54,68 +55,148 @@ const campos = [
   {
     id: 'valor_consulta',
     type: 'text',
-    placeholder: 'Valor da consulta',
+    placeholder: 'Valor da consulta (opcional)',
     label: 'Valor da consulta',
+    name: 'valor_consulta',
   },
   {
-    id: '_id',
-    type: 'hidden',
-    placeholder: '',
-    label: '',
+    id: 'foto',
+    type: 'text',
+    placeholder: 'https://exemplo.com/imagem.jpg',
+    label: 'URL da Imagem de Perfil',
+    name: 'foto',
   },
+  { id: '_id', type: 'hidden', placeholder: '', label: '', name: '_id' },
 ];
 
 const Perfil = () => {
-  const { funcionario } = useContext(LoginContext);
+  const { funcionario: loggedInUser } = useContext(LoginContext);
   const {
     buscarDadosFuncionario,
-    loading,
+    loading: loadingProfileData,
     funcionarioEncontrado,
     updateDadosFuncionario,
-    message,
-    setMessage,
+    message: profileMessage,
+    setMessage: setProfileMessage,
+
+    updateSenhaFuncionario,
+    passwordLoading,
+    passwordMessage,
+    setPasswordMessage,
   } = useContext(UsersContext);
 
-  const funcionarioId = funcionario?.id || funcionario?.funcionario?.id;
+  const [formData, setFormData] = useState(null);
+  const funcionarioId = loggedInUser?.id || loggedInUser?.funcionario?.id;
 
   useEffect(() => {
     async function handleDadosFuncionario() {
-      await buscarDadosFuncionario(funcionarioId);
+      if (funcionarioId) {
+        if (setProfileMessage) setProfileMessage(null);
+        if (setPasswordMessage) setPasswordMessage(null);
+        await buscarDadosFuncionario(funcionarioId);
+      }
     }
-    handleDadosFuncionario();
-  }, []);
+    if (funcionarioId && !formData) {
+      handleDadosFuncionario();
+    }
+  }, [funcionarioId, buscarDadosFuncionario]);
 
-  const handleSubmit = async (data) => {
+  useEffect(() => {
+    const especialistaData = funcionarioEncontrado?.data?.especialista;
+    if (
+      especialistaData &&
+      JSON.stringify(especialistaData) !== JSON.stringify(formData)
+    ) {
+      setFormData(especialistaData);
+    }
+  }, [funcionarioEncontrado, formData]);
+
+  const handleProfileSubmit = async (data) => {
     await updateDadosFuncionario(data);
   };
 
-  // desmontar o componente quando sair da página
+  const handlePasswordSubmit = async (passwordData) => {
+    if (!funcionarioId) {
+      setPasswordMessage({
+        type: 'error',
+        text: 'ID do usuário não encontrado.',
+      });
+      return false;
+    }
+
+    const success = await updateSenhaFuncionario(funcionarioId, passwordData);
+    return success;
+  };
+
   useEffect(() => {
     return () => {
-      setMessage(null);
+      if (setProfileMessage) setProfileMessage(null);
+      if (setPasswordMessage) setPasswordMessage(null);
     };
   }, []);
 
-  if (loading) return <Loading />;
+  if (loadingProfileData && !formData) return <Loading />;
+
+  const fotoUrl = formData?.foto || '';
 
   return (
-    <>
-      {/* {message && <Message type={message.type} text={message.text} />} */}
-      {!loading && funcionarioEncontrado && (
-        <Formulario
-          handleSubmit={handleSubmit}
-          campos={campos}
-          initialData={funcionarioEncontrado.data.especialista}
-          btnForm={'Atualizar'}
-          className={{
-            form: styles.form,
-            inputContainer: styles.inputContainer,
-            input: styles.input,
-            button: styles.button,
-          }}
-        />
+    <div className={styles.perfilContainer}>
+      <div className={styles.profileSection}>
+        <div className={styles.previewContainer}>
+          <h2>Seu Perfil</h2>
+          <p>Pré-visualização:</p>
+
+          {fotoUrl ? (
+            <img
+              key={fotoUrl}
+              src={fotoUrl}
+              alt="Pré-visualização do Perfil"
+              className={styles.previewImage}
+              onError={(e) => {
+                e.target.onerror = null;
+                e.target.style.display = 'none';
+              }}
+            />
+          ) : (
+            <p className={styles.noPreviewText}>Nenhuma imagem definida.</p>
+          )}
+        </div>
+
+        {formData && (
+          <Formulario
+            key={`profile-form-${formData._id}`}
+            handleSubmit={handleProfileSubmit}
+            message={profileMessage}
+            setMessage={setProfileMessage}
+            campos={camposPerfil}
+            initialData={formData}
+            btnForm={'Atualizar Perfil'}
+            isLoading={loadingProfileData}
+            className={{
+              form: styles.form,
+              inputContainer: styles.inputContainer,
+              input: styles.input,
+              button: styles.button,
+            }}
+          />
+        )}
+      </div>
+
+      {funcionarioId === '680a31147dbe0554dcb5360d' ? null : (
+        <div className={styles.passwordSection}>
+          <h2>Alterar Senha</h2>
+
+          {funcionarioId && (
+            <PasswordUpdateForm
+              onSubmit={handlePasswordSubmit}
+              isLoading={passwordLoading}
+              message={passwordMessage}
+              setMessage={setPasswordMessage}
+            />
+          )}
+        </div>
       )}
-    </>
+    </div>
   );
 };
 

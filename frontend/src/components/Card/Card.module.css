@@ -1,17 +1,56 @@
-.bi {
-  font-size: 2rem;
-  color: #7716e7;
-}
-
-.cardPersonal {
-  width: 15em;
-  border: 1px solid #ccc;
-  border-radius: 15px;
+.card {
+  border: 1px solid #e0e0e0;
+  border-radius: 16px;
+  padding: 1.5rem;
+  margin: 1rem;
+  text-align: center;
+  max-width: 200px;
+  min-height: 230px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  background-color: #ffffff;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: all 0.3s ease;
   cursor: pointer;
-  transition: ease-in-out 0.2s;
 }
 
-.cardPersonal:hover {
-  border: 1px solid #7716e7;
-  box-shadow: #7716e7 0px 0px 10px;
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.1);
+}
+
+.cardImage {
+  width: 120px;
+  height: 120px;
+  object-fit: cover;
+  border-radius: 50%;
+  border: 3px solid #f0f0f0;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+  margin-bottom: 0.75rem;
+}
+
+.cardNome {
+  font-size: 1.1rem;
+  margin: 0.5rem 0;
+  font-weight: 600;
+  color: #333;
+  text-transform: capitalize;
+}
+
+.cardBody {
+  overflow: hidden;
+  max-height: 0;
+  opacity: 0;
+  transition: all 0.3s ease;
+  font-size: 0.95rem;
+  color: #555;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.cardBody.show {
+  max-height: 300px;
+  opacity: 1;
+  margin-top: 1rem;
 }

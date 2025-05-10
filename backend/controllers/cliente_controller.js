@@ -103,10 +103,10 @@ exports.buscar_paciente = async (req, res) => {
 
     const paciente = await Cliente.find({
       $or: [
-        { nome: { $regex: query, $options: 'i' } }, // Busca por nome (case insensitive)
-        { cpf: { $regex: `^${query}`, $options: 'i' } }, // Busca CPF começando com os caracteres digitados
+        { nome: { $regex: query, $options: 'i' } },
+        { cpf: { $regex: `^${query}`, $options: 'i' } },
       ],
-    }).limit(10); // Retorna no máximo 10 resultados para evitar sobrecarga
+    }).limit(10);
 
     if (!paciente.length) {
       return res
@@ -133,7 +133,6 @@ exports.delete_cliente = async (req, res, next) => {
     });
   }
 
-  // await listar_meus_pacientes(req, res, next);
   res.status(200).send({
     message: 'Cliente deletado com sucesso.',
   });

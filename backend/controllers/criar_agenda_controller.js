@@ -5,28 +5,23 @@ exports.criar_agenda = async (req, res, next) => {
   try {
     const { id_funcionario, agenda } = req.body;
 
-    console.log(id_funcionario, agenda);
-
     if (!id_funcionario || !agenda) {
       return res.status(400).send({
         message: 'id_funcionario e agenda são obrigatórios.',
       });
     }
 
-    // Verifica se o ID do funcionário é um ObjectId válido
     if (!mongoose.Types.ObjectId.isValid(id_funcionario)) {
       return res.status(400).send({
         message: 'ID do funcionário inválido.',
       });
     }
 
-    // Procurar uma agenda existente para o funcionário
     let existeAgenda = await Agenda_Especialista.findOne({
       funcionario: id_funcionario,
     });
 
     if (existeAgenda) {
-      // Verificar se os novos dados da agenda são válidos
       if (
         !Array.isArray(agenda) ||
         agenda.some(
@@ -46,7 +41,6 @@ exports.criar_agenda = async (req, res, next) => {
           (item) => new Date(item.data).getTime() === novaData.getTime(),
         );
         if (index !== -1) {
-          // Se a data já existir, juntar os horários disponíveis
           novoItem.horariosDisponiveis.forEach((novoHorario) => {
             const horarioIndex = novaAgenda[
               index
@@ -54,16 +48,13 @@ exports.criar_agenda = async (req, res, next) => {
               (horario) => horario.horario === novoHorario.horario,
             );
             if (horarioIndex !== -1) {
-              // Atualizar a disponibilidade do horário existente
               novaAgenda[index].horariosDisponiveis[horarioIndex].disponivel =
                 novoHorario.disponivel;
             } else {
-              // Adicionar o novo horário
               novaAgenda[index].horariosDisponiveis.push(novoHorario);
             }
           });
         } else {
-          // Se a data não existir, adicionar o novo item
           novaAgenda.push(novoItem);
         }
       });
@@ -86,7 +77,6 @@ exports.criar_agenda = async (req, res, next) => {
         });
       }
     } else {
-      // Criar uma nova agenda
       const novaAgenda = new Agenda_Especialista({
         agenda: agenda,
         funcionario: id_funcionario,

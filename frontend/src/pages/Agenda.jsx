@@ -1,50 +1,47 @@
 import React, { useContext, useEffect, useState, useCallback } from 'react';
+import { LoginContext } from '../Contexts/LoginContext';
 import { Outlet, useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router-dom';
-import { LoginContext } from '../Contexts/LoginContext';
 import { AgendaContext } from '../Contexts/AgendaContext';
-import SectionMain from '../components/SectionMain/SectionMain';
 import Loading from '../components/Loading/Loading';
 import Agendamentos from './Agendamentos';
 import GerenciarAgenda from './GerenciarAgenda';
 import Button from '../components/Button/Button';
 import Modal from '../components/Modal/Modal';
 import FormCadastroCliente from '../components/FormCadastroCliente/FormCadastroCliente';
+import ConfirmModal from '../components/ConfirmModal/ConfirmModal'; // 1. Importar ConfirmModal
 
 const Agenda = () => {
   const { funcionario } = useContext(LoginContext);
-  const { agenda, loading, message, carregarAgenda } =
-    useContext(AgendaContext); // Adicione cadastrarCliente aqui
+  const { agenda, loading, carregarAgenda, deleteAgendamento } =
+    useContext(AgendaContext);
   const [agendamentos, setAgendamentos] = useState([]);
   const [page, setPage] = useState(1);
   const limit = 5;
   const navigate = useNavigate();
   const location = useLocation();
   const [modalIsOpen, setIsOpen] = useState(false);
-  const [diasDisponiveis, setDiasDisponiveis] = useState([]);
-  const [horarios, setHorarios] = useState([]);
-  const [agendamentoSelecionado, setAgendamentoSelecionado] = useState(null); // Novo estado
+  const [agendamentoSelecionado, setAgendamentoSelecionado] = useState(null);
 
-  useEffect(() => {
-    // Extract available dates and times from the agenda object
-    if (agenda && agenda.agenda) {
-      const availableDates = [];
-      const availableTimes = [];
+  const [isConfirmModalOpen, setIsConfirmModalOpen] = useState(false);
+  const [agendamentoToDelete, setAgendamentoToDelete] = useState(null);
 
-      agenda.agenda.forEach((item) => {
-        availableDates.push(item.data);
-        item.horariosDisponiveis.forEach((horario) => {
-          availableTimes.push({
-            data: item.data,
-            horario: horario.horario,
-          });
-        });
-      });
+  const handleOpenConfirmModal = (agendamento) => {
+    setAgendamentoToDelete(agendamento);
+    setIsConfirmModalOpen(true);
+  };
 
-      setDiasDisponiveis(availableDates);
-      setHorarios(availableTimes);
+  const handleCloseConfirmModal = () => {
+    setIsConfirmModalOpen(false);
+    setAgendamentoToDelete(null);
+  };
+
+  const handleConfirmDelete = () => {
+    if (agendamentoToDelete) {
+      deleteAgendamento(agendamentoToDelete.id);
+      handleCloseConfirmModal();
     }
-  }, [agenda]);
+  };
 
   const formatarAgendamentos = useCallback(() => {
     if (!agenda?.agendamentos?.length) return [];
@@ -52,15 +49,8 @@ const Agenda = () => {
     const startIndex = (page - 1) * limit;
     const endIndex = startIndex + limit;
 
-    return agenda.agendamentos.slice(0, endIndex).map((agendamento) => ({
-      data: agendamento.data,
-      hora: agendamento.hora,
-      cpf: agendamento.cpf,
-      cliente: agendamento.nome,
-      telefone: agendamento.telefone,
-      email: agendamento.email,
-      id: agendamento.id,
-      cadastrado:
+    return agenda.agendamentos.slice(0, endIndex).map((agendamento) => {
+      const botaoPrincipal =
         agendamento.isCadastrado && funcionario ? (
           <Button
             className={'btn-success'}
@@ -76,31 +66,63 @@ const Agenda = () => {
           <Button
             action={() => {
               setIsOpen(true);
-              setAgendamentoSelecionado(agendamento); // Define o agendamento selecionado
+              setAgendamentoSelecionado(agendamento);
             }}
             className={'btn-info'}
           >
             Cadastrar
           </Button>
+        );
+
+      const botaoExcluir = (
+        <Button
+          className={'btn-danger ms-2'}
+          action={() => handleOpenConfirmModal(agendamento)}
+          title="Excluir Agendamento"
+        >
+          Excluir
+        </Button>
+      );
+
+      return {
+        data: agendamento.data,
+        hora: agendamento.hora,
+        cpf: agendamento.cpf,
+        cliente: agendamento.nome,
+        telefone: agendamento.telefone,
+        email: agendamento.email,
+        id: agendamento.id,
+        acoes: (
+          <>
+            {botaoPrincipal}
+            {botaoExcluir}
+          </>
         ),
-    }));
+      };
+    });
   }, [agenda, page, navigate, funcionario]);
+
+  // [agenda, page, navigate, funcionario, deleteAgendamento]
 
   useEffect(() => {
     setAgendamentos(formatarAgendamentos());
   }, [page, agenda, formatarAgendamentos]);
 
   const carregarMais = useCallback(() => {
-    if (agendamentos.length < agenda.agendamentos.length && !loading) {
+    if (
+      agenda?.agendamentos &&
+      agendamentos.length < agenda.agendamentos.length &&
+      !loading
+    ) {
       setPage((prevPage) => prevPage + 1);
     }
   }, [agendamentos, agenda, loading]);
 
-  useEffect(() => {
-    if (!agenda.agendamentos.length) {
-      carregarAgenda();
-    }
-  }, [location.pathname, carregarAgenda, agenda.agendamentos.length]);
+  // useEffect(() => {
+  //   if (!agenda?.agendamentos?.length) {
+  //     carregarAgenda();
+  //   }
+  // }, [carregarAgenda, agenda?.agendamentos]);
 
   if (loading && agendamentos.length === 0) {
     return <Loading />;
@@ -129,16 +151,24 @@ const Agenda = () => {
                 setAgendamentoSelecionado(null);
               }}
             >
-              {/* Renderiza o componente CadastroCliente */}
               <FormCadastroCliente
                 fecharModal={() => {
                   setIsOpen(false);
                   setAgendamentoSelecionado(null);
                 }}
-                agendamento={agendamentoSelecionado} // Passa o agendamento selecionado
+                agendamento={agendamentoSelecionado}
               />
             </Modal>
           )}
+
+          <ConfirmModal
+            isOpen={isConfirmModalOpen}
+            onClose={handleCloseConfirmModal}
+            onConfirm={handleConfirmDelete}
+            message={`Tem certeza que deseja excluir o agendamento de ${
+              agendamentoToDelete?.nome || ''
+            }?`}
+          />
         </>
       )}
     </>

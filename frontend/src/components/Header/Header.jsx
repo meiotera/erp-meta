@@ -3,8 +3,6 @@ import Navbar from '../Navbar/Navbar';
 
 import styles from './Header.module.css';
 
-// 'container d-flex align-items-center justify-content-between';
-
 function Header() {
   return (
     <header className={styles.header}>

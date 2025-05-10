@@ -1,86 +1,107 @@
-/* Navbar.module.css */
-
-/* Navbar principal */
 .navbar {
-  padding: 15px 20px;
+  padding: 10px 20px;
+
   position: relative;
+  z-index: 100;
 }
 
-/* Container */
-.container {
+.navbarContainer {
   display: flex;
-  justify-content: center;
+  justify-content: space-between;
   align-items: center;
 }
 
-/* Lista de navegação */
+.logo {
+  color: #fff;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.menuIcon {
+  display: none;
+  background: none;
+  border: none;
+  color: #f58b4c;
+  font-size: 28px;
+  cursor: pointer;
+  z-index: 1001;
+}
+
 .navbarNav {
   list-style: none;
   display: flex;
-  gap: 30px;
-  padding: 0;
+  align-items: center;
+  gap: 24px;
   margin: 0;
+  padding: 0;
 }
 
-/* Itens da navegação */
 .navItem {
   position: relative;
 }
 
-/* Estilo dos links */
-.navLink {
+.navLink,
+.logoutButton,
+.loginButton {
   text-decoration: none;
   font-size: 18px;
   font-weight: 500;
   color: #fff;
-  padding: 12px 18px;
-  border-radius: 6px;
-  transition: all 0.3s ease-in-out;
-}
-
-.navLink:hover {
-  color: #f58b4c;
-}
-
-/* Botão de Logout */
-.logoutButton {
+  padding: 10px 18px;
+  border-radius: 8px;
+  transition: background-color 0.2s, color 0.2s;
+  display: block;
   cursor: pointer;
-  font-size: 18px;
-  font-weight: 600;
-  color: #fff !important;
-  padding: 12px 18px;
-  border-radius: 6px;
-  border: none;
-  background: none;
-  transition: all 0.3s ease-in-out;
 }
 
-.logoutButton:hover {
-  color: #f58b4c !important;
-}
-
-/* Botão de Login */
-.loginButton {
-  text-decoration: none;
-  font-size: 18px;
-  font-weight: 600;
-  padding: 12px 18px;
-  color: #fff !important;
-  transition: all 0.3s ease-in-out;
-}
-
+.navLink:hover,
+.logoutButton:hover,
 .loginButton:hover {
-  color: #f58b4c !important;
+  background-color: #f58b4c1a;
+  color: #f58b4c;
 }
 
 .loginButton.active {
   color: #fcd949 !important;
 }
 
-/* Responsividade */
-@media (max-width: 768px) {
+@media (max-width: 560px) {
+  .menuIcon {
+    display: block;
+  }
+
   .navbarNav {
-    flex-wrap: wrap;
+    position: fixed;
+    top: 0;
+    left: 0;
+    flex-direction: column;
     justify-content: center;
+    align-items: center;
+    width: 100vw;
+    height: 100vh;
+    background-color: #1c1c1c;
+    gap: 32px;
+    padding: 0;
+    display: flex;
+    transform: translateY(-100%);
+    opacity: 0;
+    transition: transform 0.3s ease;
+    z-index: 1000;
+  }
+
+  .navbarNav.active {
+    transform: translateY(0);
+    opacity: 1;
+  }
+
+  .navLink,
+  .logoutButton,
+  .loginButton {
+    font-size: 22px;
+    width: 100%;
+    text-align: center;
+    padding: 18px 0;
+    border-radius: 0;
+    border-bottom: 1px solid #333;
   }
 }

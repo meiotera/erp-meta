@@ -42,7 +42,6 @@ exports.agendar_atendimento = async (req, res, next) => {
     );
 
     for (const agendamento of agendamentos) {
-      console.log('chegou aqui');
       const { data, hora } = agendamento;
       const { funcionario: funcionarioEncontrado, cliente } =
         await buscarFuncionarioECliente(funcionario, cpf_validado.cpf);
@@ -61,7 +60,6 @@ exports.agendar_atendimento = async (req, res, next) => {
 
       const dataConvertida = converterStringParaData(data);
 
-      // Marca o horário como indisponível na Agenda_Especialista com a sessão ativa
       const atualizado = await Agenda_Especialista.updateOne(
         {
           funcionario,
@@ -150,15 +148,12 @@ exports.meus_agendamentos = async (req, res, next, skip, limit) => {
       .limit(limit)
       .populate('cliente');
 
-    console.log('back', agendamentos);
-
     return agendamentos;
   } catch (error) {
     return next(new Error('Erro ao listar agendamentos: ' + error.message));
   }
 };
 
-// buscar agendamento por id
 exports.buscar_agendamento = async (req, res, next) => {
   try {
     const { id } = req.params;
@@ -169,8 +164,6 @@ exports.buscar_agendamento = async (req, res, next) => {
       return criarRespostaErro(res, 404, 'Agendamento não encontrado.');
     }
 
-    console.log(agendamento);
-
     res.status(200).json({
       status: 200,
       agendamento,
@@ -178,4 +171,20 @@ exports.buscar_agendamento = async (req, res, next) => {
   } catch (error) {
     return criarRespostaErro(res, 500, 'Erro ao buscar agendamento.');
   }
+};
+
+exports.delete_agendamento = async (req, res) => {
+  try {
+    const { id } = req.params;
+
+    console.log(id);
+    const agendamento = await Agendamento.findByIdAndDelete(id);
+
+    if (agendamento) {
+      res.status(200).json({
+        status: 200,
+        mensagem: 'Agendamento excluído com sucesso!',
+      });
+    }
+  } catch (error) {}
 };

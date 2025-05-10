@@ -1,8 +1,7 @@
 const Funcionarios = require('../models/Funcionarios');
 const fs = require('fs');
 const path = require('path');
-const sharp = require('sharp');
-const multer = require('multer');
+
 const { criarRespostaErro } = require('../utilities/utils');
 
 const filterObj = (obj, ...camposPermitidos) => {
@@ -38,8 +37,6 @@ exports.cadastro_especialista = async (req, res, next) => {
       descricao: req.body.descricao,
     });
 
-    await newFuncionario.save();
-
     res.status(201).json({
       status: 'success',
       message: 'Especialista cadastrado com sucesso.',
@@ -48,52 +45,6 @@ exports.cadastro_especialista = async (req, res, next) => {
   } catch (error) {
     next(error);
   }
-};
-
-// Configuração do armazenamento na memória
-const multerStorage = multer.memoryStorage();
-
-// Filtro de arquivos para aceitar apenas imagens
-const multerFilter = (req, file, cb) => {
-  const filetypes = /jpeg|jpg|png/;
-  const mimetype = filetypes.test(file.mimetype);
-  const extname = filetypes.test(path.extname(file.originalname).toLowerCase());
-
-  if (mimetype && extname) {
-    return cb(null, true);
-  } else {
-    const error = new Error('Apenas imagens são permitidas!');
-    error.statusCode = 400;
-    cb(new Error(error), false);
-  }
-};
-
-// upload de imagem
-const upload = multer({
-  storage: multerStorage,
-  fileFilter: multerFilter,
-});
-
-// middleware para upload de imagem
-exports.uploadUserPhoto = upload.single('foto');
-
-// redimensionar imagem do usuario
-exports.resizeUserPhoto = async (req, res, next) => {
-  if (!req.file) return next();
-
-  req.file.filename = `user-${req.funcionario.nome}.jpeg`;
-
-  await sharp(req.file.buffer)
-    .resize(500, 500)
-    .toFormat('jpeg')
-    .jpeg({ quality: 80 })
-    .toFile(
-      path.join(__dirname, '../public/images/fotos_perfil', req.file.filename),
-    );
-
-  req.body.foto = path.join('public/images/fotos_perfil', req.file.filename);
-
-  next();
 };
 
 exports.buscar_especialista = async (req, res, next) => {
@@ -137,11 +88,8 @@ exports.update_especialista = async (req, res, next) => {
       'descricao',
       'instagram',
       'valor_consulta',
+      'foto',
     );
-
-    if (req.file) {
-      filteredBody.foto = req.file.filename; // Adiciona o nome do arquivo ao corpo da requisição
-    }
 
     const updatedFuncionario = await Funcionarios.findByIdAndUpdate(
       req.body._id,
@@ -152,12 +100,62 @@ exports.update_especialista = async (req, res, next) => {
       },
     );
 
+    if (!updatedFuncionario) {
+      return res.status(404).send({
+        status: 'fail',
+        message: 'Especialista não encontrado para atualização.',
+      });
+    }
+
     res.status(200).json({
       status: 'success',
       data: {
         funcionario: updatedFuncionario,
       },
       message: 'Especialista atualizado com sucesso.',
+    });
+  } catch (error) {
+    next(error);
+  }
+};
+
+exports.update_password = async (req, res, next) => {
+  try {
+    const { id } = req.params;
+    const { currentPassword, password, confirm_password } = req.body;
+
+    if (!currentPassword || !password || !confirm_password) {
+      return res.status(400).json({
+        status: 'fail',
+        message:
+          'Por favor, forneça a senha atual, a nova senha e a confirmação da nova senha.',
+      });
+    }
+
+    const funcionario = await Funcionarios.findById(id).select('+password');
+
+    if (!funcionario) {
+      return res.status(404).json({
+        status: 'fail',
+        message: 'Funcionário não encontrado.',
+      });
+    }
+
+    const isMatch = await funcionario.comparePassword(currentPassword);
+    if (!isMatch) {
+      return res.status(401).json({
+        status: 'fail',
+        message: 'Senha atual incorreta.',
+      });
+    }
+
+    funcionario.password = password;
+    funcionario.confirm_password = confirm_password;
+
+    await funcionario.save();
+    res.status(200).json({
+      status: 'success',
+      message: 'Senha atualizada com sucesso.',
     });
   } catch (error) {
     next(error);

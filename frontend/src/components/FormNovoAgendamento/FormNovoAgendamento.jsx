@@ -2,7 +2,7 @@ import React, { useState, useContext, useCallback } from 'react';
 import Input from '../Input/Input';
 import Button from '../Button/Button';
 import { AgendaContext } from '../../Contexts/AgendaContext';
-import { LoginContext } from '../../Contexts/LoginContext';
+
 import { format, parseISO } from 'date-fns';
 import { ptBR } from 'date-fns/locale';
 

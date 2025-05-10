@@ -1,8 +1,8 @@
 import React from 'react';
 import SectionMain from '../components/SectionMain/SectionMain';
 import FormConsulta from '../components/FormConsulta/FormConsulta';
-import { salvarConsulta } from '../../api/consultas'; // Importe a função salvarConsulta
-import styles from './Consulta.module.css'; // Importa os estilos
+import { salvarConsulta } from '../../api/consultas';
+import styles from './Consulta.module.css';
 
 const campos = [
   {
@@ -48,14 +48,12 @@ const Consulta = () => {
     try {
       const response = await salvarConsulta(formData);
 
-      console.log('res', response);
-
       if (!response.ok) {
         const data = await response.json();
         throw new Error(data.message || 'Erro ao salvar a consulta');
       }
     } catch (error) {
-      throw error; // Repassa o erro para o componente `FormConsulta`
+      throw error;
     }
   };
 

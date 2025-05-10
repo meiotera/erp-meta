@@ -8,6 +8,7 @@ import Loading from '../components/Loading/Loading';
 import Message from '../components/Message/Message';
 import Modal from '../components/Modal/Modal';
 import { UsersContext } from '../Contexts/UsersContext';
+import useMetaTags from '../Hooks/useMetaTags';
 
 function Agendamento() {
   const {
@@ -26,11 +27,19 @@ function Agendamento() {
 
   const location = useLocation();
 
+  useMetaTags({
+    title: 'Agendamento | Meta Saúde Integrada',
+    description:
+      'Agende sua consulta na Clínica Meta Saúde Integrada de forma rápida e segura. Escolha o profissional, a especialidade e o melhor horário para você. Oferecemos atendimentos em Fisioterapia, Psicopedagogia, Psicanálise e Terapias integradas, com foco no cuidado humanizado e na sua qualidade de vida.',
+    keywords:
+      'agendamento online, clínica de fisioterapia, psicopedagogia, psicanálise, terapia, Mossoró, saúde integrada',
+    robots: 'index, follow',
+  });
+
   // Função que abre o modal
   const abrirModal = () => {
     setIsOpen(true);
     setLoading(false);
-    // Reseta a mensagem ao abrir o modal
   };
 
   // Função que fecha o modal
@@ -44,12 +53,12 @@ function Agendamento() {
 
   // Função chamada ao clicar em um profissional
   const selecionarProfissional = (id) => {
-    fecharModal(); // Fecha o modal antes de buscar a nova agenda
+    fecharModal();
     setProfissionalSelecionado(id);
-    setMessage(null); // Reseta a mensagem
-    setDiasDisponiveis([]); // Reseta os dias disponíveis
-    setHorariosDisponiveis([]); // Reseta os horários disponíveis
-    fetchAgenda(id); // Busca a agenda do profissional
+    setMessage(null);
+    setDiasDisponiveis([]);
+    setHorariosDisponiveis([]);
+    fetchAgenda(id);
   };
 
   const atualizarDiasEHorarios = useCallback(() => {
@@ -78,7 +87,7 @@ function Agendamento() {
       );
       setHorariosDisponiveis(horarios);
 
-      abrirModal(); // Abre o modal se houver horários disponíveis
+      abrirModal();
     } else {
       if (modalIsOpen) {
         setMessage({
@@ -101,7 +110,7 @@ function Agendamento() {
       setIsOpen(false);
       setDiasDisponiveis([]);
       setHorariosDisponiveis([]);
-      setMessage(null); // Reseta a mensagem ao desmontar o componente
+      setMessage(null);
       setProfissionalSelecionado(null);
       setAgenda([]);
     };
@@ -109,10 +118,6 @@ function Agendamento() {
 
   return (
     <>
-      <Section headingH2={'Selecione o especialista'}>
-        <Equipe onClickEnabled={true} onClick={selecionarProfissional} />
-      </Section>
-
       {loading ? (
         <Loading />
       ) : (
@@ -124,6 +129,9 @@ function Agendamento() {
           />
         )
       )}
+      <Section headingH2={'Selecione o especialista'}>
+        <Equipe onClickEnabled={true} onClick={selecionarProfissional} />
+      </Section>
 
       <Modal
         isOpen={modalIsOpen}

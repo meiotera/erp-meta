@@ -1,7 +1,6 @@
 const Funcionario = require('../models/Funcionarios');
 const jwt = require('jsonwebtoken');
 const { criarRespostaErro } = require('../utilities/utils');
-// const bcrypt = require("bcryptjs");
 
 const signToken = (id, role, nome) => {
   return jwt.sign(
@@ -18,7 +17,6 @@ const signToken = (id, role, nome) => {
 };
 
 const createSendToken = (funcionario, statusCode, req, res) => {
-  // Certifique-se de que role e nome existem no objeto funcionario
   const { _id, role, nome } = funcionario;
 
   if (!role || !nome) {
@@ -91,7 +89,6 @@ exports.login = async (req, res, next) => {
     );
 
     if (!funcionario) {
-      // return criarRespostaErro(res, 404, "Email ou senha incorretos!.");
       return res.status(400).json({
         status: 400,
         message: 'Email ou senha incorretos!.',
@@ -119,7 +116,6 @@ exports.login = async (req, res, next) => {
 
     createSendToken(funcionario, 200, req, res);
   } catch (error) {
-    console.log(error);
     next(error);
   }
 };

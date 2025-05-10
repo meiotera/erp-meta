@@ -8,6 +8,7 @@ import React, {
 } from 'react';
 import { LoginContext } from './LoginContext';
 import { minhaAgenda, realizados, criarAgenda } from '../../api/minhaAgenda';
+import { excluirAgendamento } from '../../api/agendamento';
 import {
   buscaCliente,
   buscarAtendimentosCliente,
@@ -20,13 +21,13 @@ import { jwtDecode } from 'jwt-decode';
 export const AgendaContext = createContext();
 
 export const AgendaProvider = ({ children }) => {
+  const { funcionario } = useContext(LoginContext);
   const [agenda, setAgenda] = useState({ agenda: [], agendamentos: [] });
   const [atendimentos, setAtendimentos] = useState([]);
   const [historico, setHistorico] = useState([]);
   const [cliente, setCliente] = useState(null);
   const [loading, setLoading] = useState(true);
   const [message, setMessage] = useState(null);
-  const { funcionario } = useContext(LoginContext);
 
   const carregarAgenda = useCallback(async () => {
     try {
@@ -43,6 +44,27 @@ export const AgendaProvider = ({ children }) => {
       setLoading(false);
     }
   }, []);
+
+  const deleteAgendamento = async (id) => {
+    try {
+      setLoading(true);
+      const response = await excluirAgendamento(id);
+
+      if (response.ok) {
+        setMessage({
+          type: 'success',
+          text: 'Agendamento deletado com sucesso!',
+        });
+        carregarAgenda();
+      } else {
+        setMessage({ type: 'error', text: 'Erro ao deletar agendamento.' });
+      }
+    } catch (error) {
+      console.log('Erro ao deletar agendamento:', error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const atendimentosRealizados = async () => {
     try {
@@ -139,14 +161,14 @@ export const AgendaProvider = ({ children }) => {
       setMessage({ type: 'error', text: 'Erro ao cadastrar cliente.' });
       throw error;
     } finally {
-      setLoading(false); // Garante que o loading seja desativado
+      setLoading(false);
     }
   };
   useEffect(() => {
     if (funcionario) {
       carregarAgenda();
     }
-  }, [funcionario]);
+  }, [funcionario, carregarAgenda]);
 
   return (
     <AgendaContext.Provider
@@ -167,6 +189,7 @@ export const AgendaProvider = ({ children }) => {
         historico,
         buscarHistoricoCliente,
         criarNovaAgenda,
+        deleteAgendamento,
       }}
     >
       {children}

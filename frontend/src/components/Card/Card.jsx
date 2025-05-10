@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import styles from './Card.module.css';
 
 function Card({
@@ -5,17 +6,34 @@ function Card({
   onClickEnabled,
   onClick,
 }) {
+  const [mostrarDetalhes, setMostrarDetalhes] = useState(false);
+
   const handleClick = () => {
     if (onClickEnabled && onClick) {
-      onClick(id); // Passa o ID do profissional para a função onClick
+      onClick(id);
+    } else {
+      setMostrarDetalhes((prev) => !prev);
     }
   };
 
   return (
-    <div className={`p-2 m-2 ${styles.cardPersonal}`} onClick={handleClick}>
-      <div className="card-body text-center">
-        <h5 className="card-title">{nome}</h5>
-        <p className="card-text">{descricao}</p>
+    <div className={styles.card} onClick={handleClick}>
+      <img
+        src={foto || '../../src/assets/logo-oficial.png'}
+        alt={`imagem de ${nome}`}
+        className={styles.cardImage}
+      />
+      <h5 className={styles.cardNome}>{nome}</h5>
+
+      <div
+        className={`${styles.cardBody} ${mostrarDetalhes ? styles.show : ''}`}
+      >
+        <p>
+          <strong>Especialidade:</strong> {profissao}
+        </p>
+        <p>
+          <strong>Descrição:</strong> {descricao}
+        </p>
       </div>
     </div>
   );

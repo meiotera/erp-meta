@@ -8,7 +8,9 @@ const Tabela = ({ colunas, dados }) => {
         <thead>
           <tr>
             {colunas.map((coluna, index) => (
-              <th key={index}>{coluna.header}</th>
+              <th key={index} className={`col-${coluna.field}`}>
+                {coluna.header}
+              </th>
             ))}
           </tr>
         </thead>
@@ -16,7 +18,9 @@ const Tabela = ({ colunas, dados }) => {
           {dados.map((item, index) => (
             <tr key={index}>
               {colunas.map((coluna, colIndex) => (
-                <td key={colIndex}>{item[coluna.field]}</td>
+                <td key={colIndex} className={`col-${coluna.field}`}>
+                  {item[coluna.field]}
+                </td>
               ))}
             </tr>
           ))}

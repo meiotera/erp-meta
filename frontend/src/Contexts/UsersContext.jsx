@@ -5,8 +5,10 @@ import {
   buscarFuncionario,
   updateFuncionario,
   cadastrarFuncionario,
+  updateSenha,
 } from '../../api/funcionario';
 import { agendarAtendimento } from '../../api/agendamento';
+import { fetchDadosFinanceiros } from '../../api/financeiro';
 
 export const UsersContext = createContext();
 
@@ -17,15 +19,21 @@ export const UsersProvider = ({ children }) => {
   const [loading, setLoading] = useState(true);
   const [funcionarioId, setFuncionarioId] = useState(null);
   const [message, setMessage] = useState(null);
-  const [isFetched, setIsFetched] = useState(false); // Controle de requisições
+  const [isFetched, setIsFetched] = useState(false);
+
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [successModalMessage, setSuccessModalMessage] = useState('');
+
+  const [passwordLoading, setPasswordLoading] = useState(false);
+  const [passwordMessage, setPasswordMessage] = useState(null);
 
   useEffect(() => {
     const fetchFuncionarios = async () => {
-      if (isFetched) return; // Evita múltiplas requisições
+      if (isFetched) return;
       try {
         const data = await listarFuncionarios();
         setFuncionarios(data);
-        setIsFetched(true); // Marca como carregado
+        setIsFetched(true);
         setLoading(false);
       } catch (error) {
         console.error('Erro ao buscar funcionários:', error);
@@ -74,13 +82,53 @@ export const UsersProvider = ({ children }) => {
     }
   };
 
+  const updateSenhaFuncionario = async (id, passwordData) => {
+    setPasswordLoading(true);
+    setPasswordMessage(null);
+    setMessage(null);
+    try {
+      const response = await updateSenha(id, passwordData);
+
+      if (response.status === 'success') {
+        setPasswordMessage({ type: 'success', text: response.message });
+
+        return true;
+      } else {
+        setPasswordMessage({
+          type: 'error',
+          text: response.message || 'Erro ao atualizar senha.',
+        });
+        return false;
+      }
+    } catch (error) {
+      setPasswordMessage({
+        type: 'error',
+        text: error.message || 'Erro inesperado ao atualizar senha.',
+      });
+      return false;
+    } finally {
+      setPasswordLoading(false);
+      // setPasswordMessage(null);
+    }
+  };
+
   const postAgendamento = async (data) => {
+    setLoading(true);
+    setMessage(null);
+    setShowSuccessModal(false);
+    setSuccessModalMessage('');
     try {
       const response = await agendarAtendimento(data);
-      if (response.status === 200) {
-        setMessage({ type: 'success', text: response.message });
+      if (response.status === 200 && response.message) {
+        setSuccessModalMessage(response.message);
+        setShowSuccessModal(true);
+        setLoading(false);
+        return true;
       } else {
-        setMessage({ type: 'error', text: response.message });
+        setMessage({
+          type: 'error',
+          text: response.message || 'Ocorreu um erro inesperado.',
+        });
       }
     } catch (error) {
       setMessage({ type: 'error', text: 'Erro ao agendar atendimento' });
@@ -91,12 +139,14 @@ export const UsersProvider = ({ children }) => {
     try {
       const response = await cadastrarFuncionario(data);
       if (response.status === 'success') {
-        setMessage({ type: 'success', text: response.message });
+        setSuccessModalMessage(response.message);
+        setShowSuccessModal(true);
+        setLoading(false);
+        return true;
       } else {
         setMessage({ type: 'error', text: response.message });
       }
     } catch (error) {
-      console.log(error);
       setMessage({ type: 'error', text: 'Erro ao cadastrar funcionário' });
     }
   };
@@ -111,6 +161,24 @@ export const UsersProvider = ({ children }) => {
       }
     } catch (error) {
       setMessage({ type: 'error', text: 'Erro ao atualizar dados' });
+    }
+  };
+
+  const fetchFinanceiro = async (dataInicial, dataFinal) => {
+    try {
+      const dadosJson = await fetchDadosFinanceiros(dataInicial, dataFinal);
+
+      return dadosJson;
+    } catch (error) {
+      console.error('Erro ao buscar dados financeiros no Context:', error);
+      setMessage({
+        type: 'error',
+        text: error.message || 'Erro ao buscar dados financeiros',
+      });
+
+      return [];
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -132,6 +200,14 @@ export const UsersProvider = ({ children }) => {
         buscarDadosFuncionario,
         updateDadosFuncionario,
         cadastraFuncionario,
+        fetchFinanceiro,
+        showSuccessModal,
+        setShowSuccessModal,
+        successModalMessage,
+        updateSenhaFuncionario,
+        passwordLoading,
+        passwordMessage,
+        setPasswordMessage,
       }}
     >
       {children}
